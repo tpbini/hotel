@@ -325,13 +325,35 @@ function the_cochin_render_custom_header() {
 }
 
 /**
- * Render Homepage Sections (Hero, About Us, and Menu Carousel) under the header
+ * Banquet Meals Section Data (Configurable & Filterable)
+ */
+function the_cochin_get_banquet_data() {
+    $img_base = get_stylesheet_directory_uri() . '/assets/images/';
+    $data = array(
+        'title'        => get_theme_mod('the_cochin_banquet_title', 'Banquet Meals'),
+        'days'         => get_theme_mod('the_cochin_banquet_days', 'EVERY TUESDAY • THURSDAY • WEDNESDAY'),
+        'time'         => get_theme_mod('the_cochin_banquet_time', '6PM – 11 PM'),
+        'desc'         => get_theme_mod('the_cochin_banquet_desc', '1 Starter + 1 Main Dish + Side Dish + Rice & Bread'),
+        'veg_price'    => get_theme_mod('the_cochin_banquet_veg_price', '£ 15.95'),
+        'nonveg_price' => get_theme_mod('the_cochin_banquet_nonveg_price', '£ 17.95'),
+        'seafood_price'=> get_theme_mod('the_cochin_banquet_seafood_price', '£ 19.95'),
+        'bg_image'     => $img_base . 'mask-group.jpg',
+        'dish_image'   => $img_base . 'manasa.png',
+        'book_url'     => the_cochin_get_booking_url(),
+        'order_url'    => the_cochin_get_menu_page_url(),
+    );
+    return apply_filters('the_cochin_banquet_data', $data);
+}
+
+/**
+ * Render Homepage Sections (Hero, About Us, Menu Carousel, and Banquet Meals) under the header
  */
 function the_cochin_render_home_sections() {
     if (is_front_page() || is_home()) {
         get_template_part('template-parts/home-hero');
         get_template_part('template-parts/home-about');
         get_template_part('template-parts/home-menu-carousel');
+        get_template_part('template-parts/home-banquet-meals');
     }
 }
 add_action('astra_header_after', 'the_cochin_render_home_sections', 20);

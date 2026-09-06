@@ -57,6 +57,15 @@ function the_cochin_enqueue_scripts() {
         wp_get_theme()->get('Version') . '.' . filemtime(get_stylesheet_directory() . '/assets/js/menu-carousel.js'),
         true
     );
+
+    // FAQ Accordion Script
+    wp_enqueue_script(
+        'the-cochin-faq-script',
+        get_stylesheet_directory_uri() . '/assets/js/faq-accordion.js',
+        array(),
+        wp_get_theme()->get('Version') . '.' . (file_exists(get_stylesheet_directory() . '/assets/js/faq-accordion.js') ? filemtime(get_stylesheet_directory() . '/assets/js/faq-accordion.js') : '1.0'),
+        true
+    );
 }
 add_action('wp_enqueue_scripts', 'the_cochin_enqueue_scripts', 15);
 
@@ -378,7 +387,46 @@ function the_cochin_get_dietary_data() {
 }
 
 /**
- * Render Homepage Sections (Hero, About Us, Menu Carousel, Banquet Meals, Delivery, Dietary) under the header
+ * FAQ Section Data (Configurable & Filterable)
+ */
+function the_cochin_get_faq_data() {
+    $img_base = get_stylesheet_directory_uri() . '/assets/images/';
+    $data = array(
+        'badge'     => get_theme_mod('the_cochin_faq_badge', 'FAQ'),
+        'title'     => get_theme_mod('the_cochin_faq_title', 'Frequently Asked Questions'),
+        'bottom_bg' => $img_base . 'bottombg.jpg',
+        'items'     => array(
+            array(
+                'question' => 'Do you offer vegetarian and vegan dishes?',
+                'answer'   => 'Yes. Our menu includes a range of vegetarian and vegan choices. Please check the current menu or speak to our team for guidance.',
+            ),
+            array(
+                'question' => 'Can you accommodate food allergies?',
+                'answer'   => 'Please tell us about any allergy before ordering. We handle multiple allergens in our kitchen, so cross-contact may occur. Our team can provide the current allergen information and help you make an informed choice.',
+            ),
+            array(
+                'question' => 'Do you offer takeaway and delivery?',
+                'answer'   => 'Yes. You can order online for collection or local delivery. Availability, delivery areas and estimated times are shown during checkout.',
+            ),
+            array(
+                'question' => 'Do I need to book banquet meals in advance?',
+                'answer'   => '[CONFIRM BOOKING POLICY AND NOTICE PERIOD BEFORE PUBLISHING]',
+            ),
+            array(
+                'question' => 'Can you cater for groups or private events?',
+                'answer'   => 'Yes, subject to availability. Contact us with the date, guest numbers and requirements, and our team will discuss the options with you.',
+            ),
+            array(
+                'question' => 'Is parking available?',
+                'answer'   => '[ADD ACCURATE LOCAL PARKING OR PUBLIC-TRANSPORT INFORMATION]',
+            ),
+        ),
+    );
+    return apply_filters('the_cochin_faq_data', $data);
+}
+
+/**
+ * Render Homepage Sections (Hero, About Us, Menu Carousel, Banquet Meals, Delivery, Dietary, FAQ) under the header
  */
 function the_cochin_render_home_sections() {
     if (is_front_page() || is_home()) {
@@ -388,6 +436,7 @@ function the_cochin_render_home_sections() {
         get_template_part('template-parts/home-banquet-meals');
         get_template_part('template-parts/home-delivery');
         get_template_part('template-parts/home-dietary');
+        get_template_part('template-parts/home-faq');
     }
 }
 add_action('astra_header_after', 'the_cochin_render_home_sections', 20);

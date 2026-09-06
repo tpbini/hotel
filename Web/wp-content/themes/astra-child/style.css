@@ -1293,7 +1293,179 @@ h1.cochin-hero-title {
 }
 
 /* ==========================================================================
-   9. RESPONSIVE BREAKPOINTS (Mobile & Tablet)
+   9. HOMEPAGE FAQ SECTION (#F5EFE3 Background & bottombg.jpg)
+   ========================================================================== */
+.cochin-faq-section {
+  position: relative;
+  width: 100%;
+  background-color: var(--about-bg);
+  padding: clamp(68px, 8vw, 100px) 0 0 0;
+  overflow: hidden;
+}
+
+.cochin-faq-container {
+  width: min(100% - 48px, 940px);
+  margin-inline: auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Section Header (Centered) */
+.cochin-faq-header {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.cochin-faq-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.cochin-faq-badge .cochin-badge-text {
+  font-family: var(--font-handwriting) !important;
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  font-weight: 400;
+  color: var(--about-brown);
+  line-height: 1;
+}
+
+.cochin-faq-badge .cochin-badge-line {
+  display: inline-block;
+  width: clamp(45px, 5vw, 75px);
+  height: 2px;
+  background-color: var(--about-brown);
+  border-radius: 2px;
+}
+
+.cochin-faq-title {
+  font-family: var(--font-main) !important;
+  font-size: clamp(2.2rem, 3.8vw, 3.1rem);
+  font-weight: 700;
+  color: #231815;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/* Accordion Container */
+.cochin-faq-accordion {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+/* Accordion Card */
+.cochin-faq-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(58, 38, 20, 0.05);
+  border: 1px solid rgba(220, 205, 185, 0.45);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.cochin-faq-card:hover {
+  box-shadow: 0 8px 24px rgba(58, 38, 20, 0.09);
+}
+
+.cochin-faq-card.is-active {
+  box-shadow: 0 8px 26px rgba(58, 38, 20, 0.1);
+  border-color: rgba(157, 111, 46, 0.3);
+}
+
+/* Accordion Question Header */
+.cochin-faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 28px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-main) !important;
+  outline: none;
+}
+
+.cochin-question-text {
+  font-family: var(--font-main) !important;
+  font-size: clamp(0.98rem, 1.15vw, 1.1rem);
+  font-weight: 700;
+  color: #231815;
+  line-height: 1.4;
+  transition: color 0.25s ease;
+}
+
+.cochin-faq-card:hover .cochin-question-text {
+  color: var(--brand);
+}
+
+.cochin-faq-card.is-active .cochin-question-text {
+  color: #231815;
+}
+
+.cochin-faq-toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  color: #231815;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+}
+
+.cochin-faq-card.is-active .cochin-faq-toggle-icon {
+  transform: rotate(45deg);
+}
+
+/* Accordion Answer Content */
+.cochin-faq-answer-wrap {
+  overflow: hidden;
+  transition: max-height 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.cochin-faq-answer {
+  padding: 0 28px 24px 28px;
+  font-family: var(--font-main) !important;
+  font-size: clamp(0.92rem, 1.05vw, 1rem);
+  font-weight: 400;
+  color: #4a3b32;
+  line-height: 1.65;
+}
+
+.cochin-faq-answer p {
+  margin: 0;
+}
+
+/* Bottom Kerala Line Art */
+.cochin-faq-bottom-art {
+  width: 100%;
+  line-height: 0;
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.cochin-faq-bottom-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: bottom center;
+  max-height: 420px;
+}
+
+/* ==========================================================================
+   10. RESPONSIVE BREAKPOINTS (Mobile & Tablet)
    ========================================================================== */
 @media (max-width: 980px) {
   :root {
@@ -1505,6 +1677,18 @@ h1.cochin-hero-title {
     min-width: 210px;
     min-height: 340px;
   }
+
+  .cochin-faq-question {
+    padding: 18px 20px;
+  }
+
+  .cochin-faq-answer {
+    padding: 0 20px 20px 20px;
+  }
+
+  .cochin-faq-bottom-img {
+    max-height: 260px;
+  }
 }
 
 @media (max-width: 580px) {
@@ -1643,6 +1827,28 @@ h1.cochin-hero-title {
   .cochin-dietary-btn {
     width: 100%;
     max-width: 280px;
+  }
+
+  /* FAQ Mobile */
+  .cochin-faq-section {
+    padding: 48px 0 0 0;
+  }
+
+  .cochin-faq-container {
+    width: min(100% - 24px, 940px);
+  }
+
+  .cochin-faq-header {
+    margin-bottom: 32px;
+  }
+
+  .cochin-faq-accordion {
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .cochin-faq-bottom-img {
+    max-height: 180px;
   }
 }
 

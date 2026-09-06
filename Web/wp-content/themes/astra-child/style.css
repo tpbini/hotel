@@ -57,15 +57,19 @@ body.menu-open {
   overflow: hidden;
 }
 
-/* Hide default page title on homepage to avoid duplicate "Home" title */
+/* Hide default page content and empty containers on homepage */
 .home .entry-header,
 .home .ast-archive-description,
-.home .entry-title {
+.home .entry-title,
+.home #content.site-content,
+.home .site-content,
+.home #primary,
+.home .ast-container {
   display: none !important;
-}
-
-.home #content.site-content {
-  padding-top: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
 }
 
 /* ==========================================================================
@@ -1450,9 +1454,12 @@ h1.cochin-hero-title {
   width: 100%;
   line-height: 0;
   margin-top: 16px;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
   position: relative;
   z-index: 1;
   pointer-events: none;
+  display: block;
 }
 
 .cochin-faq-bottom-img {
@@ -1462,6 +1469,8 @@ h1.cochin-hero-title {
   object-fit: cover;
   object-position: bottom center;
   max-height: 420px;
+  vertical-align: bottom;
+  margin-bottom: 0 !important;
 }
 
 /* ==========================================================================
@@ -1887,6 +1896,7 @@ h1.cochin-hero-title {
   color: rgba(255, 255, 255, 0.9) !important;
   font-family: var(--font-main) !important;
   padding: clamp(56px, 7vw, 84px) 0 0 0;
+  margin-top: 0 !important;
   width: 100%;
   position: relative;
   z-index: 10;

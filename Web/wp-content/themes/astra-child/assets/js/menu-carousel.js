@@ -1,8 +1,8 @@
 /**
  * The Cochin - Homepage Menu Carousel
  *
- * Implements smooth auto-scroll from right to left, arrow navigation,
- * touch swipe, and pause on mouse hover.
+ * Implements seamless continuous auto-scroll from right to left,
+ * arrow navigation, touch swipe, and pause on mouse hover.
  */
 document.addEventListener('DOMContentLoaded', function () {
   const track = document.querySelector('#menuCarouselTrack');
@@ -12,28 +12,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (!track) return;
 
+  // Clone children for seamless infinite loop
+  const originalCards = Array.from(track.children);
+  if (originalCards.length > 0) {
+    originalCards.forEach((card) => {
+      const clone = card.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    });
+  }
+
   let isPaused = false;
   let isDragging = false;
   let startX = 0;
   let scrollLeft = 0;
   let autoScrollTimer = null;
-  const scrollSpeed = 1.0; // Pixels per tick for smooth continuous movement
+  const scrollSpeed = 0.85; // Pixels per tick for smooth continuous movement
 
   function getStep() {
     const card = track.querySelector('.cochin-menu-card');
     if (card) {
-      return card.offsetWidth + 24; // card width + gap
+      const style = window.getComputedStyle(track);
+      const gap = parseFloat(style.gap) || 24;
+      return card.offsetWidth + gap;
     }
     return 300;
+  }
+
+  function getHalfWidth() {
+    return track.scrollWidth / 2;
   }
 
   // Smooth continuous auto-scroll
   function stepScroll() {
     if (!isPaused && !isDragging) {
       track.scrollLeft += scrollSpeed;
-      // Loop smoothly if scrolled to the very end
-      if (track.scrollLeft >= track.scrollWidth - track.clientWidth - 2) {
-        track.scrollLeft = 0;
+      const half = getHalfWidth();
+      if (half > 0 && track.scrollLeft >= half) {
+        track.scrollLeft -= half;
       }
     }
     autoScrollTimer = requestAnimationFrame(stepScroll);
@@ -53,8 +69,14 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
       isPaused = true;
       const step = getStep();
+      const half = getHalfWidth();
       track.scrollBy({ left: step, behavior: 'smooth' });
-      setTimeout(() => { isPaused = false; }, 2500);
+      setTimeout(() => {
+        if (half > 0 && track.scrollLeft >= half) {
+          track.scrollLeft -= half;
+        }
+        isPaused = false;
+      }, 800);
     });
   }
 
@@ -63,8 +85,12 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
       isPaused = true;
       const step = getStep();
+      const half = getHalfWidth();
+      if (track.scrollLeft <= 0 && half > 0) {
+        track.scrollLeft = half;
+      }
       track.scrollBy({ left: -step, behavior: 'smooth' });
-      setTimeout(() => { isPaused = false; }, 2500);
+      setTimeout(() => { isPaused = false; }, 800);
     });
   }
 
@@ -91,6 +117,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const x = e.pageX - track.offsetLeft;
     const walk = (x - startX) * 1.5;
     track.scrollLeft = scrollLeft - walk;
+    const half = getHalfWidth();
+    if (half > 0) {
+      if (track.scrollLeft >= half) {
+        track.scrollLeft -= half;
+      } else if (track.scrollLeft <= 0) {
+        track.scrollLeft += half;
+      }
+    }
   });
 
   track.addEventListener('touchstart', () => {

@@ -30,12 +30,28 @@ document.addEventListener('DOMContentLoaded', function () {
     const isCurrentlyActive = card.classList.contains('is-active');
 
     if (isCurrentlyActive) {
-      // Close this item
+      // Toggle close this item
       card.classList.remove('is-active');
       btn.setAttribute('aria-expanded', 'false');
       wrap.style.maxHeight = '0px';
       wrap.style.opacity = '0';
     } else {
+      // Close all other open accordion items
+      cards.forEach((otherCard) => {
+        if (otherCard !== card && otherCard.classList.contains('is-active')) {
+          otherCard.classList.remove('is-active');
+          const otherBtn = otherCard.querySelector('.cochin-faq-question');
+          const otherWrap = otherCard.querySelector('.cochin-faq-answer-wrap');
+          if (otherBtn) {
+            otherBtn.setAttribute('aria-expanded', 'false');
+          }
+          if (otherWrap) {
+            otherWrap.style.maxHeight = '0px';
+            otherWrap.style.opacity = '0';
+          }
+        }
+      });
+
       // Open this item
       card.classList.add('is-active');
       btn.setAttribute('aria-expanded', 'true');

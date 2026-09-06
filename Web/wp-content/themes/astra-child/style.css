@@ -1360,7 +1360,9 @@ h1.cochin-hero-title {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-bottom: 48px;
+  margin-bottom: 0;
+  position: relative;
+  z-index: 5;
 }
 
 /* Accordion Card */
@@ -1370,6 +1372,8 @@ h1.cochin-hero-title {
   box-shadow: 0 4px 18px rgba(58, 38, 20, 0.05);
   border: 1px solid rgba(220, 205, 185, 0.45);
   overflow: hidden;
+  position: relative;
+  z-index: 5;
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
@@ -1378,8 +1382,8 @@ h1.cochin-hero-title {
 }
 
 .cochin-faq-card.is-active {
-  box-shadow: 0 8px 26px rgba(58, 38, 20, 0.1);
-  border-color: rgba(157, 111, 46, 0.3);
+  box-shadow: 0 8px 26px rgba(58, 38, 20, 0.12);
+  border-color: var(--gold);
 }
 
 /* Accordion Question Header */
@@ -1395,7 +1399,19 @@ h1.cochin-hero-title {
   cursor: pointer;
   text-align: left;
   font-family: var(--font-main) !important;
-  outline: none;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.cochin-faq-question:focus,
+.cochin-faq-question:active {
+  outline: none !important;
+}
+
+.cochin-faq-card.is-active .cochin-faq-question,
+.cochin-faq-question[aria-expanded="true"] {
+  background-color: var(--gold) !important; /* #C9A24D */
 }
 
 .cochin-question-text {
@@ -1411,8 +1427,9 @@ h1.cochin-hero-title {
   color: var(--brand);
 }
 
-.cochin-faq-card.is-active .cochin-question-text {
-  color: #231815;
+.cochin-faq-card.is-active .cochin-question-text,
+.cochin-faq-question[aria-expanded="true"] .cochin-question-text {
+  color: #ffffff !important;
 }
 
 .cochin-faq-toggle-icon {
@@ -1426,7 +1443,9 @@ h1.cochin-hero-title {
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
 }
 
-.cochin-faq-card.is-active .cochin-faq-toggle-icon {
+.cochin-faq-card.is-active .cochin-faq-toggle-icon,
+.cochin-faq-question[aria-expanded="true"] .cochin-faq-toggle-icon {
+  color: #ffffff !important;
   transform: rotate(45deg);
 }
 
@@ -1434,10 +1453,11 @@ h1.cochin-hero-title {
 .cochin-faq-answer-wrap {
   overflow: hidden;
   transition: max-height 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  background-color: #ffffff;
 }
 
 .cochin-faq-answer {
-  padding: 0 28px 24px 28px;
+  padding: 20px 28px 24px 28px;
   font-family: var(--font-main) !important;
   font-size: clamp(0.92rem, 1.05vw, 1rem);
   font-weight: 400;
@@ -1449,11 +1469,11 @@ h1.cochin-hero-title {
   margin: 0;
 }
 
-/* Bottom Kerala Line Art */
+/* Bottom Kerala Line Art (Uncropped, Accordion Overlays Top) */
 .cochin-faq-bottom-art {
   width: 100%;
   line-height: 0;
-  margin-top: 16px;
+  margin-top: clamp(-300px, -22vw, -420px);
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
   position: relative;
@@ -1466,9 +1486,8 @@ h1.cochin-hero-title {
   display: block;
   width: 100%;
   height: auto;
-  object-fit: cover;
-  object-position: bottom center;
-  max-height: 420px;
+  max-height: none;
+  object-fit: contain;
   vertical-align: bottom;
   margin-bottom: 0 !important;
 }

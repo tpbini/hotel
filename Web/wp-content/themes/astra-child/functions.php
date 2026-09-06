@@ -346,7 +346,23 @@ function the_cochin_get_banquet_data() {
 }
 
 /**
- * Render Homepage Sections (Hero, About Us, Menu Carousel, and Banquet Meals) under the header
+ * Delivery & Collection Section Data (Configurable & Filterable)
+ */
+function the_cochin_get_delivery_data() {
+    $img_base = get_stylesheet_directory_uri() . '/assets/images/';
+    $data = array(
+        'badge'     => get_theme_mod('the_cochin_delivery_badge', 'Our Menu'),
+        'title'     => get_theme_mod('the_cochin_delivery_title', 'Book, Collect or order for<br>delivery'),
+        'desc'      => get_theme_mod('the_cochin_delivery_desc', 'Dining with us? Reserve your table online. Prefer to enjoy The Cochin at home? Order for collection or local delivery through our secure online ordering service.'),
+        'image'     => $img_base . 'deliver.png',
+        'book_url'  => the_cochin_get_booking_url(),
+        'order_url' => the_cochin_get_menu_page_url(),
+    );
+    return apply_filters('the_cochin_delivery_data', $data);
+}
+
+/**
+ * Render Homepage Sections (Hero, About Us, Menu Carousel, Banquet Meals, Delivery) under the header
  */
 function the_cochin_render_home_sections() {
     if (is_front_page() || is_home()) {
@@ -354,6 +370,7 @@ function the_cochin_render_home_sections() {
         get_template_part('template-parts/home-about');
         get_template_part('template-parts/home-menu-carousel');
         get_template_part('template-parts/home-banquet-meals');
+        get_template_part('template-parts/home-delivery');
     }
 }
 add_action('astra_header_after', 'the_cochin_render_home_sections', 20);

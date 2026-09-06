@@ -2,16 +2,18 @@
 /**
  * The Cochin - Homepage About Us Section
  *
- * Implements the About Us section with the requested high-res composite image
- * (framed restaurant photo, Certificate of Excellence, Travelers' Choice badge, and gold line),
- * Architects Daughter font for "About us", #9D6F2E side lines, and #F5EFE3 background.
+ * Implements the About Us section with about.jpg from Docs/Images,
+ * Architects Daughter font for "About us" (#9D6F2E), and #F5EFE3 background.
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-$composite_img_url = get_stylesheet_directory_uri() . '/assets/images/about-awards-composite.png';
+$about_img_url = get_stylesheet_directory_uri() . '/assets/images/about.jpg';
+if (!file_exists(get_stylesheet_directory() . '/assets/images/about.jpg') && file_exists(get_stylesheet_directory() . '/assets/images/about.png')) {
+    $about_img_url = get_stylesheet_directory_uri() . '/assets/images/about.png';
+}
 ?>
 
 <section class="cochin-about-section" id="about">
@@ -26,14 +28,14 @@ $composite_img_url = get_stylesheet_directory_uri() . '/assets/images/about-awar
             <h2 class="cochin-about-title">Welcome to The Cochin</h2>
         </div>
 
-        <!-- Section Grid Content -->
+        <!-- Section Grid Content (Responsive 2-Column Desktop / 1-Column Mobile) -->
         <div class="cochin-about-grid">
-            <!-- Left: Attached Image Section (no_bg.png / about-awards-composite.png) -->
+            <!-- Left: about.jpg Image Area -->
             <div class="cochin-about-media-wrap">
-                <img src="<?php echo esc_url($composite_img_url); ?>" alt="The Cochin Restaurant Interior, Certificate of Excellence, and Travelers' Choice Award" class="cochin-about-composite-img">
+                <img src="<?php echo esc_url($about_img_url); ?>" alt="Welcome to The Cochin Restaurant - Hemel Hempstead" class="cochin-about-composite-img">
             </div>
 
-            <!-- Right: Story Narrative & Background Line-Art -->
+            <!-- Right: Story Narrative & Watermark Line Art -->
             <div class="cochin-about-text-wrap">
                 <!-- Background Line-Art Food Illustrations -->
                 <div class="cochin-about-decor decor-top" aria-hidden="true">

@@ -3,7 +3,7 @@
  * The Cochin (Astra Child Theme) Functions
  *
  * Implements custom responsive header based on Docs/html/menu.html,
- * Poppins typography, and #6B1F2A brand palette for header and footer.
+ * Hero section with Amaranth heading, Poppins typography, and #6B1F2A brand palette.
  */
 
 if (!defined('ABSPATH')) {
@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Enqueue Parent and Child Theme Styles, Poppins Font, and Header Scripts
+ * Enqueue Parent and Child Theme Styles, Amaranth & Poppins Fonts, and Header Scripts
  */
 function the_cochin_enqueue_scripts() {
     // Parent Theme Style
@@ -22,10 +22,10 @@ function the_cochin_enqueue_scripts() {
         ASTRA_THEME_VERSION
     );
 
-    // Google Fonts: Poppins (Main Website Font)
+    // Google Fonts: Amaranth (for Hero Heading) & Poppins (Main Website Font)
     wp_enqueue_style(
         'the-cochin-google-fonts',
-        'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap',
+        'https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap',
         array(),
         null
     );
@@ -93,12 +93,12 @@ add_action('wp', 'the_cochin_override_astra_header', 1);
  * Retrieve the booking URL (defaults to #booking or a dedicated page)
  */
 function the_cochin_get_booking_url() {
-    $booking_page = get_page_by_path('booking');
+    $booking_page = get_page_by_path('book-a-table');
     if (!$booking_page) {
-        $booking_page = get_page_by_path('reservations');
+        $booking_page = get_page_by_path('booking');
     }
     if (!$booking_page) {
-        $booking_page = get_page_by_path('reservation');
+        $booking_page = get_page_by_path('reservations');
     }
 
     if ($booking_page) {
@@ -175,7 +175,6 @@ function the_cochin_render_nav_menu() {
  */
 function the_cochin_fallback_nav_menu() {
     $home_url = home_url('/');
-    $current_uri = $_SERVER['REQUEST_URI'] ?? '/';
     $is_home = is_front_page() || is_home();
     ?>
     <ul class="nav-list">
@@ -192,7 +191,6 @@ function the_cochin_fallback_nav_menu() {
  * Render the Custom Cochin Header from Docs/html/menu.html
  */
 function the_cochin_render_custom_header() {
-    // Determine logo URL
     $custom_logo_id = get_theme_mod('custom_logo');
     $logo_url = '';
 
@@ -204,7 +202,6 @@ function the_cochin_render_custom_header() {
     }
 
     if (empty($logo_url)) {
-        // Child theme bundled logo fallback
         if (file_exists(get_stylesheet_directory() . '/assets/images/the-cochin-logo.png')) {
             $logo_url = get_stylesheet_directory_uri() . '/assets/images/the-cochin-logo.png';
         } elseif (file_exists(get_stylesheet_directory() . '/assets/images/the-cochin-logo-white.png')) {
@@ -239,3 +236,112 @@ function the_cochin_render_custom_header() {
     </header>
     <?php
 }
+
+/**
+ * Render Homepage Hero Section under the header
+ */
+function the_cochin_render_hero_banner() {
+    if (is_front_page() || is_home()) {
+        get_template_part('template-parts/home-hero');
+    }
+}
+add_action('astra_header_after', 'the_cochin_render_hero_banner', 20);
+
+/**
+ * Add WordPress Customizer Controls for Easy Hero Customization
+ */
+function the_cochin_customize_register($wp_customize) {
+    // Hero Section Panel
+    $wp_customize->add_section('the_cochin_hero_section', array(
+        'title'    => __('Hero Section (Homepage)', 'astra-child'),
+        'priority' => 30,
+    ));
+
+    // Background Image
+    $wp_customize->add_setting('the_cochin_hero_bg', array(
+        'default'           => get_stylesheet_directory_uri() . '/assets/images/kerala-cuisine-hero.png',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'the_cochin_hero_bg', array(
+        'label'    => __('Hero Background Image', 'astra-child'),
+        'section'  => 'the_cochin_hero_section',
+        'settings' => 'the_cochin_hero_bg',
+    )));
+
+    // Heading (Amaranth font)
+    $wp_customize->add_setting('the_cochin_hero_title', array(
+        'default'           => 'Authentic Kerala Cuisine in Hemel Hempstead\'s Old Town',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('the_cochin_hero_title', array(
+        'label'    => __('Hero Title (Amaranth Font)', 'astra-child'),
+        'section'  => 'the_cochin_hero_section',
+        'type'     => 'text',
+    ));
+
+    // Description (Poppins font)
+    $wp_customize->add_setting('the_cochin_hero_desc', array(
+        'default'           => 'Proudly serving the local community since 2003. Discover the distinctive flavours of Kerala, freshly prepared and served with the warmth of traditional South Indian hospitality.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+    $wp_customize->add_control('the_cochin_hero_desc', array(
+        'label'    => __('Hero Description (Poppins Font)', 'astra-child'),
+        'section'  => 'the_cochin_hero_section',
+        'type'     => 'textarea',
+    ));
+
+    // Button 1: Book a Table (#6B1F2A)
+    $wp_customize->add_setting('the_cochin_btn1_text', array(
+        'default'           => 'BOOK A TABLE',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('the_cochin_btn1_text', array(
+        'label'    => __('Button 1 Text (#6B1F2A)', 'astra-child'),
+        'section'  => 'the_cochin_hero_section',
+    ));
+    $wp_customize->add_setting('the_cochin_btn1_url', array(
+        'default'           => the_cochin_get_booking_url(),
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('the_cochin_btn1_url', array(
+        'label'    => __('Button 1 URL', 'astra-child'),
+        'section'  => 'the_cochin_hero_section',
+    ));
+
+    // Button 2: Order Online (#FF8B26)
+    $wp_customize->add_setting('the_cochin_btn2_text', array(
+        'default'           => 'ORDER ONLINE',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('the_cochin_btn2_text', array(
+        'label'    => __('Button 2 Text (#FF8B26)', 'astra-child'),
+        'section'  => 'the_cochin_hero_section',
+    ));
+    $wp_customize->add_setting('the_cochin_btn2_url', array(
+        'default'           => home_url('/#order'),
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('the_cochin_btn2_url', array(
+        'label'    => __('Button 2 URL', 'astra-child'),
+        'section'  => 'the_cochin_hero_section',
+    ));
+
+    // Button 3: View Menu (#C9A24D)
+    $wp_customize->add_setting('the_cochin_btn3_text', array(
+        'default'           => 'VIEW MENU',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('the_cochin_btn3_text', array(
+        'label'    => __('Button 3 Text (#C9A24D)', 'astra-child'),
+        'section'  => 'the_cochin_hero_section',
+    ));
+    $wp_customize->add_setting('the_cochin_btn3_url', array(
+        'default'           => home_url('/#menu'),
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('the_cochin_btn3_url', array(
+        'label'    => __('Button 3 URL', 'astra-child'),
+        'section'  => 'the_cochin_hero_section',
+    ));
+}
+add_action('customize_register', 'the_cochin_customize_register');

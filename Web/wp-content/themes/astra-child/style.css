@@ -1159,7 +1159,141 @@ h1.cochin-hero-title {
 }
 
 /* ==========================================================================
-   8. RESPONSIVE BREAKPOINTS (Mobile & Tablet)
+   8. HOMEPAGE VEGETARIAN & VEGAN CHOICES SECTION (bg.jpg)
+   ========================================================================== */
+.cochin-dietary-section {
+  position: relative;
+  width: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  padding: clamp(72px, 9vw, 112px) 0;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.cochin-dietary-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(14, 8, 9, 0.85) 0%,
+    rgba(14, 8, 9, 0.72) 55%,
+    rgba(14, 8, 9, 0.5) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cochin-dietary-container {
+  width: min(100% - 48px, 1380px);
+  margin-inline: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.cochin-dietary-content {
+  max-width: 720px;
+  text-align: left;
+}
+
+.cochin-dietary-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.cochin-dietary-badge .cochin-badge-text {
+  font-family: var(--font-handwriting) !important;
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.cochin-dietary-badge .cochin-badge-line {
+  display: inline-block;
+  width: clamp(50px, 6vw, 90px);
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 2px;
+}
+
+.cochin-dietary-title {
+  font-family: var(--font-main) !important;
+  font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 16px 0;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+}
+
+.cochin-dietary-desc {
+  font-family: var(--font-main) !important;
+  font-size: clamp(0.95rem, 1.15vw, 1.05rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.6;
+  margin: 0 0 32px 0;
+  max-width: 680px;
+}
+
+/* Action Buttons */
+.cochin-dietary-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cochin-dietary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 32px;
+  border-radius: 999px;
+  font-family: var(--font-main) !important;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none !important;
+  transition: transform 0.25s var(--ease), background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-dietary-book {
+  background-color: var(--gold); /* #C9A24D */
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(201, 162, 77, 0.4);
+}
+
+.btn-dietary-book:hover {
+  background-color: var(--gold-hover);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(201, 162, 77, 0.55);
+}
+
+.btn-dietary-order {
+  background-color: var(--brand); /* #6B1F2A */
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(107, 31, 42, 0.35);
+}
+
+.btn-dietary-order:hover {
+  background-color: #822734;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(107, 31, 42, 0.5);
+}
+
+/* ==========================================================================
+   9. RESPONSIVE BREAKPOINTS (Mobile & Tablet)
    ========================================================================== */
 @media (max-width: 980px) {
   :root {
@@ -1490,6 +1624,23 @@ h1.cochin-hero-title {
   }
 
   .cochin-delivery-btn {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  /* Dietary Mobile */
+  .cochin-dietary-section {
+    padding: 48px 0 54px 0;
+    min-height: auto;
+  }
+
+  .cochin-dietary-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .cochin-dietary-btn {
     width: 100%;
     max-width: 280px;
   }

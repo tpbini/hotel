@@ -362,7 +362,23 @@ function the_cochin_get_delivery_data() {
 }
 
 /**
- * Render Homepage Sections (Hero, About Us, Menu Carousel, Banquet Meals, Delivery) under the header
+ * Vegetarian & Vegan Choices Section Data (Configurable & Filterable)
+ */
+function the_cochin_get_dietary_data() {
+    $img_base = get_stylesheet_directory_uri() . '/assets/images/';
+    $data = array(
+        'badge'     => get_theme_mod('the_cochin_dietary_badge', 'Food choice'),
+        'title'     => get_theme_mod('the_cochin_dietary_title', 'Vegetarian and vegan choices'),
+        'desc'      => get_theme_mod('the_cochin_dietary_desc', 'Kerala cuisine offers a wonderful variety of naturally vegetarian and plant-based dishes. Look for the dietary symbols on our menu or speak to our team for guidance.'),
+        'bg_image'  => $img_base . 'bg.jpg',
+        'book_url'  => the_cochin_get_booking_url(),
+        'order_url' => the_cochin_get_menu_page_url(),
+    );
+    return apply_filters('the_cochin_dietary_data', $data);
+}
+
+/**
+ * Render Homepage Sections (Hero, About Us, Menu Carousel, Banquet Meals, Delivery, Dietary) under the header
  */
 function the_cochin_render_home_sections() {
     if (is_front_page() || is_home()) {
@@ -371,6 +387,7 @@ function the_cochin_render_home_sections() {
         get_template_part('template-parts/home-menu-carousel');
         get_template_part('template-parts/home-banquet-meals');
         get_template_part('template-parts/home-delivery');
+        get_template_part('template-parts/home-dietary');
     }
 }
 add_action('astra_header_after', 'the_cochin_render_home_sections', 20);

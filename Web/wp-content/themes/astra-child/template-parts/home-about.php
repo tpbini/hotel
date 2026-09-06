@@ -2,28 +2,18 @@
 /**
  * The Cochin - Homepage About Us Section
  *
- * Implements the About Us section matching the reference design:
- * - Background color: #F5EFE3
- * - Subtitle font: Architects Daughter with #9D6F2E color and side lines
- * - Main title: Welcome to The Cochin
- * - Left: Restaurant photo & awards badge composition
- * - Right: Brand narrative with subtle line-art food illustrations
+ * Integrated with cochin.jpg (main restaurant photo),
+ * cochinhemels.jpg (Certificate of Excellence),
+ * and Travelers' Choice badge in responsive layout.
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-$about_img = get_theme_mod('the_cochin_about_img');
-if (empty($about_img)) {
-    if (file_exists(get_stylesheet_directory() . '/assets/images/about-restaurant.png')) {
-        $about_img = get_stylesheet_directory_uri() . '/assets/images/about-restaurant.png';
-    } elseif (file_exists(get_stylesheet_directory() . '/assets/images/image 3.png')) {
-        $about_img = get_stylesheet_directory_uri() . '/assets/images/image 3.png';
-    } else {
-        $about_img = get_stylesheet_directory_uri() . '/assets/images/cochin1.jpg';
-    }
-}
+$main_img_url = get_stylesheet_directory_uri() . '/assets/images/cochin.jpg';
+$cert_img_url = get_stylesheet_directory_uri() . '/assets/images/cochinhemels.jpg';
+$ta_img_url   = get_stylesheet_directory_uri() . '/assets/images/travelers-choice-2022.png';
 ?>
 
 <section class="cochin-about-section" id="about">
@@ -40,19 +30,30 @@ if (empty($about_img)) {
 
         <!-- Section Grid Content -->
         <div class="cochin-about-grid">
-            <!-- Left: Restaurant Photo & Award Badges -->
+            <!-- Left: Composite Photo with Awards -->
             <div class="cochin-about-media-wrap">
                 <div class="cochin-about-img-frame">
-                    <img src="<?php echo esc_url($about_img); ?>" alt="The Cochin Restaurant Interior & Awards" class="cochin-about-main-img">
+                    <!-- Main Restaurant Photo (cochin.jpg) -->
+                    <img src="<?php echo esc_url($main_img_url); ?>" alt="The Cochin Indian Restaurant Hemel Hempstead" class="cochin-about-main-img">
+
+                    <!-- Overlay Badge 1: Certificate of Excellence (cochinhemels.jpg) -->
+                    <div class="cochin-badge-cert-wrap">
+                        <img src="<?php echo esc_url($cert_img_url); ?>" alt="Certificate of Excellence by Restaurantji - The Cochin Indian Restaurant" class="cochin-badge-cert-img">
+                    </div>
+
+                    <!-- Overlay Badge 2: Travelers' Choice 2022 -->
+                    <div class="cochin-badge-ta-wrap">
+                        <img src="<?php echo esc_url($ta_img_url); ?>" alt="TripAdvisor Travelers' Choice 2022 - The Cochin" class="cochin-badge-ta-img">
+                    </div>
                 </div>
             </div>
 
-            <!-- Decorative Vertical Divider -->
+            <!-- Decorative Vertical Separator Line -->
             <div class="cochin-about-divider" aria-hidden="true"></div>
 
-            <!-- Right: Story Narrative & Watermark Line Art -->
+            <!-- Right: Story Narrative & Background Line-Art -->
             <div class="cochin-about-text-wrap">
-                <!-- Background Line Art from Docs/Images -->
+                <!-- Background Line-Art Food Illustrations -->
                 <div class="cochin-about-decor decor-top" aria-hidden="true">
                     <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/Group 38.png'); ?>" alt="">
                 </div>

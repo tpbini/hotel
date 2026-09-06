@@ -5,7 +5,7 @@ Description: Custom theme for The Cochin Restaurant with responsive header, Amar
 Author: The Cochin
 Author URI: http://localhost:8000/
 Template: astra
-Version: 1.3.0
+Version: 1.4.0
 Text Domain: astra-child
 */
 
@@ -479,11 +479,12 @@ h1.cochin-hero-title {
   width: 100%;
 }
 
+/* Frame as specified by user */
 .cochin-about-img-frame {
   position: relative;
   background: #ffffff;
   padding: 10px;
-  border-radius: 18px;
+  border-radius: 10px;
   box-shadow: 0 16px 40px rgba(58, 38, 20, 0.09);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -497,8 +498,56 @@ h1.cochin-hero-title {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 12px;
+  border-radius: 8px;
   object-fit: cover;
+}
+
+/* Overlay Badge 1: Certificate of Excellence (cochinhemels.jpg) */
+.cochin-badge-cert-wrap {
+  position: absolute;
+  top: 14%;
+  right: 14%;
+  width: clamp(130px, 36%, 195px);
+  background: #ffffff;
+  padding: 4px;
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+  z-index: 3;
+  transition: transform 0.25s ease;
+}
+
+.cochin-badge-cert-wrap:hover {
+  transform: scale(1.03);
+}
+
+.cochin-badge-cert-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+/* Overlay Badge 2: Travelers' Choice 2022 */
+.cochin-badge-ta-wrap {
+  position: absolute;
+  bottom: -18px;
+  right: -16px;
+  width: clamp(120px, 33%, 175px);
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+  z-index: 4;
+  transition: transform 0.25s ease;
+}
+
+.cochin-badge-ta-wrap:hover {
+  transform: scale(1.04);
+}
+
+.cochin-badge-ta-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
 }
 
 /* Vertical Gold Separator Line */
@@ -700,15 +749,30 @@ h1.cochin-hero-title {
 
   .cochin-about-grid {
     grid-template-columns: 1fr;
-    gap: 36px;
+    gap: 40px;
   }
 
   .cochin-about-divider {
     display: none;
   }
 
+  .cochin-about-media-wrap {
+    max-width: 520px;
+    margin-inline: auto;
+  }
+
   .cochin-about-text-wrap {
     padding: 0;
+  }
+
+  .cochin-badge-cert-wrap {
+    top: 12%;
+    right: 8%;
+  }
+
+  .cochin-badge-ta-wrap {
+    bottom: -14px;
+    right: -10px;
   }
 }
 
@@ -744,6 +808,18 @@ h1.cochin-hero-title {
 
   .cochin-about-header {
     margin-bottom: 36px;
+  }
+
+  .cochin-badge-cert-wrap {
+    top: 8%;
+    right: 4%;
+    width: 40%;
+  }
+
+  .cochin-badge-ta-wrap {
+    bottom: -10px;
+    right: -6px;
+    width: 38%;
   }
 }
 

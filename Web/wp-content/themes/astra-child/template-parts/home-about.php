@@ -2,18 +2,16 @@
 /**
  * The Cochin - Homepage About Us Section
  *
- * Integrated with cochin.jpg (main restaurant photo),
- * cochinhemels.jpg (Certificate of Excellence),
- * and Travelers' Choice badge in responsive layout.
+ * Implements the About Us section with the requested high-res composite image
+ * (framed restaurant photo, Certificate of Excellence, Travelers' Choice badge, and gold line),
+ * Architects Daughter font for "About us", #9D6F2E side lines, and #F5EFE3 background.
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-$main_img_url = get_stylesheet_directory_uri() . '/assets/images/cochin.jpg';
-$cert_img_url = get_stylesheet_directory_uri() . '/assets/images/cochinhemels.jpg';
-$ta_img_url   = get_stylesheet_directory_uri() . '/assets/images/travelers-choice-2022.png';
+$composite_img_url = get_stylesheet_directory_uri() . '/assets/images/about-awards-composite.png';
 ?>
 
 <section class="cochin-about-section" id="about">
@@ -30,26 +28,10 @@ $ta_img_url   = get_stylesheet_directory_uri() . '/assets/images/travelers-choic
 
         <!-- Section Grid Content -->
         <div class="cochin-about-grid">
-            <!-- Left: Composite Photo with Awards -->
+            <!-- Left: Attached Image Section (no_bg.png / about-awards-composite.png) -->
             <div class="cochin-about-media-wrap">
-                <div class="cochin-about-img-frame">
-                    <!-- Main Restaurant Photo (cochin.jpg) -->
-                    <img src="<?php echo esc_url($main_img_url); ?>" alt="The Cochin Indian Restaurant Hemel Hempstead" class="cochin-about-main-img">
-
-                    <!-- Overlay Badge 1: Certificate of Excellence (cochinhemels.jpg) -->
-                    <div class="cochin-badge-cert-wrap">
-                        <img src="<?php echo esc_url($cert_img_url); ?>" alt="Certificate of Excellence by Restaurantji - The Cochin Indian Restaurant" class="cochin-badge-cert-img">
-                    </div>
-
-                    <!-- Overlay Badge 2: Travelers' Choice 2022 -->
-                    <div class="cochin-badge-ta-wrap">
-                        <img src="<?php echo esc_url($ta_img_url); ?>" alt="TripAdvisor Travelers' Choice 2022 - The Cochin" class="cochin-badge-ta-img">
-                    </div>
-                </div>
+                <img src="<?php echo esc_url($composite_img_url); ?>" alt="The Cochin Restaurant Interior, Certificate of Excellence, and Travelers' Choice Award" class="cochin-about-composite-img">
             </div>
-
-            <!-- Decorative Vertical Separator Line -->
-            <div class="cochin-about-divider" aria-hidden="true"></div>
 
             <!-- Right: Story Narrative & Background Line-Art -->
             <div class="cochin-about-text-wrap">

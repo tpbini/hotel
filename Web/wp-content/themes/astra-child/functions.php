@@ -4,7 +4,8 @@
  *
  * Implements custom responsive header based on Docs/html/menu.html,
  * Hero section with Amaranth heading & Poppins typography,
- * and About Us section with Architects Daughter font & #F5EFE3 palette.
+ * About Us section with Architects Daughter font & #F5EFE3 palette,
+ * and Interactive Menu Carousel with auto-scrolling cards.
  */
 
 if (!defined('ABSPATH')) {
@@ -12,7 +13,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Enqueue Parent and Child Theme Styles, Google Fonts, and Header Scripts
+ * Enqueue Parent and Child Theme Styles, Google Fonts, and Scripts
  */
 function the_cochin_enqueue_scripts() {
     // Parent Theme Style
@@ -45,6 +46,15 @@ function the_cochin_enqueue_scripts() {
         get_stylesheet_directory_uri() . '/assets/js/header.js',
         array(),
         wp_get_theme()->get('Version') . '.' . filemtime(get_stylesheet_directory() . '/assets/js/header.js'),
+        true
+    );
+
+    // Menu Carousel Script
+    wp_enqueue_script(
+        'the-cochin-carousel-script',
+        get_stylesheet_directory_uri() . '/assets/js/menu-carousel.js',
+        array(),
+        wp_get_theme()->get('Version') . '.' . filemtime(get_stylesheet_directory() . '/assets/js/menu-carousel.js'),
         true
     );
 }
@@ -106,6 +116,84 @@ function the_cochin_get_booking_url() {
     }
 
     return home_url('/#booking');
+}
+
+/**
+ * Retrieve the Menu Page URL
+ */
+function the_cochin_get_menu_page_url() {
+    $menu_page = get_page_by_path('menu');
+    if ($menu_page) {
+        return get_permalink($menu_page);
+    }
+    return home_url('/menu/');
+}
+
+/**
+ * Menu Carousel Items Data (Configurable & Filterable)
+ */
+function the_cochin_get_menu_carousel_items() {
+    $img_base = get_stylesheet_directory_uri() . '/assets/images/';
+    $menu_url = the_cochin_get_menu_page_url();
+
+    $items = array(
+        array(
+            'title' => 'STARTERS',
+            'count' => '18 Items Available',
+            'image' => $img_base . 'uzhunnu-vada.png',
+            'url'   => $menu_url . '#starters',
+        ),
+        array(
+            'title' => 'DOSA & SOUTH INDIAN CLASSICS',
+            'count' => '03 Items Available',
+            'image' => $img_base . 'dosa.png',
+            'url'   => $menu_url . '#dosa-south-indian-classics',
+        ),
+        array(
+            'title' => 'SEAFOOD',
+            'count' => '07 Items Available',
+            'image' => $img_base . 'chemmen.png',
+            'url'   => $menu_url . '#seafood',
+        ),
+        array(
+            'title' => 'MEAT & POULTRY',
+            'count' => '19 Items Available',
+            'image' => $img_base . 'chick.png',
+            'url'   => $menu_url . '#meat-poultry',
+        ),
+        array(
+            'title' => 'VEGETARIAN & VEGAN',
+            'count' => '12 Items Available',
+            'image' => $img_base . 'appam.png',
+            'url'   => $menu_url . '#vegetarian-vegan',
+        ),
+        array(
+            'title' => 'RICE & BIRYANI',
+            'count' => '08 Items Available',
+            'image' => $img_base . 'jyt.png',
+            'url'   => $menu_url . '#rice-biryani',
+        ),
+        array(
+            'title' => 'BREADS & SIDES',
+            'count' => '10 Items Available',
+            'image' => $img_base . 'Dosa-Recipe-Step-By-Step-Instructions-scaled.jpg.webp',
+            'url'   => $menu_url . '#breads-sides',
+        ),
+        array(
+            'title' => 'DESSERTS',
+            'count' => '06 Items Available',
+            'image' => $img_base . 'manasa.png',
+            'url'   => $menu_url . '#desserts',
+        ),
+        array(
+            'title' => 'DRINKS',
+            'count' => '14 Items Available',
+            'image' => $img_base . 'delivery.png',
+            'url'   => $menu_url . '#drinks',
+        ),
+    );
+
+    return apply_filters('the_cochin_menu_carousel_items', $items);
 }
 
 /**
@@ -237,12 +325,13 @@ function the_cochin_render_custom_header() {
 }
 
 /**
- * Render Homepage Sections (Hero & About Us) under the header
+ * Render Homepage Sections (Hero, About Us, and Menu Carousel) under the header
  */
 function the_cochin_render_home_sections() {
     if (is_front_page() || is_home()) {
         get_template_part('template-parts/home-hero');
         get_template_part('template-parts/home-about');
+        get_template_part('template-parts/home-menu-carousel');
     }
 }
 add_action('astra_header_after', 'the_cochin_render_home_sections', 20);

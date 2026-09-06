@@ -1878,50 +1878,258 @@ h1.cochin-hero-title {
 }
 
 /* ==========================================================================
-   7. FOOTER STYLING (#6B1F2A Background & Poppins Font)
+   11. CUSTOM FOOTER STYLING (#6B1F2A Background & Poppins Font)
    ========================================================================== */
-.site-footer,
-#colophon,
-.ast-footer-overlay,
-.site-primary-footer-wrap,
-.site-below-footer-wrap,
-.site-above-footer-wrap,
-.ast-builder-footer,
-.ast-small-footer,
-.footer-adv,
-.footer-adv .footer-adv-overlay {
+.site-footer.cochin-site-footer,
+#colophon.cochin-site-footer {
   background-color: var(--brand) !important;
   background: var(--brand) !important;
-  color: var(--cream) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-family: var(--font-main) !important;
+  padding: clamp(56px, 7vw, 84px) 0 0 0;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.cochin-footer-container {
+  width: min(100% - 48px, 1380px);
+  margin-inline: auto;
+}
+
+.cochin-footer-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.9fr 1.05fr 1.15fr;
+  gap: clamp(28px, 4vw, 56px);
+  padding-bottom: clamp(40px, 5vw, 60px);
+}
+
+.cochin-footer-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Brand Column */
+.cochin-footer-logo-link {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.cochin-footer-logo {
+  display: block;
+  width: clamp(210px, 18vw, 260px);
+  height: auto;
+  max-height: 56px;
+  object-fit: contain;
+}
+
+.cochin-footer-about {
+  font-family: var(--font-main) !important;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0 0 24px 0;
+  max-width: 320px;
+}
+
+.cochin-footer-social-title {
+  font-family: var(--font-main) !important;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 14px 0;
+}
+
+.cochin-social-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cochin-social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: var(--brand) !important;
+  transition: transform 0.25s var(--ease), background-color 0.25s ease, color 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cochin-social-btn:hover {
+  background-color: var(--gold);
+  color: #ffffff !important;
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* Headings */
+.cochin-footer-heading {
+  font-family: var(--font-main) !important;
+  font-size: clamp(1.1rem, 1.35vw, 1.25rem);
+  font-weight: 700;
+  color: #ffffff !important;
+  margin: 0 0 22px 0;
+  letter-spacing: 0.01em;
+}
+
+/* Quick Links Column */
+.cochin-footer-nav {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cochin-footer-nav li {
+  margin: 0;
+  padding: 0;
+}
+
+.cochin-footer-nav a {
+  font-family: var(--font-main) !important;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.88) !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease, padding-left 0.2s ease;
+  display: inline-block;
+}
+
+.cochin-footer-nav a:hover {
+  color: var(--gold) !important;
+  padding-left: 4px;
+}
+
+/* Opening Hours Column */
+.cochin-footer-hours-block {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
   font-family: var(--font-main) !important;
 }
 
-.site-footer a,
-#colophon a,
-.ast-small-footer a {
-  color: var(--cream) !important;
+.cochin-footer-hours-block:last-child {
+  margin-bottom: 0;
+}
+
+.cochin-hours-day {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.cochin-hours-time {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+}
+
+/* Visits & Contact Column */
+.cochin-footer-contact-list {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cochin-footer-contact-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 0;
+}
+
+.cochin-contact-icon {
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.cochin-contact-text,
+.cochin-contact-link {
+  font-family: var(--font-main) !important;
+  font-size: 0.93rem;
+  color: rgba(255, 255, 255, 0.88) !important;
+  line-height: 1.5;
+  text-decoration: none !important;
   transition: color 0.2s ease;
 }
 
-.site-footer a:hover,
-#colophon a:hover,
-.ast-small-footer a:hover {
+.cochin-contact-link:hover {
   color: var(--gold) !important;
 }
 
-.site-footer .ast-container,
-.site-primary-footer-wrap .ast-container,
-.site-below-footer-wrap .ast-container {
-  border-color: rgba(255, 255, 255, 0.12) !important;
+/* Bottom Copyright & Legal Bar */
+.cochin-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 22px 0;
 }
 
-.site-footer h1,
-.site-footer h2,
-.site-footer h3,
-.site-footer h4,
-.site-footer h5,
-.site-footer h6,
-.site-footer .widget-title {
-  color: #ffffff !important;
+.cochin-footer-bottom-container {
+  width: min(100% - 48px, 1380px);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
   font-family: var(--font-main) !important;
+  font-size: 0.86rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.cochin-footer-copy {
+  margin: 0;
+}
+
+.cochin-footer-legal {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cochin-footer-legal a {
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease;
+}
+
+.cochin-footer-legal a:hover {
+  color: var(--gold) !important;
+}
+
+.cochin-legal-sep {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Footer Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .cochin-footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 32px;
+  }
+}
+
+@media (max-width: 680px) {
+  .cochin-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .cochin-footer-bottom-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
 }

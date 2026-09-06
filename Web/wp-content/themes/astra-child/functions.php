@@ -109,6 +109,29 @@ function the_cochin_override_astra_header() {
 add_action('wp', 'the_cochin_override_astra_header', 1);
 
 /**
+ * Render the Custom Cochin Footer
+ */
+function the_cochin_render_custom_footer() {
+    get_template_part('template-parts/footer-custom');
+}
+
+/**
+ * Remove Astra's default footer hooks and replace with custom Cochin footer on all pages
+ */
+function the_cochin_override_astra_footer() {
+    remove_action('astra_footer', 'astra_footer_markup');
+
+    if (class_exists('Astra_Builder_Footer')) {
+        $builder = Astra_Builder_Footer::get_instance();
+        remove_action('astra_footer', array($builder, 'footer_markup'));
+    }
+
+    // Attach custom footer
+    add_action('astra_footer', 'the_cochin_render_custom_footer', 10);
+}
+add_action('wp', 'the_cochin_override_astra_footer', 1);
+
+/**
  * Retrieve the booking URL
  */
 function the_cochin_get_booking_url() {

@@ -3,7 +3,8 @@
  * The Cochin (Astra Child Theme) Functions
  *
  * Implements custom responsive header based on Docs/html/menu.html,
- * Hero section with Amaranth heading, Poppins typography, and #6B1F2A brand palette.
+ * Hero section with Amaranth heading & Poppins typography,
+ * and About Us section with Architects Daughter font & #F5EFE3 palette.
  */
 
 if (!defined('ABSPATH')) {
@@ -11,7 +12,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Enqueue Parent and Child Theme Styles, Amaranth & Poppins Fonts, and Header Scripts
+ * Enqueue Parent and Child Theme Styles, Google Fonts, and Header Scripts
  */
 function the_cochin_enqueue_scripts() {
     // Parent Theme Style
@@ -22,10 +23,10 @@ function the_cochin_enqueue_scripts() {
         ASTRA_THEME_VERSION
     );
 
-    // Google Fonts: Amaranth (for Hero Heading) & Poppins (Main Website Font)
+    // Google Fonts: Amaranth, Architects Daughter, and Poppins
     wp_enqueue_style(
         'the-cochin-google-fonts',
-        'https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap',
+        'https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Architects+Daughter&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap',
         array(),
         null
     );
@@ -70,7 +71,6 @@ add_action('after_setup_theme', 'the_cochin_theme_setup', 20);
  * Remove Astra's default header hooks and replace with custom Cochin header
  */
 function the_cochin_override_astra_header() {
-    // Remove Astra default header actions
     remove_action('astra_header', 'astra_header_markup');
 
     if (class_exists('Astra_Builder_Header')) {
@@ -84,13 +84,13 @@ function the_cochin_override_astra_header() {
         remove_action('astra_header', array($mobile_header, 'mobile_header_markup'), 5);
     }
 
-    // Attach our custom menu header
+    // Attach custom header
     add_action('astra_header', 'the_cochin_render_custom_header', 10);
 }
 add_action('wp', 'the_cochin_override_astra_header', 1);
 
 /**
- * Retrieve the booking URL (defaults to #booking or a dedicated page)
+ * Retrieve the booking URL
  */
 function the_cochin_get_booking_url() {
     $booking_page = get_page_by_path('book-a-table');
@@ -109,11 +109,10 @@ function the_cochin_get_booking_url() {
 }
 
 /**
- * Custom Nav Walker for outputting clean .nav-link classes and ARIA attributes
+ * Custom Nav Walker for clean .nav-link classes and ARIA attributes
  */
 class The_Cochin_Nav_Walker extends Walker_Nav_Menu {
     public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
-        // Skip CTA if user also has a link explicitly named 'Book a table' in WP menu
         if (strcasecmp(trim($item->title), 'Book a table') === 0 || strcasecmp(trim($item->title), 'Book Table') === 0) {
             return;
         }
@@ -153,7 +152,7 @@ class The_Cochin_Nav_Walker extends Walker_Nav_Menu {
 }
 
 /**
- * Render Navigation Links (Dynamic WP Menu with clean fallback)
+ * Render Navigation Links
  */
 function the_cochin_render_nav_menu() {
     if (has_nav_menu('primary')) {
@@ -171,7 +170,7 @@ function the_cochin_render_nav_menu() {
 }
 
 /**
- * Fallback Navigation Menu matching Docs/html/menu.html
+ * Fallback Navigation Menu
  */
 function the_cochin_fallback_nav_menu() {
     $home_url = home_url('/');
@@ -238,17 +237,18 @@ function the_cochin_render_custom_header() {
 }
 
 /**
- * Render Homepage Hero Section under the header
+ * Render Homepage Sections (Hero & About Us) under the header
  */
-function the_cochin_render_hero_banner() {
+function the_cochin_render_home_sections() {
     if (is_front_page() || is_home()) {
         get_template_part('template-parts/home-hero');
+        get_template_part('template-parts/home-about');
     }
 }
-add_action('astra_header_after', 'the_cochin_render_hero_banner', 20);
+add_action('astra_header_after', 'the_cochin_render_home_sections', 20);
 
 /**
- * Add WordPress Customizer Controls for Easy Hero Customization
+ * Add WordPress Customizer Controls
  */
 function the_cochin_customize_register($wp_customize) {
     // Hero Section Panel
@@ -257,7 +257,6 @@ function the_cochin_customize_register($wp_customize) {
         'priority' => 30,
     ));
 
-    // Background Image
     $wp_customize->add_setting('the_cochin_hero_bg', array(
         'default'           => get_stylesheet_directory_uri() . '/assets/images/kerala-cuisine-hero.png',
         'sanitize_callback' => 'esc_url_raw',
@@ -268,7 +267,6 @@ function the_cochin_customize_register($wp_customize) {
         'settings' => 'the_cochin_hero_bg',
     )));
 
-    // Heading (Amaranth font)
     $wp_customize->add_setting('the_cochin_hero_title', array(
         'default'           => 'Authentic Kerala Cuisine in Hemel Hempstead\'s Old Town',
         'sanitize_callback' => 'sanitize_text_field',
@@ -279,7 +277,6 @@ function the_cochin_customize_register($wp_customize) {
         'type'     => 'text',
     ));
 
-    // Description (Poppins font)
     $wp_customize->add_setting('the_cochin_hero_desc', array(
         'default'           => 'Proudly serving the local community since 2003. Discover the distinctive flavours of Kerala, freshly prepared and served with the warmth of traditional South Indian hospitality.',
         'sanitize_callback' => 'sanitize_textarea_field',
@@ -290,7 +287,6 @@ function the_cochin_customize_register($wp_customize) {
         'type'     => 'textarea',
     ));
 
-    // Button 1: Book a Table (#6B1F2A)
     $wp_customize->add_setting('the_cochin_btn1_text', array(
         'default'           => 'BOOK A TABLE',
         'sanitize_callback' => 'sanitize_text_field',
@@ -308,7 +304,6 @@ function the_cochin_customize_register($wp_customize) {
         'section'  => 'the_cochin_hero_section',
     ));
 
-    // Button 2: Order Online (#FF8B26)
     $wp_customize->add_setting('the_cochin_btn2_text', array(
         'default'           => 'ORDER ONLINE',
         'sanitize_callback' => 'sanitize_text_field',
@@ -326,7 +321,6 @@ function the_cochin_customize_register($wp_customize) {
         'section'  => 'the_cochin_hero_section',
     ));
 
-    // Button 3: View Menu (#C9A24D)
     $wp_customize->add_setting('the_cochin_btn3_text', array(
         'default'           => 'VIEW MENU',
         'sanitize_callback' => 'sanitize_text_field',

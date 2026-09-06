@@ -1,11 +1,11 @@
 /*
 Theme Name: The Cochin (Astra Child)
 Theme URI: http://localhost:8000/
-Description: Custom theme for The Cochin Restaurant with responsive header, Amaranth hero banner, Poppins typography, and #6B1F2A brand styling.
+Description: Custom theme for The Cochin Restaurant with responsive header, Amaranth hero banner, Architects Daughter About section (#F5EFE3), and Poppins typography.
 Author: The Cochin
 Author URI: http://localhost:8000/
 Template: astra
-Version: 1.2.0
+Version: 1.3.0
 Text Domain: astra-child
 */
 
@@ -20,11 +20,14 @@ Text Domain: astra-child
   --btn-orange-hover: #e87b1c;
   --gold: #C9A24D;
   --gold-hover: #b8913d;
+  --about-brown: #9D6F2E;
+  --about-bg: #F5EFE3;
   --cream: #fff8ed;
   --header-height: 110px;
   --ease: cubic-bezier(.22, 1, .36, 1);
   --font-main: 'Poppins', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-heading: 'Amaranth', var(--font-main);
+  --font-handwriting: 'Architects Daughter', cursive, sans-serif;
 }
 
 /* Global Typography: Poppins */
@@ -51,6 +54,17 @@ html {
 
 body.menu-open {
   overflow: hidden;
+}
+
+/* Hide default page title on homepage to avoid duplicate "Home" title */
+.home .entry-header,
+.home .ast-archive-description,
+.home .entry-title {
+  display: none !important;
+}
+
+.home #content.site-content {
+  padding-top: 0 !important;
 }
 
 /* ==========================================================================
@@ -262,7 +276,7 @@ li.current_page_item > .nav-link::after {
 .cochin-hero-section {
   position: relative;
   width: 100%;
-  min-height: clamp(580px, 78vh, 760px);
+  min-height: clamp(560px, 75vh, 740px);
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -272,7 +286,6 @@ li.current_page_item > .nav-link::after {
   overflow: hidden;
 }
 
-/* Dark Vignette & Gradient Overlay for readability */
 .cochin-hero-overlay {
   position: absolute;
   inset: 0;
@@ -298,7 +311,7 @@ li.current_page_item > .nav-link::after {
   max-width: 680px;
 }
 
-/* <h1> tag uses "Amaranth" font */
+/* <h1> uses Amaranth font */
 .cochin-hero-title,
 h1.cochin-hero-title {
   font-family: var(--font-heading) !important;
@@ -311,7 +324,7 @@ h1.cochin-hero-title {
   letter-spacing: -0.01em;
 }
 
-/* Description uses "Poppins" font */
+/* Description uses Poppins font */
 .cochin-hero-description {
   font-family: var(--font-main) !important;
   font-size: clamp(1rem, 1.25vw, 1.15rem);
@@ -323,7 +336,6 @@ h1.cochin-hero-title {
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
 }
 
-/* Hero Button Group */
 .cochin-hero-actions {
   display: flex;
   align-items: center;
@@ -331,7 +343,6 @@ h1.cochin-hero-title {
   gap: 16px;
 }
 
-/* Base Hero Button - Poppins Font */
 .cochin-hero-btn {
   display: inline-flex;
   align-items: center;
@@ -354,7 +365,7 @@ h1.cochin-hero-title {
   filter: brightness(1.08);
 }
 
-/* Button 1: #6B1F2A Background (Book a Table) */
+/* Button 1: #6B1F2A */
 .cochin-hero-btn.btn-brand {
   background-color: var(--brand);
   color: #ffffff;
@@ -368,7 +379,7 @@ h1.cochin-hero-title {
   box-shadow: 0 6px 20px rgba(107, 31, 42, 0.55);
 }
 
-/* Button 2: #FF8B26 Background (Order Online) */
+/* Button 2: #FF8B26 */
 .cochin-hero-btn.btn-orange {
   background-color: var(--btn-orange);
   color: #ffffff;
@@ -381,7 +392,7 @@ h1.cochin-hero-title {
   box-shadow: 0 6px 20px rgba(255, 139, 38, 0.55);
 }
 
-/* Button 3: #C9A24D Background (View Menu) */
+/* Button 3: #C9A24D */
 .cochin-hero-btn.btn-gold {
   background-color: var(--gold);
   color: #ffffff;
@@ -395,7 +406,173 @@ h1.cochin-hero-title {
 }
 
 /* ==========================================================================
-   4. RESPONSIVE BREAKPOINTS
+   4. ABOUT US SECTION (#F5EFE3 Background, Architects Daughter Font)
+   ========================================================================== */
+.cochin-about-section {
+  position: relative;
+  width: 100%;
+  background-color: var(--about-bg) !important;
+  padding: 88px 0 104px 0;
+  overflow: hidden;
+}
+
+.cochin-about-container {
+  width: min(100% - 48px, 1420px);
+  margin-inline: auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Header Area: --- About us --- & Welcome to The Cochin */
+.cochin-about-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.cochin-about-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.cochin-badge-line {
+  display: inline-block;
+  width: clamp(38px, 5vw, 68px);
+  height: 2px;
+  background-color: var(--about-brown);
+  border-radius: 2px;
+}
+
+.cochin-badge-text {
+  font-family: var(--font-handwriting) !important;
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  font-weight: 400;
+  color: var(--about-brown);
+  letter-spacing: 0.02em;
+  display: inline-block;
+}
+
+.cochin-about-title {
+  font-family: var(--font-heading) !important;
+  font-size: clamp(2.2rem, 3.8vw, 3.1rem);
+  font-weight: 700;
+  color: #231815;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/* Grid Layout */
+.cochin-about-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1.08fr;
+  align-items: center;
+  gap: clamp(24px, 3.2vw, 56px);
+  position: relative;
+}
+
+/* Left Media Frame */
+.cochin-about-media-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.cochin-about-img-frame {
+  position: relative;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(58, 38, 20, 0.09);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cochin-about-img-frame:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 48px rgba(58, 38, 20, 0.14);
+}
+
+.cochin-about-main-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* Vertical Gold Separator Line */
+.cochin-about-divider {
+  width: 4px;
+  height: 82%;
+  min-height: 260px;
+  background: linear-gradient(180deg, rgba(201, 162, 77, 0.2) 0%, #C9A24D 30%, #9D6F2E 70%, rgba(157, 111, 46, 0.2) 100%);
+  border-radius: 999px;
+  align-self: center;
+}
+
+/* Right Story Text Wrap */
+.cochin-about-text-wrap {
+  position: relative;
+  padding: 12px 0 12px 12px;
+}
+
+/* Subtle Line-Art Background Watermark Elements */
+.cochin-about-decor {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.25;
+}
+
+.decor-top {
+  top: -36px;
+  right: 0;
+}
+
+.decor-top img {
+  width: clamp(140px, 14vw, 210px);
+  height: auto;
+}
+
+.decor-bottom {
+  bottom: -44px;
+  right: -12px;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.decor-prawn {
+  width: clamp(110px, 12vw, 175px);
+  height: auto;
+}
+
+.decor-meat {
+  width: clamp(120px, 13vw, 190px);
+  height: auto;
+}
+
+.cochin-about-paragraphs {
+  position: relative;
+  z-index: 2;
+}
+
+.cochin-about-p {
+  font-family: var(--font-main) !important;
+  font-size: clamp(1.02rem, 1.18vw, 1.14rem);
+  font-weight: 400;
+  line-height: 1.84;
+  color: #3f3430;
+  margin: 0 0 24px 0;
+}
+
+.cochin-about-p:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   5. RESPONSIVE BREAKPOINTS (Mobile & Tablet)
    ========================================================================== */
 @media (max-width: 980px) {
   :root {
@@ -486,13 +663,13 @@ h1.cochin-hero-title {
 
   /* Hero Mobile Adaptations */
   .cochin-hero-section {
-    min-height: 540px;
+    min-height: 520px;
   }
 
   .cochin-hero-overlay {
     background: linear-gradient(
       180deg,
-      rgba(14, 8, 9, 0.85) 0%,
+      rgba(14, 8, 9, 0.86) 0%,
       rgba(14, 8, 9, 0.78) 50%,
       rgba(14, 8, 9, 0.65) 100%
     );
@@ -511,12 +688,34 @@ h1.cochin-hero-title {
     padding: 11px 22px;
     font-size: 0.88rem;
   }
+
+  /* About Us Tablet/Mobile */
+  .cochin-about-section {
+    padding: 64px 0 80px 0;
+  }
+
+  .cochin-about-container {
+    width: min(100% - 32px, 1480px);
+  }
+
+  .cochin-about-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .cochin-about-divider {
+    display: none;
+  }
+
+  .cochin-about-text-wrap {
+    padding: 0;
+  }
 }
 
 @media (max-width: 580px) {
   .cochin-hero-section {
     min-height: auto;
-    padding: 20px 0;
+    padding: 24px 0;
   }
 
   .cochin-hero-container {
@@ -533,6 +732,18 @@ h1.cochin-hero-title {
     width: 100%;
     min-height: 50px;
     font-size: 0.95rem;
+  }
+
+  .cochin-about-section {
+    padding: 48px 0 60px 0;
+  }
+
+  .cochin-about-container {
+    width: min(100% - 24px, 1480px);
+  }
+
+  .cochin-about-header {
+    margin-bottom: 36px;
   }
 }
 
@@ -562,7 +773,7 @@ h1.cochin-hero-title {
 }
 
 /* ==========================================================================
-   5. FOOTER STYLING (#6B1F2A Background & Poppins Font)
+   6. FOOTER STYLING (#6B1F2A Background & Poppins Font)
    ========================================================================== */
 .site-footer,
 #colophon,

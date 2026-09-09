@@ -2162,3 +2162,140 @@ h1.cochin-hero-title {
     gap: 12px;
   }
 }
+
+/* ==========================================================================
+   PAGE HEADER BANNER (About Us & Inner Pages)
+   ========================================================================== */
+.page-header-banner {
+  position: relative;
+  background-color: #F5EFE3;
+  width: 100%;
+  padding: 56px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.page-header-banner__container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page-header-banner__title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: clamp(2rem, 3.8vw, 2.75rem);
+  font-weight: 400;
+  color: #373435;
+  line-height: 1.2;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.01em;
+}
+
+.page-header-banner__breadcrumbs {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.page-header-banner__breadcrumbs .breadcrumb-link {
+  color: #8C827A;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.page-header-banner__breadcrumbs .breadcrumb-link:hover {
+  color: #6B1F2A;
+  text-decoration: underline;
+}
+
+.page-header-banner__breadcrumbs .breadcrumb-separator {
+  color: #8C827A;
+  font-weight: 300;
+  user-select: none;
+  margin: 0 2px;
+}
+
+.page-header-banner__breadcrumbs .breadcrumb-current {
+  color: #373435;
+  font-weight: 500;
+}
+
+/* Background Side Art Illustrations */
+.page-header-banner__bg-art {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+.page-header-banner__bg-art img {
+  display: block;
+  height: 100%;
+  max-height: 100%;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.9;
+}
+
+.page-header-banner__bg-art--left {
+  left: 0;
+}
+
+.page-header-banner__bg-art--left img {
+  object-position: left center;
+}
+
+.page-header-banner__bg-art--right {
+  right: 0;
+}
+
+.page-header-banner__bg-art--right img {
+  object-position: right center;
+}
+
+/* Hide default duplicate title on About Page when banner is active */
+.page-id-8 .entry-header,
+.page-template-page-about .entry-header {
+  display: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+  .page-header-banner {
+    padding: 44px 20px;
+    min-height: 150px;
+  }
+  .page-header-banner__bg-art img {
+    opacity: 0.65;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-header-banner {
+    padding: 36px 16px;
+    min-height: 130px;
+  }
+  .page-header-banner__title {
+    font-size: 1.75rem;
+  }
+  .page-header-banner__bg-art img {
+    opacity: 0.35;
+  }
+}
+

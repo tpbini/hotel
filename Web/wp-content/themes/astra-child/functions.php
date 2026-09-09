@@ -465,6 +465,39 @@ function the_cochin_render_home_sections() {
 add_action('astra_header_after', 'the_cochin_render_home_sections', 20);
 
 /**
+ * Render About Us / Inner Page Header Banner under the site navigation header
+ */
+function the_cochin_render_page_header_banner() {
+    if (is_page('about') || is_page('about-us') || is_page_template('page-about.php')) {
+        get_template_part('template-parts/about-header', null, array(
+            'title'      => 'About Us',
+            'breadcrumb' => 'About us',
+        ));
+    }
+}
+add_action('astra_header_after', 'the_cochin_render_page_header_banner', 15);
+
+/**
+ * Shortcode for Header Banner: [the_cochin_page_header title="About Us" breadcrumb="About us"]
+ */
+function the_cochin_page_header_shortcode($atts) {
+    $atts = shortcode_atts(array(
+        'title'      => 'About Us',
+        'breadcrumb' => 'About us',
+    ), $atts, 'the_cochin_page_header');
+
+    ob_start();
+    get_template_part('template-parts/about-header', null, array(
+        'title'      => $atts['title'],
+        'breadcrumb' => $atts['breadcrumb'],
+    ));
+    return ob_get_clean();
+}
+add_shortcode('the_cochin_page_header', 'the_cochin_page_header_shortcode');
+add_shortcode('about_us_header', 'the_cochin_page_header_shortcode');
+
+
+/**
  * Add WordPress Customizer Controls
  */
 function the_cochin_customize_register($wp_customize) {

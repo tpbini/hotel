@@ -3,3 +3,6 @@ wordpress-7.1/
 *.log
 .DS_Store
 Thumbs.db
+Web/wp-content/uploads/wc-logs/
+Web/wp-content/uploads/ast-block-templates-json/
+Web/wp-content/uploads/uag-plugin/

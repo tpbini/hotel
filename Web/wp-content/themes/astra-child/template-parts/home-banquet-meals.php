@@ -14,7 +14,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$banquet = the_cochin_get_banquet_data();
+$defaults = the_cochin_get_banquet_data();
+$banquet = array_merge($defaults, is_array($args) ? array_filter($args) : array());
 ?>
 
 <section class="cochin-banquet-section" id="banquets" style="background-image: url('<?php echo esc_url($banquet['bg_image']); ?>');">

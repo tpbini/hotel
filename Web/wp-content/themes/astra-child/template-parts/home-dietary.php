@@ -12,7 +12,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$dietary = the_cochin_get_dietary_data();
+$defaults = the_cochin_get_dietary_data();
+$dietary = array_merge($defaults, is_array($args) ? array_filter($args) : array());
 ?>
 
 <section class="cochin-dietary-section" id="dietary" style="background-image: url('<?php echo esc_url($dietary['bg_image']); ?>');">

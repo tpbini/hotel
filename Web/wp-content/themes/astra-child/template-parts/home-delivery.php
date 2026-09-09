@@ -13,7 +13,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$delivery = the_cochin_get_delivery_data();
+$defaults = the_cochin_get_delivery_data();
+$delivery = array_merge($defaults, is_array($args) ? array_filter($args) : array());
 ?>
 
 <section class="cochin-delivery-section" id="delivery">

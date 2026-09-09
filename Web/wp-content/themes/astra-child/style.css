@@ -57,19 +57,23 @@ body.menu-open {
   overflow: hidden;
 }
 
-/* Hide default page content and empty containers on homepage */
+/* Clean layout for homepage page content container */
 .home .entry-header,
-.home .ast-archive-description,
 .home .entry-title,
-.home #content.site-content,
-.home .site-content,
-.home #primary,
-.home .ast-container {
+.home .ast-archive-description {
   display: none !important;
-  margin: 0 !important;
+}
+
+.home .site-content,
+.home .site-content .ast-container,
+.home #primary,
+.home #main,
+.home .entry-content,
+.home .ast-article-single {
   padding: 0 !important;
-  height: 0 !important;
-  min-height: 0 !important;
+  margin: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
 }
 
 /* ==========================================================================

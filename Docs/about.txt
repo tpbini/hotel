@@ -13,3 +13,9 @@ Our menu brings together familiar South Indian favourites and dishes that reflec
 Our hospitality
 -----------------
 Food is at the centre of family and community life in Kerala. We want every guest at The Cochin to feel comfortable, well looked after and welcome to return.
+
+
+Login URL: http://localhost:8000/wp-admin/
+Username: admin
+Password: admin
+Email: admin@thecochin.local

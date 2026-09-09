@@ -13,6 +13,12 @@ if (!defined('ABSPATH')) {
 }
 
 $faq = the_cochin_get_faq_data();
+if (!empty($args['badge'])) {
+    $faq['badge'] = $args['badge'];
+}
+if (!empty($args['title'])) {
+    $faq['title'] = $args['title'];
+}
 ?>
 
 <section class="cochin-faq-section" id="faq">

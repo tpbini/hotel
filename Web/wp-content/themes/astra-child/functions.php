@@ -448,18 +448,25 @@ function the_cochin_get_faq_data() {
     return apply_filters('the_cochin_faq_data', $data);
 }
 
+// Include Shortcodes & Block Patterns
+require_once get_stylesheet_directory() . '/inc/shortcodes.php';
+
 /**
- * Render Homepage Sections (Hero, About Us, Menu Carousel, Banquet Meals, Delivery, Dietary, FAQ) under the header
+ * Render Homepage Sections (Fallback if post content is empty in WordPress editor)
  */
 function the_cochin_render_home_sections() {
     if (is_front_page() || is_home()) {
-        get_template_part('template-parts/home-hero');
-        get_template_part('template-parts/home-about');
-        get_template_part('template-parts/home-menu-carousel');
-        get_template_part('template-parts/home-banquet-meals');
-        get_template_part('template-parts/home-delivery');
-        get_template_part('template-parts/home-dietary');
-        get_template_part('template-parts/home-faq');
+        $front_id = get_option('page_on_front');
+        $post = $front_id ? get_post($front_id) : null;
+        if (!$post || empty(trim($post->post_content))) {
+            get_template_part('template-parts/home-hero');
+            get_template_part('template-parts/home-about');
+            get_template_part('template-parts/home-menu-carousel');
+            get_template_part('template-parts/home-banquet-meals');
+            get_template_part('template-parts/home-delivery');
+            get_template_part('template-parts/home-dietary');
+            get_template_part('template-parts/home-faq');
+        }
     }
 }
 add_action('astra_header_after', 'the_cochin_render_home_sections', 20);

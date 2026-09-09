@@ -1,0 +1,30 @@
+<!-- wp:shortcode -->
+[the_cochin_hero title="Authentic Kerala Cuisine in Hemel Hempstead's Old Town" desc="Proudly serving the local community since 2003. Discover the distinctive flavours of Kerala, freshly prepared and served with the warmth of traditional South Indian hospitality." btn1_text="BOOK A TABLE" btn1_url="/book-a-table/" btn2_text="ORDER ONLINE" btn2_url="/menu/" btn3_text="VIEW MENU" btn3_url="/menu/"]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[the_cochin_about badge="About us" title="Welcome to The Cochin"]
+<p>Located in the heart of Hemel Hempstead’s historic Old Town, The Cochin has been serving authentic Kerala and South Indian cuisine since 2003. Our menu is inspired by the food traditions of India’s south-west coast, from delicately spiced vegetarian dishes and crisp dosas to rich curries, seafood specialities and comforting favourites.</p>
+<p>Whether you are joining us for a relaxed meal, celebrating with family and friends, collecting a takeaway or ordering for delivery, our team looks forward to welcoming you.</p>
+[/the_cochin_about]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[the_cochin_menu_carousel]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[the_cochin_banquets title="Banquet Meals" days="EVERY TUESDAY • THURSDAY • WEDNESDAY" time="6PM – 11 PM" desc="1 Starter + 1 Main Dish + Side Dish + Rice & Bread" veg_price="£ 15.95" nonveg_price="£ 17.95" seafood_price="£ 19.95"]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[the_cochin_delivery badge="Our Menu" title="Book, Collect or order for<br>delivery" desc="Dining with us? Reserve your table online. Prefer to enjoy The Cochin at home? Order for collection or local delivery through our secure online ordering service."]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[the_cochin_dietary badge="Food choice" title="Vegetarian and vegan choices" desc="Kerala cuisine offers a wonderful variety of naturally vegetarian and plant-based dishes. Look for the dietary symbols on our menu or speak to our team for guidance."]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[the_cochin_faq badge="FAQ" title="Frequently Asked Questions"]
+<!-- /wp:shortcode -->

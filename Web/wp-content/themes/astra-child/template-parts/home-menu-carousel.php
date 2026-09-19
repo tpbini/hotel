@@ -14,6 +14,13 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+if (function_exists('get_field')) {
+    $show_carousel = get_field('carousel_show');
+    if ($show_carousel === false) {
+        return;
+    }
+}
+
 $menu_items = the_cochin_get_menu_carousel_items();
 $menu_url   = the_cochin_get_menu_page_url();
 ?>
@@ -31,10 +38,8 @@ $menu_url   = the_cochin_get_menu_page_url();
 
         <!-- Carousel Outer Wrapper with Navigation Arrows -->
         <div class="cochin-carousel-wrap">
-            <button class="cochin-carousel-arrow arrow-prev" type="button" aria-label="Previous menu items">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
+            <button class="cochin-carousel-arrow arrow-prev" type="button" aria-label="<?php esc_attr_e('Previous menu items', 'astra-child'); ?>">
+                <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/left-arrow.png'); ?>" alt="<?php esc_attr_e('Previous', 'astra-child'); ?>" class="cochin-arrow-icon" width="14" height="22">
             </button>
 
             <!-- Scrollable Track -->
@@ -54,10 +59,8 @@ $menu_url   = the_cochin_get_menu_page_url();
                 <?php endforeach; ?>
             </div>
 
-            <button class="cochin-carousel-arrow arrow-next" type="button" aria-label="Next menu items">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
+            <button class="cochin-carousel-arrow arrow-next" type="button" aria-label="<?php esc_attr_e('Next menu items', 'astra-child'); ?>">
+                <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/right-arrow.png'); ?>" alt="<?php esc_attr_e('Next', 'astra-child'); ?>" class="cochin-arrow-icon" width="14" height="22">
             </button>
         </div>
 

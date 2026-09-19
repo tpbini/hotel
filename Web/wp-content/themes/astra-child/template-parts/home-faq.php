@@ -13,11 +13,45 @@ if (!defined('ABSPATH')) {
 }
 
 $faq = the_cochin_get_faq_data();
+
+if (function_exists('get_field')) {
+    $acf_badge = get_field('faq_badge');
+    if (!empty($acf_badge)) {
+        $faq['badge'] = $acf_badge;
+    }
+    $acf_title = get_field('faq_title');
+    if (!empty($acf_title)) {
+        $faq['title'] = $acf_title;
+    }
+    $acf_art = get_field('faq_bottom_art');
+    if (!empty($acf_art)) {
+        $faq['bottom_bg'] = $acf_art;
+    }
+
+    $acf_items = array();
+    for ($i = 1; $i <= 8; $i++) {
+        $q = get_field('faq_' . $i . '_question');
+        $a = get_field('faq_' . $i . '_answer');
+        if (!empty(trim($q ?? ''))) {
+            $acf_items[] = array(
+                'question' => trim($q),
+                'answer'   => trim($a ?? ''),
+            );
+        }
+    }
+    if (!empty($acf_items)) {
+        $faq['items'] = $acf_items;
+    }
+}
+
 if (!empty($args['badge'])) {
     $faq['badge'] = $args['badge'];
 }
 if (!empty($args['title'])) {
     $faq['title'] = $args['title'];
+}
+if (!empty($args['items']) && is_array($args['items'])) {
+    $faq['items'] = $args['items'];
 }
 ?>
 

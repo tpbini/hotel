@@ -18,4 +18,5 @@ echo [OK] Launching WordPress at http://localhost:8000
 start http://localhost:8000
 echo.
 echo Server is running. Press Ctrl+C to stop the server.
+set PHP_CLI_SERVER_WORKERS=8
 "C:\xampp\php\php.exe" -S localhost:8000 -t "%~dp0Web" "%~dp0Web\router.php"

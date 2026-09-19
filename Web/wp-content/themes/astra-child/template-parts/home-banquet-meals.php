@@ -15,7 +15,29 @@ if (!defined('ABSPATH')) {
 }
 
 $defaults = the_cochin_get_banquet_data();
-$banquet = array_merge($defaults, is_array($args) ? array_filter($args) : array());
+$acf_data = array();
+if (function_exists('get_field')) {
+    $map = array(
+        'title'         => 'banquet_title',
+        'days'          => 'banquet_days',
+        'time'          => 'banquet_time',
+        'desc'          => 'banquet_desc',
+        'veg_price'     => 'banquet_veg_price',
+        'nonveg_price'  => 'banquet_nonveg_price',
+        'seafood_price' => 'banquet_seafood_price',
+        'dish_image'    => 'banquet_dish_image',
+        'bg_image'      => 'banquet_bg_image',
+        'book_url'      => 'banquet_book_url',
+        'order_url'     => 'banquet_order_url',
+    );
+    foreach ($map as $k => $fn) {
+        $val = get_field($fn);
+        if (!empty($val)) {
+            $acf_data[$k] = $val;
+        }
+    }
+}
+$banquet = array_merge($defaults, $acf_data, is_array($args) ? array_filter($args) : array());
 ?>
 
 <section class="cochin-banquet-section" id="banquets" style="background-image: url('<?php echo esc_url($banquet['bg_image']); ?>');">

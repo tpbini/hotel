@@ -57,23 +57,71 @@ body.menu-open {
   overflow: hidden;
 }
 
-/* Clean layout for homepage page content container */
+/* ==========================================================================
+   LAYOUT STRUCTURE (Full-Width Header, Hero, Footer, & Full-Width Section BGs)
+   ========================================================================== */
 .home .entry-header,
 .home .entry-title,
 .home .ast-archive-description {
   display: none !important;
 }
 
-.home .site-content,
-.home .site-content .ast-container,
-.home #primary,
-.home #main,
-.home .entry-content,
-.home .ast-article-single {
-  padding: 0 !important;
-  margin: 0 !important;
+#page,
+.site,
+#content,
+.site-content,
+.site-content .ast-container,
+.ast-container,
+#primary,
+#main,
+.ast-article-single,
+.entry-content,
+article.page,
+article.post {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
   max-width: 100% !important;
   width: 100% !important;
+  display: block !important;
+}
+
+/* Ensure Astra block layout children do not get constrained to 1200px */
+.entry-content[data-ast-blocks-layout] > *,
+.entry-content > *,
+.entry-content > section,
+.site-main > article,
+.site-content > .ast-container > #primary {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Ensure all Cochin Sections span 100% Full Viewport Width */
+.cochin-hero-section,
+.cochin-about-section,
+.cochin-menu-carousel-section,
+.cochin-banquet-section,
+.cochin-delivery-section,
+.cochin-dietary-section,
+.cochin-faq-section,
+.cochin-about-header-section,
+.site-header,
+.site-footer,
+#colophon {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
 }
 
 /* ==========================================================================
@@ -637,26 +685,39 @@ h1.cochin-hero-title {
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background-color: var(--brand);
-  color: #ffffff;
-  border: none;
+  background-color: var(--brand, #6b1d28) !important;
+  color: #ffffff !important;
+  border: none !important;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(77, 21, 28, 0.3);
-  transition: transform 0.25s var(--ease), background-color 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 16px rgba(77, 21, 28, 0.35);
+  transition: transform 0.25s var(--ease, ease), background-color 0.25s ease, box-shadow 0.25s ease;
   outline: none;
   flex-shrink: 0;
+  padding: 0;
 }
 
 .cochin-carousel-arrow:hover {
-  background-color: #822734;
+  background-color: #822734 !important;
   transform: translateY(-50%) scale(1.08);
-  box-shadow: 0 8px 22px rgba(77, 21, 28, 0.45);
+  box-shadow: 0 8px 22px rgba(77, 21, 28, 0.5);
+}
+
+.cochin-carousel-arrow:focus,
+.cochin-carousel-arrow:focus-visible {
+  background-color: var(--brand, #6b1d28) !important;
+  outline: 2px solid #dfa97c;
+  outline-offset: 2px;
+}
+
+.cochin-carousel-arrow:active {
+  background-color: #55141d !important;
+  transform: translateY(-50%) scale(0.95);
 }
 
 .cochin-carousel-arrow.arrow-prev {
@@ -665,6 +726,23 @@ h1.cochin-hero-title {
 
 .cochin-carousel-arrow.arrow-next {
   right: 0;
+}
+
+.cochin-carousel-arrow .cochin-arrow-icon {
+  width: 14px;
+  height: auto;
+  max-height: 20px;
+  display: block;
+  pointer-events: none;
+  object-fit: contain;
+}
+
+.cochin-carousel-arrow.arrow-prev .cochin-arrow-icon {
+  margin-right: 2px;
+}
+
+.cochin-carousel-arrow.arrow-next .cochin-arrow-icon {
+  margin-left: 2px;
 }
 
 /* Scrollable Cards Track */
@@ -1704,6 +1782,11 @@ h1.cochin-hero-title {
     height: 40px;
   }
 
+  .cochin-carousel-arrow .cochin-arrow-icon {
+    width: 11px;
+    max-height: 16px;
+  }
+
   .cochin-menu-card {
     flex: 0 0 calc((100% - 16px) / 2);
     min-width: 210px;
@@ -2303,3 +2386,4374 @@ h1.cochin-hero-title {
   }
 }
 
+/* ==========================================================================
+   ABOUT US EDITORIAL CULINARY LAYOUT (4 TIERS)
+   ========================================================================== */
+
+.cochin-about-layout {
+  width: 100%;
+  background-color: #ffffff;
+  color: #2b2b2b;
+  font-family: var(--font-main);
+  overflow-x: hidden;
+}
+
+.about-container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+/* Common Typography & Buttons in About Layout */
+.about-editorial-title {
+  font-family: 'Playfair Display', Georgia, 'Amaranth', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #1e1e1e;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin: 0 0 24px 0;
+}
+
+.about-body-p {
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.85;
+  color: #555555;
+  margin: 0 0 18px 0;
+}
+
+.about-body-p:last-child {
+  margin-bottom: 0;
+}
+
+.about-action-wrap {
+  margin-top: 28px;
+}
+
+.about-btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #a36f2b;
+  color: #ffffff !important;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 12px 32px;
+  border-radius: 4px;
+  text-decoration: none !important;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 4px 12px rgba(163, 111, 43, 0.25);
+  border: 1px solid transparent;
+}
+
+.about-btn-gold:hover,
+.about-btn-gold:focus {
+  background-color: #8c5d21;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(163, 111, 43, 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   BLOCK 1: Story Intro & "SINCE 2003" with Dining Photo
+   -------------------------------------------------------------------------- */
+.about-block-story {
+  padding: 85px 0 70px;
+  background-color: #ffffff;
+}
+
+.about-story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 70px;
+  align-items: center;
+}
+
+.about-story-text-col {
+  padding-right: 20px;
+}
+
+.about-since-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.about-since-text {
+  font-family: 'Playfair Display', Georgia, 'Amaranth', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2b2b2b;
+  white-space: nowrap;
+  letter-spacing: 1px;
+}
+
+.about-since-line {
+  flex: 1;
+  height: 1px;
+  background-color: #e0dbd3;
+}
+
+.about-rect-photo-wrap {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+}
+
+.about-rect-photo {
+  display: block;
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-rect-photo-wrap:hover .about-rect-photo {
+  transform: scale(1.025);
+}
+
+/* --------------------------------------------------------------------------
+   BLOCK 2: Overlapping Circular Images & "WE ALWAYS PREPARE..."
+   -------------------------------------------------------------------------- */
+.about-block-overlap {
+  padding: 60px 0 85px;
+  background-color: #ffffff;
+}
+
+.about-overlap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.about-circles-composition {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.about-circle-large-wrap {
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  border: 4px solid #ffffff;
+}
+
+.about-circle-small-wrap {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.16);
+  border: 7px solid #ffffff;
+  background-color: #ffffff;
+  z-index: 2;
+}
+
+.about-circle-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.about-circles-composition:hover .about-circle-img {
+  transform: scale(1.04);
+}
+
+.about-overlap-text-col {
+  padding-left: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   BLOCK 3: 4-Column Food & Dining Gallery Mosaic
+   -------------------------------------------------------------------------- */
+.about-block-gallery {
+  width: 100%;
+  padding: 20px 0 80px;
+}
+
+.about-gallery-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 1fr 1.25fr;
+  gap: 12px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.about-gallery-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-gallery-col.col-tall .about-gallery-item {
+  height: 480px;
+}
+
+.about-gallery-col.col-stacked {
+  gap: 12px;
+}
+
+.about-gallery-col.col-stacked .about-gallery-item {
+  height: 234px;
+}
+
+.about-gallery-item {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #f5efe3;
+}
+
+.about-gallery-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.4s ease;
+}
+
+.about-gallery-item:hover .about-gallery-img {
+  transform: scale(1.05);
+}
+
+/* --------------------------------------------------------------------------
+   BLOCK 4: "Our Specialties" Tabbed Showcase
+   -------------------------------------------------------------------------- */
+.about-block-specialties {
+  padding: 40px 0 110px;
+  background-color: #ffffff;
+}
+
+.about-specialties-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.about-specialties-badge {
+  display: block;
+  font-family: var(--font-main);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #a36f2b;
+  margin-bottom: 10px;
+}
+
+.about-specialties-title {
+  font-family: 'Playfair Display', Georgia, 'Amaranth', serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #1e1e1e;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.about-specialties-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.about-specialties-dishes-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.about-spec-dish-card {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 4px solid #ffffff;
+  background-color: #fafafa;
+  flex-shrink: 0;
+}
+
+.about-spec-dish-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.about-spec-dish-card:hover .about-spec-dish-img {
+  transform: scale(1.06);
+}
+
+.about-specialties-content-col {
+  padding-left: 10px;
+}
+
+.about-specialties-text {
+  font-family: var(--font-main);
+}
+
+.about-specialties-text .about-body-p {
+  font-size: 1rem;
+  line-height: 1.9;
+  color: #555555;
+}
+
+/* ==========================================================================
+   RESPONSIVENESS FOR ABOUT US LAYOUT
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .about-story-grid,
+  .about-overlap-grid,
+  .about-specialties-grid {
+    gap: 40px;
+  }
+  
+  .about-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .about-gallery-col.col-tall .about-gallery-item {
+    height: 320px;
+  }
+
+  .about-gallery-col.col-stacked .about-gallery-item {
+    height: 155px;
+  }
+
+  .about-editorial-title {
+    font-size: 2.1rem;
+  }
+
+  .about-circle-large-wrap {
+    width: 290px;
+    height: 290px;
+  }
+
+  .about-circle-small-wrap {
+    width: 170px;
+    height: 170px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-block-story {
+    padding: 50px 0 40px;
+  }
+
+  .about-block-overlap {
+    padding: 40px 0 50px;
+  }
+
+  .about-block-gallery {
+    padding: 10px 0 50px;
+  }
+
+  .about-block-specialties {
+    padding: 30px 0 70px;
+  }
+
+  .about-story-grid,
+  .about-overlap-grid,
+  .about-specialties-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .about-story-text-col,
+  .about-overlap-text-col,
+  .about-specialties-tabs-col {
+    padding: 0;
+  }
+
+  .about-editorial-title {
+    font-size: 1.85rem;
+  }
+
+  .about-specialties-title {
+    font-size: 2.2rem;
+  }
+
+  .about-since-text {
+    font-size: 1.8rem;
+  }
+
+  .about-rect-photo {
+    height: 280px;
+  }
+
+  .about-circles-composition {
+    max-width: 320px;
+    min-height: 310px;
+  }
+
+  .about-circle-large-wrap {
+    width: 240px;
+    height: 240px;
+  }
+
+  .about-circle-small-wrap {
+    width: 140px;
+    height: 140px;
+  }
+
+  .about-gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .about-gallery-col.col-tall .about-gallery-item {
+    height: 260px;
+  }
+
+  .about-gallery-col.col-stacked .about-gallery-item {
+    height: 200px;
+  }
+
+  .about-specialties-dishes-wrap {
+    justify-content: center;
+  }
+
+  .about-spec-dish-card {
+    width: 140px;
+    height: 140px;
+  }
+
+  .about-tabs-nav {
+    gap: 20px;
+  }
+}
+
+/* ==========================================================================
+   MENU PAGE EDITORIAL STYLING (Poppins Font & Split Editorial Layout)
+   ========================================================================== */
+
+/* Hide default duplicate title on Menu Page when banner is active */
+.page-id-7 .entry-header,
+.page-template-page-menu .entry-header {
+  display: none !important;
+}
+
+.cochin-menu-layout {
+  width: 100%;
+  background-color: #ffffff;
+  color: #2b2b2b;
+  font-family: 'Poppins', var(--font-main) !important;
+  overflow-x: hidden;
+}
+
+.menu-container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   Introduction & Dietary / Allergen Notice
+   -------------------------------------------------------------------------- */
+.menu-intro-allergen-section {
+  padding: 40px 0 24px;
+  background: #ffffff;
+}
+
+.menu-intro-allergen-section .menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.menu-intro-card {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.menu-intro-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #6a1a24;
+  background: #fbf3e4;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.menu-intro-heading {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.25;
+  margin: 0 0 14px;
+}
+
+.menu-intro-text {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #555555;
+  margin: 0 auto;
+  max-width: 780px;
+}
+
+.menu-allergen-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: #fffcf5;
+  border-left: 4px solid #b8860b;
+  border-top: 1px solid #f2e9d8;
+  border-right: 1px solid #f2e9d8;
+  border-bottom: 1px solid #f2e9d8;
+  border-radius: 8px;
+  padding: 18px 24px;
+  max-width: 860px;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(184, 134, 11, 0.05);
+}
+
+.menu-allergen-icon-wrap {
+  color: #b8860b;
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-allergen-content {
+  flex: 1;
+}
+
+.menu-allergen-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #784e00;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.menu-allergen-desc {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #615643;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .menu-intro-heading {
+    font-size: 1.7rem;
+  }
+  .menu-intro-text {
+    font-size: 0.95rem;
+  }
+  .menu-allergen-card {
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 18px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Sticky Category Quick-Navigation & Filter Bar
+   -------------------------------------------------------------------------- */
+.menu-sticky-nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #eee8df;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  padding: 16px 0;
+  transition: all 0.3s ease;
+}
+
+.menu-sticky-nav-bar .menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.menu-nav-scroller {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  padding-bottom: 2px;
+}
+
+.menu-nav-scroller::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.menu-category-pills {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  flex-wrap: wrap;
+}
+
+.menu-pill {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #555555;
+  background-color: #f7f3ec;
+  padding: 8px 18px;
+  border-radius: 30px;
+  text-decoration: none !important;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
+}
+
+.menu-pill:hover {
+  color: #6B1F2A;
+  background-color: #ede4d5;
+  transform: translateY(-1px);
+}
+
+.menu-pill.active {
+  color: #ffffff !important;
+  background-color: #6B1F2A;
+  border-color: #6B1F2A;
+  box-shadow: 0 4px 12px rgba(107, 31, 42, 0.25);
+}
+
+.menu-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* Search input with search icon on the RIGHT side */
+.menu-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  max-width: 340px;
+}
+
+.menu-search-icon {
+  position: absolute !important;
+  right: 14px !important;
+  left: auto !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: #888888 !important;
+  pointer-events: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2 !important;
+}
+
+.menu-search-input {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.9rem !important;
+  padding: 10px 46px 10px 20px !important;
+  border: 1px solid #dcd5c9 !important;
+  border-radius: 30px !important;
+  background-color: #ffffff !important;
+  color: #2b2b2b !important;
+  outline: none !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  transition: all 0.25s ease !important;
+}
+
+.menu-search-input:focus {
+  border-color: #6B1F2A !important;
+  box-shadow: 0 0 0 3px rgba(107, 31, 42, 0.12) !important;
+}
+
+.menu-search-clear {
+  position: absolute !important;
+  right: 14px !important;
+  left: auto !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: none !important;
+  border: none !important;
+  font-size: 1.25rem !important;
+  line-height: 1 !important;
+  color: #888888 !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  display: none;
+  z-index: 3 !important;
+}
+
+.menu-search-clear:hover {
+  color: #6B1F2A;
+}
+
+/* Veg Filter Toggle */
+.menu-veg-filter-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #2e7d32;
+  background-color: #e8f5e9;
+  padding: 8px 16px;
+  border-radius: 24px;
+  border: 1px solid #c8e6c9;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.menu-veg-filter-label:hover {
+  background-color: #c8e6c9;
+}
+
+.menu-veg-checkbox {
+  accent-color: #2e7d32;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   Special Offer Banner
+   -------------------------------------------------------------------------- */
+.menu-offer-banner {
+  margin: 28px 0 10px 0;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #fdf8ef 0%, #faede0 100%);
+  border: 1px dashed #d89f55;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.menu-offer-badge {
+  background-color: #6B1F2A;
+  color: #ffffff;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.menu-offer-text {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  color: #4a382c;
+  flex: 1;
+}
+
+.menu-offer-text strong {
+  color: #6B1F2A;
+  font-weight: 700;
+}
+
+.menu-offer-btn {
+  display: inline-flex;
+  align-items: center;
+  background-color: #a36f2b;
+  color: #ffffff !important;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 8px 18px;
+  border-radius: 4px;
+  text-decoration: none !important;
+  transition: all 0.25s ease;
+}
+
+.menu-offer-btn:hover {
+  background-color: #8c5d21;
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   Category Sections & 100% Full Width Editorial Layout (Matching Image 1 Header)
+   -------------------------------------------------------------------------- */
+.menu-categories-wrapper {
+  padding: 20px 0 60px 0;
+}
+
+.menu-category-section {
+  padding: 65px 0;
+  border-bottom: 1px solid #f0eae1;
+  scroll-margin-top: 90px;
+}
+
+.menu-category-section:last-child {
+  border-bottom: none;
+}
+
+/* Category Section Header (100% Full Width) */
+.menu-section-header-fullwidth {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.menu-editorial-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 2.35rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #1e1e1e;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin: 0 0 6px 0;
+}
+
+.menu-category-subhead {
+  display: block;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #a36f2b;
+  margin-bottom: 10px;
+}
+
+.menu-category-intro {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.96rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: #555555;
+  margin: 0 0 16px 0;
+  max-width: 960px;
+}
+
+.menu-header-divider-line {
+  width: 100%;
+  height: 1px;
+  background-color: #ede7dc;
+  margin-top: 18px;
+}
+
+/* --------------------------------------------------------------------------
+   Header WooCommerce Cart Button
+   -------------------------------------------------------------------------- */
+.cochin-header-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  padding: 8px 16px;
+  border-radius: 28px;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.86rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  margin-left: 6px;
+}
+
+.cochin-header-cart-btn:hover {
+  background-color: var(--gold); /* #C9A24D */
+  border-color: var(--gold);
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.cochin-cart-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cochin-cart-svg {
+  display: block;
+}
+
+.cochin-cart-badge {
+  position: absolute;
+  top: -9px;
+  right: -10px;
+  background-color: #df3232;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 3px 6px;
+  border-radius: 12px;
+  min-width: 16px;
+  text-align: center;
+  border: 1.5px solid #6B1F2A;
+}
+
+.cochin-cart-subtotal {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* --------------------------------------------------------------------------
+   100% Full Width Single Column Dishes Container
+   -------------------------------------------------------------------------- */
+.menu-dishes-container-fullwidth {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.menu-dishes-list-singlecol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.menu-dish-item {
+  padding: 16px 20px;
+  border: 1px solid #f0ebe2;
+  border-radius: 8px;
+  background-color: #ffffff;
+  transition: all 0.25s ease;
+}
+
+.menu-dish-item:hover {
+  border-color: #dfd6c8;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  background-color: #faf7f2;
+}
+
+.menu-dish-row-layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  width: 100%;
+}
+
+.menu-dish-main-info {
+  flex: 1;
+}
+
+.menu-dish-title-wrap {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.menu-dish-title-link {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.menu-dish-name {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.12rem;
+  font-weight: 600;
+  color: #231815;
+  margin: 0;
+  line-height: 1.35;
+  transition: color 0.2s ease;
+}
+
+.menu-dish-title-link:hover .menu-dish-name {
+  color: #6B1F2A;
+}
+
+.menu-dish-tags {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.menu-badge {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  line-height: 1.2;
+}
+
+.badge-tag-veg {
+  background-color: #e8f5e9;
+  color: #13b02b;
+  border: 1px solid #c8e6c9;
+}
+
+.badge-tag-vegan {
+  background-color: #e0f2f1;
+  color: #00796b;
+  border: 1px solid #b2dfdb;
+}
+
+.badge-tag-gluten-free {
+  background-color: #fff8e1;
+  color: #b78103;
+  border: 1px solid #ffe082;
+}
+
+.menu-dish-desc {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.65;
+  color: #555555;
+  margin: 0;
+}
+
+.menu-dish-action-side {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.menu-dish-price {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #6B1F2A;
+  white-space: nowrap;
+}
+
+.cochin-add-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: #6B1F2A;
+  color: #ffffff !important;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 9px 18px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(107, 31, 42, 0.2);
+}
+
+.cochin-add-cart-btn:hover {
+  background-color: #a36f2b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(163, 111, 43, 0.3);
+}
+
+.cochin-add-cart-btn.is-loading {
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.cochin-add-cart-btn.is-added {
+  background-color: #13b02b !important;
+  box-shadow: 0 3px 10px rgba(19, 176, 43, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   WooCommerce Single Product Details Page
+   -------------------------------------------------------------------------- */
+.cochin-wc-single-main {
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.cochin-product-page-wrapper {
+  width: 100%;
+  padding: 50px 0 80px 0;
+  font-family: 'Poppins', var(--font-main) !important;
+}
+
+.product-container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.product-back-nav {
+  margin-bottom: 28px;
+}
+
+.product-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #6B1F2A;
+  text-decoration: none !important;
+  transition: color 0.2s ease;
+}
+
+.product-back-link:hover {
+  color: #a36f2b;
+  text-decoration: underline !important;
+}
+
+.product-showcase-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 60px;
+  align-items: start;
+  margin-bottom: 70px;
+}
+
+.product-image-card {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0eae1;
+  background-color: #f7f3ec;
+}
+
+.product-featured-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-img-badges {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+
+.product-category-label {
+  display: inline-block;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #a36f2b;
+  margin-bottom: 8px;
+}
+
+.product-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: #1e1e1e;
+  line-height: 1.2;
+  margin: 0 0 16px 0;
+}
+
+.product-price-strip {
+  margin-bottom: 22px;
+}
+
+.product-price-val {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #6B1F2A;
+}
+
+.product-description-box {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.98rem;
+  line-height: 1.8;
+  color: #555555;
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #eee8df;
+}
+
+.product-description-box p {
+  margin: 0;
+}
+
+.cochin-single-cart-form {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.cochin-qty-input {
+  width: 70px !important;
+  height: 48px !important;
+  padding: 0 12px !important;
+  border: 1px solid #dcd5c9 !important;
+  border-radius: 8px !important;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  color: #2b2b2b !important;
+  background-color: #ffffff !important;
+}
+
+.cochin-btn-add-to-cart {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  background-color: #6B1F2A !important;
+  color: #ffffff !important;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  padding: 13px 32px !important;
+  border-radius: 8px !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 14px rgba(107, 31, 42, 0.3) !important;
+}
+
+.cochin-btn-add-to-cart:hover {
+  background-color: #a36f2b !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(163, 111, 43, 0.35) !important;
+}
+
+.product-info-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: #fdfaf5;
+  border: 1px solid #faeedd;
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+
+.info-highlight-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  color: #4a3b32;
+}
+
+.info-icon {
+  font-size: 1.1rem;
+}
+
+/* Related dishes */
+.product-related-section {
+  padding-top: 50px;
+  border-top: 1px solid #f0eae1;
+}
+
+.product-related-header {
+  margin-bottom: 30px;
+}
+
+.related-subtitle {
+  display: block;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #a36f2b;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.related-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1e1e1e;
+  margin: 0;
+}
+
+.product-related-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.related-dish-card {
+  background-color: #ffffff;
+  border: 1px solid #f0eae1;
+  border-radius: 8px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.25s ease;
+}
+
+.related-dish-card:hover {
+  border-color: #dcd5c9;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.related-dish-link {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.related-dish-name {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #231815;
+  margin: 0 0 6px 0;
+  line-height: 1.35;
+  transition: color 0.2s ease;
+}
+
+.related-dish-link:hover .related-dish-name {
+  color: #6B1F2A;
+}
+
+.related-dish-desc {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.82rem;
+  color: #666666;
+  margin: 0 0 14px 0;
+  line-height: 1.5;
+}
+
+.related-dish-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px dashed #eee8df;
+}
+
+.related-dish-price {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #6B1F2A;
+}
+
+.related-add-btn {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #ffffff !important;
+  background-color: #a36f2b;
+  padding: 5px 12px;
+  border-radius: 16px;
+  text-decoration: none !important;
+  transition: background-color 0.2s ease;
+}
+
+.related-add-btn:hover {
+  background-color: #6B1F2A;
+}
+
+/* --------------------------------------------------------------------------
+   Bottom Callout Section
+   -------------------------------------------------------------------------- */
+.menu-bottom-callout {
+  padding: 20px 0 90px 0;
+}
+
+.menu-callout-box {
+  background: linear-gradient(135deg, #231815 0%, #150d0a 100%);
+  border-radius: 12px;
+  padding: 50px 30px;
+  text-align: center;
+  color: #ffffff;
+  box-shadow: 0 15px 40px rgba(35, 24, 21, 0.2);
+}
+
+.menu-callout-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 12px 0;
+}
+
+.menu-callout-text {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1rem;
+  color: #d1c8c0;
+  max-width: 600px;
+  margin: 0 auto 28px auto;
+  line-height: 1.6;
+}
+
+.menu-callout-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.menu-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #6B1F2A;
+  color: #ffffff !important;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 13px 30px;
+  border-radius: 4px;
+  text-decoration: none !important;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(107, 31, 42, 0.35);
+}
+
+.menu-btn-primary:hover {
+  background-color: #551620;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(107, 31, 42, 0.45);
+}
+
+.menu-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #a36f2b;
+  color: #ffffff !important;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 13px 30px;
+  border-radius: 4px;
+  text-decoration: none !important;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(163, 111, 43, 0.3);
+}
+
+.menu-btn-secondary:hover {
+  background-color: #8c5d21;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(163, 111, 43, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Adjustments
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .menu-section-header-grid {
+    gap: 36px;
+  }
+
+  .product-showcase-grid {
+    gap: 40px;
+  }
+
+  .product-related-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 820px) {
+  .menu-sticky-nav-bar .menu-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .menu-controls-bar {
+    justify-content: space-between;
+  }
+
+  .menu-search-input {
+    width: 100%;
+    min-width: 160px;
+  }
+
+  .menu-section-header-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .menu-section-header-left {
+    padding-right: 0;
+  }
+
+  .menu-dish-row-layout {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .menu-dish-action-side {
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 8px;
+    border-top: 1px dashed #eee8df;
+  }
+
+  .product-showcase-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .product-image-card {
+    height: 300px;
+  }
+
+  .menu-category-section {
+    padding: 44px 0;
+  }
+}
+
+@media (max-width: 580px) {
+  .menu-editorial-title {
+    font-size: 1.7rem;
+  }
+
+  .menu-since-text {
+    font-size: 1.3rem;
+  }
+
+  .product-title {
+    font-size: 1.8rem;
+  }
+
+  .product-related-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-callout-box {
+    padding: 36px 20px;
+  }
+
+  .menu-callout-title {
+    font-size: 1.6rem;
+  }
+
+  .menu-callout-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .menu-btn-primary,
+  .menu-btn-secondary {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   Book a Table Page Styling - Seamless #F5EFE3 Canvas
+   ========================================================================== */
+body.page-id-130,
+.page-id-130 #page,
+.page-id-130 #content,
+.page-id-130 .site-content,
+.page-id-130 .ast-container,
+.page-id-130 #primary,
+.page-id-130 #main,
+.page-id-130 .ast-article-single,
+.page-id-130 .entry-content,
+.page-id-130 .site-content .ast-container {
+  background-color: #F5EFE3 !important;
+  background: #F5EFE3 !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.page-id-130 .entry-header,
+.page-id-130 .ast-single-post-order,
+.page-id-130 .entry-title {
+  display: none !important;
+}
+
+.page-id-130 .ast-article-single {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.page-id-130 #content.site-content {
+  padding-top: 0 !important;
+  padding-bottom: 70px !important;
+  margin-top: 0 !important;
+}
+
+.page-id-130 .page-header-banner {
+  margin-bottom: 0 !important;
+}
+
+/* ==========================================================================
+   BANQUETS PAGE STYLING (Poppins Typography & Rich Cochin Aesthetics)
+   ========================================================================== */
+.page-template-page-banquets .entry-header,
+.page-id-9 .entry-header {
+  display: none !important;
+}
+
+.cochin-banquets-layout {
+  width: 100%;
+  background-color: #ffffff;
+  color: #2b2b2b;
+  font-family: 'Poppins', var(--font-main) !important;
+  overflow-x: hidden;
+}
+
+.banquet-container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   Banquet Intro Section
+   -------------------------------------------------------------------------- */
+.banquet-intro-section {
+  padding: 50px 0 30px;
+  background-color: #ffffff;
+}
+
+.banquet-intro-card {
+  text-align: center;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.banquet-intro-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #6B1F2A;
+  background: #fbf3e4;
+  padding: 5px 16px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.banquet-main-headline {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 2.35rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1.25;
+  margin: 0 0 16px 0;
+}
+
+.banquet-intro-text {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.08rem;
+  line-height: 1.8;
+  color: #555555;
+  margin: 0 auto;
+  max-width: 820px;
+}
+
+/* --------------------------------------------------------------------------
+   Feast Packages Grid
+   -------------------------------------------------------------------------- */
+.banquet-feasts-section {
+  padding: 30px 0 60px;
+  background-color: #ffffff;
+}
+
+.banquet-section-heading-wrap {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.banquet-section-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #1e1e1e;
+  margin: 0 0 8px;
+}
+
+.banquet-section-subtitle {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.96rem;
+  color: #777777;
+  margin: 0;
+}
+
+.banquet-feasts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+.banquet-feast-card {
+  position: relative;
+  background: #fdfbf7;
+  border: 1px solid #ede5d8;
+  border-radius: 12px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.banquet-feast-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(107, 31, 42, 0.08);
+  border-color: #d8c7b0;
+}
+
+.banquet-feast-card.featured {
+  background: #fffdfa;
+  border: 2px solid #a36f2b;
+  box-shadow: 0 8px 24px rgba(163, 111, 43, 0.12);
+}
+
+.banquet-feast-popular {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #a36f2b 0%, #6B1F2A 100%);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.banquet-feast-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+}
+
+.banquet-feast-badge.veg {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.banquet-feast-badge.nonveg {
+  background: #fbe9e7;
+  color: #c62828;
+}
+
+.banquet-feast-badge.seafood {
+  background: #e1f5fe;
+  color: #0277bd;
+}
+
+.banquet-feast-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e1e1e;
+  margin: 0 0 10px;
+}
+
+.banquet-feast-desc {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+.banquet-feast-inclusions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid #ede5d8;
+  padding-top: 18px;
+}
+
+.banquet-feast-inclusions li {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #444444;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.banquet-feast-inclusions li span {
+  color: #a36f2b;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Information Block
+   -------------------------------------------------------------------------- */
+.banquet-info-section {
+  padding: 0 0 60px;
+}
+
+.banquet-info-card {
+  background: #fffdf8;
+  border: 1px solid #ebdcc5;
+  border-left: 5px solid #a36f2b;
+  border-radius: 10px;
+  padding: 30px 36px;
+  box-shadow: 0 6px 20px rgba(163, 111, 43, 0.05);
+}
+
+.banquet-info-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0e6d6;
+}
+
+.banquet-info-icon {
+  color: #a36f2b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banquet-info-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e1e1e;
+  margin: 0 0 4px;
+}
+
+.banquet-info-subtitle {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.9rem;
+  color: #777777;
+  margin: 0;
+}
+
+.banquet-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 32px;
+}
+
+.banquet-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.banquet-info-label {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #6B1F2A;
+}
+
+.banquet-info-value {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #4a4a4a;
+}
+
+/* --------------------------------------------------------------------------
+   Banquet Inquiry Form Section
+   -------------------------------------------------------------------------- */
+.banquet-form-section {
+  padding: 20px 0 80px;
+  background-color: #ffffff;
+}
+
+.banquet-form-wrapper {
+  max-width: 840px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #ede6dc;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.05);
+}
+
+.banquet-form-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.banquet-form-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e1e1e;
+  margin: 0 0 8px;
+}
+
+.banquet-form-desc {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #666666;
+  margin: 0 auto;
+  max-width: 680px;
+}
+
+.banquet-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.banquet-form-row {
+  display: grid;
+  gap: 20px;
+}
+
+.banquet-form-row.two-col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.banquet-form-row.three-col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.banquet-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.banquet-form-group label {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #2b2b2b;
+}
+
+.banquet-form-group .req {
+  color: #d32f2f;
+}
+
+.banquet-input,
+.banquet-textarea {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem !important;
+  padding: 12px 16px !important;
+  border: 1px solid #dcd5c9 !important;
+  border-radius: 6px !important;
+  background-color: #faf8f5 !important;
+  color: #1a1a1a !important;
+  outline: none !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  transition: all 0.25s ease !important;
+}
+
+.banquet-input:focus,
+.banquet-textarea:focus {
+  border-color: #6B1F2A !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(107, 31, 42, 0.08) !important;
+}
+
+.banquet-textarea {
+  resize: vertical;
+  min-height: 85px;
+}
+
+.banquet-form-actions {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.banquet-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6B1F2A 0%, #852634 100%);
+  color: #ffffff !important;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 14px 40px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(107, 31, 42, 0.25);
+  width: 100%;
+  max-width: 320px;
+}
+
+.banquet-submit-btn:hover {
+  background: linear-gradient(135deg, #571822 0%, #6B1F2A 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(107, 31, 42, 0.35);
+}
+
+.banquet-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.banquet-form-feedback {
+  padding: 14px 18px;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.banquet-form-feedback.success {
+  background-color: #e8f5e9;
+  color: #1b5e20;
+  border: 1px solid #c8e6c9;
+}
+
+.banquet-form-feedback.error {
+  background-color: #ffebee;
+  color: #b71c1c;
+  border: 1px solid #ffcdd2;
+}
+
+.banquet-direct-call {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid #ede6dc;
+  text-align: center;
+  font-size: 0.88rem;
+  color: #666666;
+}
+
+.banquet-direct-call a {
+  color: #6B1F2A;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+@media (max-width: 992px) {
+  .banquet-feasts-grid {
+    grid-template-columns: 1fr;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .banquet-main-headline {
+    font-size: 1.8rem;
+  }
+  .banquet-intro-text {
+    font-size: 0.98rem;
+  }
+  .banquet-info-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .banquet-form-wrapper {
+    padding: 24px 20px;
+  }
+  .banquet-form-row.two-col,
+  .banquet-form-row.three-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   RESERVATIONS PAGE REDESIGN STYLING (Poppins Typography & Rich Card Aesthetics)
+   ========================================================================== */
+.page-template-page-book-table .entry-header,
+.page-id-130 .entry-header {
+  display: none !important;
+}
+
+.cochin-reservation-layout {
+  width: 100%;
+  background-color: #ffffff;
+  color: #2b2b2b;
+  font-family: 'Poppins', var(--font-main) !important;
+  overflow-x: hidden;
+}
+
+.reservation-container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   Make a Reservation Intro Section
+   -------------------------------------------------------------------------- */
+.reservation-intro-section {
+  padding: 50px 0 20px;
+  background-color: #ffffff;
+}
+
+.reservation-intro-card {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.reservation-intro-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #6B1F2A;
+  background: #fbf3e4;
+  padding: 5px 16px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.reservation-main-headline {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 2.35rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1.25;
+  margin: 0 0 14px 0;
+}
+
+.reservation-intro-text {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.12rem;
+  line-height: 1.75;
+  color: #555555;
+  margin: 0 auto;
+  max-width: 780px;
+}
+
+/* --------------------------------------------------------------------------
+   Confirmation Notice Block
+   -------------------------------------------------------------------------- */
+.reservation-notice-section {
+  padding: 10px 0 35px;
+}
+
+.reservation-notice-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  background: #fffcf5;
+  border-left: 5px solid #a36f2b;
+  border-top: 1px solid #f2e9d8;
+  border-right: 1px solid #f2e9d8;
+  border-bottom: 1px solid #f2e9d8;
+  border-radius: 10px;
+  padding: 20px 28px;
+  max-width: 860px;
+  margin: 0 auto;
+  box-shadow: 0 6px 20px rgba(163, 111, 43, 0.06);
+}
+
+.reservation-notice-icon-wrap {
+  color: #a36f2b;
+  flex-shrink: 0;
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reservation-notice-content {
+  flex: 1;
+}
+
+.reservation-notice-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #6B1F2A;
+  margin: 0 0 6px;
+  letter-spacing: 0.5px;
+}
+
+.reservation-notice-text {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.96rem;
+  line-height: 1.65;
+  color: #554d3e;
+  margin: 0;
+}
+
+.reservation-notice-text a {
+  color: #6B1F2A;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   Reservation Section & Interactive App
+   -------------------------------------------------------------------------- */
+.reservation-intro-section {
+  padding: 50px 0 20px;
+  background: linear-gradient(180deg, #faf7f2 0%, #ffffff 100%);
+  text-align: center;
+}
+
+.reservation-intro-card {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.reservation-intro-badge {
+  display: inline-block;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #C6923C;
+  background: rgba(198, 146, 60, 0.1);
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.reservation-main-headline {
+  font-family: 'Amaranth', 'Poppins', var(--font-main) !important;
+  font-size: 2.35rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 12px;
+}
+
+.reservation-intro-text {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.05rem;
+  color: #666666;
+  max-width: 680px;
+  margin: 0 auto 28px;
+  line-height: 1.65;
+}
+
+/* Nav Tab Switcher */
+.cochin-booking-nav-tabs {
+  display: inline-flex;
+  background: #ede6dc;
+  padding: 5px;
+  border-radius: 35px;
+  gap: 4px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.cochin-booking-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 30px;
+  border: none;
+  background: transparent;
+  color: #555555;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.cochin-booking-tab-btn:hover {
+  color: #1a1a1a;
+}
+
+.cochin-booking-tab-btn.active {
+  background: #6B1F2A;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(107, 31, 42, 0.25);
+}
+
+.reservation-main-section {
+  padding: 20px 0 80px;
+  background-color: #ffffff;
+}
+
+.cochin-tab-pane {
+  display: none;
+}
+
+.cochin-tab-pane.active {
+  display: block;
+  animation: cochinFadeIn 0.35s ease;
+}
+
+@keyframes cochinFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reservation-form-wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #ede6dc;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
+}
+
+/* Multi-Step Indicator */
+.cochin-step-progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 34px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #ede6dc;
+}
+
+.cochin-step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #888888;
+  font-family: 'Poppins', var(--font-main) !important;
+}
+
+.cochin-step-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f0ebe4;
+  color: #777777;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: all 0.25s ease;
+}
+
+.cochin-step-lbl {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.cochin-step-indicator.active .cochin-step-num {
+  background: #6B1F2A;
+  color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(107, 31, 42, 0.15);
+}
+
+.cochin-step-indicator.active {
+  color: #6B1F2A;
+}
+
+.cochin-step-indicator.completed .cochin-step-num {
+  background: #2e7d32;
+  color: #ffffff;
+}
+
+.cochin-step-indicator.completed {
+  color: #2e7d32;
+}
+
+.cochin-step-line {
+  flex: 1;
+  height: 2px;
+  background: #ede6dc;
+  margin: 0 16px;
+}
+
+/* Step Cards */
+.cochin-step-card {
+  display: none;
+}
+
+.cochin-step-card.active {
+  display: block;
+  animation: cochinFadeIn 0.35s ease;
+}
+
+.cochin-step-header {
+  margin-bottom: 26px;
+}
+
+.cochin-step-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 6px;
+}
+
+.cochin-step-subtitle {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  color: #777777;
+  margin: 0;
+}
+
+/* Form Styles */
+.reservation-form-row {
+  display: grid;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.reservation-form-row.two-col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.reservation-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reservation-form-group label {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #2b2b2b;
+}
+
+.reservation-form-group .req {
+  color: #d32f2f;
+}
+
+.reservation-input,
+.reservation-textarea {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.94rem !important;
+  padding: 13px 18px !important;
+  border: 1px solid #dcd5c9 !important;
+  border-radius: 8px !important;
+  background-color: #faf8f5 !important;
+  color: #1a1a1a !important;
+  outline: none !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  transition: all 0.25s ease !important;
+}
+
+.reservation-input:focus,
+.reservation-textarea:focus {
+  border-color: #6B1F2A !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(107, 31, 42, 0.08) !important;
+}
+
+.reservation-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Dual Selectors Row: Guests & Duration */
+.cochin-selectors-dual-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.cochin-quick-party-wrap,
+.cochin-quick-duration-wrap {
+  margin-bottom: 0;
+}
+
+.cochin-quick-label {
+  display: block;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #555555;
+  margin-bottom: 8px;
+}
+
+.cochin-party-chips-list,
+.cochin-duration-chips-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cochin-party-chip,
+.cochin-duration-chip {
+  min-width: 44px;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #dcd5c9;
+  background: #faf8f5;
+  color: #333333;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  transition: all 0.2s ease;
+}
+
+.cochin-party-chip:hover,
+.cochin-duration-chip:hover {
+  border-color: #6B1F2A;
+  background: #ffffff;
+}
+
+.cochin-party-chip.selected,
+.cochin-duration-chip.selected {
+  background: #6B1F2A;
+  border-color: #6B1F2A;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(107, 31, 42, 0.2);
+}
+
+.cochin-window-highlight {
+  color: #6B1F2A !important;
+}
+
+/* Policy Alert Banner */
+.cochin-policy-alert-banner {
+  background: #fdfaf3;
+  border: 1px solid #eedec3;
+  border-left: 4px solid #C6923C;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.cochin-alert-icon-box {
+  font-size: 1.2rem;
+}
+
+.cochin-alert-content {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  color: #6d5427;
+  line-height: 1.5;
+}
+
+.cochin-alert-content strong {
+  display: block;
+  color: #4a3818;
+  margin-bottom: 2px;
+}
+
+.cochin-alert-content p {
+  margin: 0;
+}
+
+.cochin-alert-content a {
+  color: #6B1F2A;
+  text-decoration: underline;
+}
+
+/* Slots Section */
+.cochin-slots-wrapper {
+  margin-bottom: 30px;
+}
+
+.cochin-slots-title-lbl {
+  display: block;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+
+.cochin-loading-slots {
+  text-align: center;
+  padding: 30px 20px;
+  background: #faf8f5;
+  border-radius: 10px;
+  border: 1px dashed #dcd5c9;
+}
+
+.cochin-spinner {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(107, 31, 42, 0.2);
+  border-top-color: #6B1F2A;
+  border-radius: 50%;
+  animation: cochinSpin 0.75s linear infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes cochinSpin {
+  to { transform: rotate(360deg); }
+}
+
+.cochin-loading-slots p {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.9rem;
+  color: #777777;
+  margin: 0;
+}
+
+/* Service Groups */
+.cochin-service-group {
+  margin-bottom: 20px;
+  background: #faf8f5;
+  border: 1px solid #ede6dc;
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.cochin-service-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.cochin-service-name {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.cochin-service-timing {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.82rem;
+  color: #777777;
+  margin-left: 8px;
+}
+
+.cochin-service-slot-badge {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.cochin-service-slot-badge.available {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.cochin-service-slot-badge.full {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.cochin-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.cochin-slot-pill {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #dcd5c9;
+  border-radius: 8px;
+  padding: 10px 8px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: #1a1a1a;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cochin-slot-pill:hover:not(.disabled) {
+  border-color: #6B1F2A;
+  color: #6B1F2A;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+
+.cochin-slot-pill.selected {
+  background: #6B1F2A !important;
+  border-color: #6B1F2A !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(107, 31, 42, 0.3) !important;
+}
+
+.cochin-slot-pill.disabled {
+  background: #f1ede8;
+  border-color: #e5ded5;
+  color: #aaaaaa;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.cochin-slot-tag {
+  font-size: 0.68rem;
+  color: #b71c1c;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.cochin-waitlist-callout {
+  display: flex;
+  gap: 14px;
+  background: #fff8f0;
+  border: 1px solid #fed7aa;
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 14px;
+}
+
+.cochin-waitlist-icon {
+  font-size: 1.4rem;
+}
+
+.cochin-waitlist-text {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  color: #7c2d12;
+  line-height: 1.5;
+}
+
+.cochin-waitlist-text strong {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.cochin-waitlist-text p {
+  margin: 0;
+}
+
+.cochin-waitlist-text a {
+  color: #6B1F2A;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.cochin-closed-alert,
+.cochin-error-alert {
+  padding: 24px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 10px;
+  text-align: center;
+  color: #92400e;
+  font-family: 'Poppins', var(--font-main) !important;
+}
+
+.cochin-closed-alert h4 {
+  margin: 6px 0;
+  color: #78350f;
+}
+
+.cochin-closed-alert p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+/* Step 2 Elements */
+.cochin-selected-slot-banner {
+  background: #fdfaf5;
+  border: 1px solid #e8decb;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cochin-banner-tag {
+  display: block;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #C6923C;
+  letter-spacing: 1px;
+}
+
+.cochin-banner-details {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-top: 2px;
+}
+
+.cochin-service-tag {
+  color: #6B1F2A;
+}
+
+.cochin-btn-text-change {
+  background: none;
+  border: 1px solid #dcd5c9;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #555555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cochin-btn-text-change:hover {
+  border-color: #6B1F2A;
+  color: #6B1F2A;
+  background: #ffffff;
+}
+
+.cochin-allergen-alert-card {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-left: 4px solid #d97706;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 10px 0 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.cochin-allergen-icon {
+  font-size: 1.2rem;
+}
+
+.cochin-allergen-text {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.85rem;
+  color: #92400e;
+  line-height: 1.45;
+}
+
+.cochin-allergen-text strong {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.cochin-allergen-text p {
+  margin: 0;
+}
+
+.cochin-gdpr-consent {
+  margin-bottom: 20px;
+}
+
+.cochin-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.85rem;
+  color: #666666;
+  cursor: pointer;
+}
+
+.cochin-checkbox-label input {
+  margin-top: 3px;
+  accent-color: #6B1F2A;
+}
+
+/* Action Bars */
+.cochin-step-action-bar {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.cochin-step-action-bar.two-buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: flex-end;
+}
+
+.cochin-btn-back {
+  background: transparent;
+  border: 1px solid #dcd5c9;
+  border-radius: 30px;
+  padding: 14px 28px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #555555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cochin-btn-back:hover {
+  background: #f7f3ec;
+  color: #1a1a1a;
+}
+
+.reservation-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6B1F2A 0%, #852634 100%);
+  color: #ffffff !important;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 14px 38px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(107, 31, 42, 0.25);
+  text-decoration: none;
+}
+
+.reservation-submit-btn:hover {
+  background: linear-gradient(135deg, #571822 0%, #6B1F2A 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(107, 31, 42, 0.35);
+}
+
+.reservation-submit-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.cochin-btn-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: cochinSpin 0.7s linear infinite;
+  margin-right: 8px;
+}
+
+/* Feedback Box */
+.reservation-feedback {
+  padding: 16px 20px;
+  border-radius: 8px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin-bottom: 20px;
+}
+
+.reservation-feedback.success {
+  background-color: #e8f5e9;
+  color: #1b5e20;
+  border: 1px solid #c8e6c9;
+}
+
+.reservation-feedback.error {
+  background-color: #ffebee;
+  color: #b71c1c;
+  border: 1px solid #ffcdd2;
+}
+
+.cochin-alt-slots-box {
+  margin-top: 8px;
+}
+
+.cochin-alt-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.cochin-btn-pick-alt {
+  padding: 6px 14px !important;
+  font-size: 0.85rem !important;
+}
+
+/* STEP 3 CONFIRMATION */
+.cochin-confirmation-box {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.cochin-conf-icon-ring {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #e8f5e9;
+  border: 3px solid #81c784;
+  color: #2e7d32;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0 auto 16px;
+  animation: cochinPopIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes cochinPopIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.cochin-conf-badge {
+  display: inline-block;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #2e7d32;
+  background: rgba(46, 125, 50, 0.1);
+  padding: 4px 14px;
+  border-radius: 16px;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.cochin-conf-title {
+  font-family: 'Amaranth', 'Poppins', var(--font-main) !important;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 6px;
+}
+
+.cochin-conf-subtitle {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.95rem;
+  color: #666666;
+  margin: 0 0 24px;
+}
+
+.cochin-conf-ref-card {
+  background: #faf8f5;
+  border: 1px solid #ede6dc;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 540px;
+  margin: 0 auto 28px;
+  text-align: center;
+}
+
+.cochin-conf-ref-lbl {
+  display: block;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #888888;
+  margin-bottom: 4px;
+}
+
+.cochin-conf-ref-value {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #6B1F2A;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.cochin-conf-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  text-align: left;
+  border-top: 1px solid #e8decb;
+  padding-top: 18px;
+}
+
+.cochin-conf-detail-item {
+  font-family: 'Poppins', var(--font-main) !important;
+}
+
+.cochin-conf-detail-item .detail-k {
+  display: block;
+  font-size: 0.76rem;
+  color: #888888;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.cochin-conf-detail-item .detail-v {
+  font-size: 0.94rem;
+  color: #1a1a1a;
+}
+
+.status-confirmed {
+  color: #2e7d32 !important;
+}
+
+.cochin-conf-actions-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.cochin-btn-calendar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #2563eb;
+  color: #ffffff !important;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.cochin-btn-calendar:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.cochin-btn-manage-alt {
+  background: #faf8f5;
+  border: 1px solid #dcd5c9;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cochin-btn-manage-alt:hover {
+  background: #f0ebe4;
+}
+
+.cochin-btn-link-reset {
+  background: transparent;
+  border: none;
+  color: #6B1F2A;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.cochin-btn-link-reset:hover {
+  text-decoration: underline;
+}
+
+/* TAB 2: MANAGE BOOKING STYLES */
+.cochin-manage-search-bar {
+  margin-bottom: 24px;
+}
+
+.cochin-search-input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.cochin-btn-search {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cochin-manage-card {
+  background: #faf8f5;
+  border: 1px solid #ede6dc;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.cochin-manage-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e8decb;
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+}
+
+.cochin-manage-ref-label {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.74rem;
+  color: #888888;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.cochin-manage-ref-code {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #6B1F2A;
+  margin: 2px 0 0;
+}
+
+.cochin-manage-status-pill {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 14px;
+}
+
+.cochin-manage-status-pill.confirmed {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.cochin-manage-status-pill.pending {
+  background: #fff8e1;
+  color: #f57f17;
+}
+
+.cochin-manage-status-pill.cancelled {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.cochin-manage-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.cochin-manage-item {
+  font-family: 'Poppins', var(--font-main) !important;
+}
+
+.cochin-item-lbl {
+  display: block;
+  font-size: 0.76rem;
+  color: #888888;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.cochin-item-val {
+  font-size: 0.95rem;
+  color: #1a1a1a;
+}
+
+.cochin-manage-notes {
+  background: #ffffff;
+  border: 1px solid #ede6dc;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+}
+
+.cochin-manage-notes p {
+  margin: 4px 0 0;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.9rem;
+  color: #444444;
+}
+
+.cochin-btn-danger {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.cochin-btn-danger:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.cochin-cancel-confirm-box {
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-radius: 10px;
+  padding: 18px 20px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.cochin-cancel-confirm-icon {
+  font-size: 1.6rem;
+  margin-bottom: 6px;
+}
+
+.cochin-cancel-confirm-box p {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.94rem;
+  color: #881337;
+  margin: 0 0 14px;
+}
+
+.cochin-cancel-confirm-btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cochin-btn-danger-confirm {
+  background: #e11d48;
+  color: #ffffff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 24px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cochin-btn-danger-confirm:hover {
+  background: #be123c;
+  transform: translateY(-1px);
+}
+
+.cochin-btn-cancel-abort {
+  background: #ffffff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  padding: 10px 22px;
+  border-radius: 24px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cochin-btn-cancel-abort:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.cochin-cutoff-warning {
+  background: #fffbeb;
+  border-left: 4px solid #f59e0b;
+  padding: 12px 16px;
+  border-radius: 4px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  color: #92400e;
+}
+
+.cochin-cutoff-warning strong {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.cochin-cutoff-warning p {
+  margin: 0;
+}
+
+.cochin-cutoff-warning a {
+  color: #6B1F2A;
+}
+
+.cochin-cancelled-badge-box {
+  background: #fef2f2;
+  border: 1px solid #fee2e2;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  font-family: 'Poppins', var(--font-main) !important;
+}
+
+.cochin-status-tag.cancelled {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.cochin-cancelled-badge-box p {
+  margin: 4px 0 0;
+  font-size: 0.88rem;
+  color: #7f1d1d;
+}
+
+/* TAB 3: GROUPS & BANQUETS */
+.cochin-groups-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 24px 0 28px;
+}
+
+.cochin-group-feat-card {
+  background: #faf8f5;
+  border: 1px solid #ede6dc;
+  border-radius: 12px;
+  padding: 22px 18px;
+  text-align: center;
+}
+
+.feat-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.cochin-group-feat-card h4 {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px;
+}
+
+.cochin-group-feat-card p {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.86rem;
+  color: #666666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.cochin-groups-cta-card {
+  background: linear-gradient(135deg, #fdfaf5 0%, #f6ede0 100%);
+  border: 1px solid #e2d2be;
+  border-radius: 12px;
+  padding: 26px;
+  text-align: center;
+}
+
+.cochin-groups-cta-card h4 {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 6px;
+}
+
+.cochin-groups-cta-card p {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  color: #555555;
+  margin: 0 0 20px;
+}
+
+.cochin-groups-cta-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cochin-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #dcd5c9;
+  color: #1a1a1a !important;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.cochin-btn-secondary:hover {
+  border-color: #6B1F2A;
+  color: #6B1F2A !important;
+}
+
+/* Footer & Policies */
+.reservation-direct-phone-box {
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid #ede6dc;
+  text-align: center;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  color: #666666;
+}
+
+.reservation-direct-phone-box a {
+  color: #6B1F2A;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.cochin-location-footnote {
+  margin-top: 6px;
+  font-size: 0.84rem;
+  color: #888888;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .reservation-main-headline {
+    font-size: 1.85rem;
+  }
+  
+  .reservation-form-wrapper {
+    padding: 24px 18px;
+  }
+
+  .cochin-booking-nav-tabs {
+    width: 100%;
+  }
+
+  .cochin-booking-tab-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+  }
+
+  .cochin-step-lbl {
+    display: none;
+  }
+
+  .cochin-step-line {
+    margin: 0 8px;
+  }
+
+  .reservation-form-row.two-col,
+  .reservation-form-row.three-col,
+  .cochin-selectors-dual-row {
+    grid-template-columns: 1fr;
+  }
+
+  .cochin-slots-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .cochin-groups-features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cochin-conf-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cochin-step-action-bar.two-buttons {
+    flex-direction: column-reverse;
+  }
+
+  .cochin-step-action-bar.two-buttons button {
+    width: 100%;
+  }
+
+  .cochin-search-input-group {
+    flex-direction: column;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Contact Page Styles
+   -------------------------------------------------------------------------- */
+.cochin-contact-page-layout {
+  background-color: #ffffff;
+}
+
+.cochin-contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Contact Hero Header */
+.cochin-contact-hero-section {
+  padding: 60px 0 35px;
+  background: linear-gradient(180deg, #faf7f2 0%, #ffffff 100%);
+  text-align: center;
+}
+
+.cochin-contact-hero-card {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.cochin-contact-badge {
+  display: inline-block;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #C6923C;
+  background: rgba(198, 146, 60, 0.12);
+  padding: 6px 18px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.cochin-contact-headline {
+  font-family: 'Amaranth', 'Poppins', var(--font-main) !important;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 14px;
+}
+
+.cochin-contact-subtitle {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.05rem;
+  color: #666666;
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.65;
+}
+
+/* 4-Card Highlight Grid */
+.cochin-contact-info-grid-section {
+  padding: 20px 0 50px;
+}
+
+.cochin-info-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.cochin-info-card {
+  background: #faf8f5;
+  border: 1px solid #ede6dc;
+  border-radius: 14px;
+  padding: 28px 22px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
+}
+
+.cochin-info-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border-color: #dcd5c9;
+}
+
+.cochin-info-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(107, 31, 42, 0.08);
+  color: #6B1F2A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.cochin-info-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 10px;
+}
+
+.cochin-info-text {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.9rem;
+  color: #555555;
+  line-height: 1.55;
+  margin: 0 0 14px;
+  flex-grow: 1;
+}
+
+.cochin-info-highlight-val {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 4px 0 10px;
+}
+
+.cochin-info-highlight-val a {
+  color: #6B1F2A;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.cochin-info-highlight-val a:hover {
+  color: #571822;
+  text-decoration: underline;
+}
+
+.cochin-info-action-link {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #C6923C;
+  text-decoration: none;
+  margin-top: auto;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.cochin-info-action-link:hover {
+  color: #a8792c;
+  transform: translateX(3px);
+}
+
+.cochin-info-subtext {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.8rem;
+  color: #888888;
+}
+
+.cochin-hours-compact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.84rem;
+}
+
+.hours-compact-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-bottom: 1px dashed #ede6dc;
+  padding-bottom: 6px;
+}
+
+.hours-compact-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.hours-compact-item .day-lbl {
+  font-weight: 700;
+  color: #2b2b2b;
+}
+
+.hours-compact-item .time-lbl {
+  color: #666666;
+  font-size: 0.82rem;
+}
+
+.hours-compact-item.closed-day .day-lbl {
+  color: #c62828;
+}
+
+/* 2-Column Main Layout: Form & Map */
+.cochin-contact-main-section {
+  padding: 20px 0 70px;
+}
+
+.cochin-contact-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 34px;
+  align-items: stretch;
+}
+
+.cochin-contact-form-card,
+.cochin-contact-map-card {
+  background: #ffffff;
+  border: 1px solid #ede6dc;
+  border-radius: 16px;
+  padding: 38px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.04);
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.cochin-card-header {
+  margin-bottom: 26px;
+}
+
+.cochin-card-badge {
+  display: inline-block;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #6B1F2A;
+  margin-bottom: 6px;
+}
+
+.cochin-card-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 6px;
+}
+
+.cochin-card-subtitle {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  color: #777777;
+  margin: 0;
+}
+
+/* Form Elements */
+.cochin-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex-grow: 1;
+}
+
+.cochin-form-row {
+  display: grid;
+  gap: 16px;
+}
+
+.cochin-form-row.two-col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cochin-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cochin-form-group label {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #2b2b2b;
+}
+
+.cochin-form-group .req {
+  color: #d32f2f;
+}
+
+.cochin-form-input,
+.cochin-form-textarea {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem !important;
+  padding: 12px 16px !important;
+  border: 1px solid #dcd5c9 !important;
+  border-radius: 8px !important;
+  background-color: #faf8f5 !important;
+  color: #1a1a1a !important;
+  outline: none !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  transition: all 0.25s ease !important;
+}
+
+.cochin-form-input:focus,
+.cochin-form-textarea:focus {
+  border-color: #6B1F2A !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(107, 31, 42, 0.08) !important;
+}
+
+.cochin-form-textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.cochin-form-actions {
+  margin-top: 6px;
+}
+
+.cochin-contact-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6B1F2A 0%, #852634 100%);
+  color: #ffffff !important;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 14px 34px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(107, 31, 42, 0.25);
+  width: 100%;
+}
+
+.cochin-contact-submit-btn:hover {
+  background: linear-gradient(135deg, #571822 0%, #6B1F2A 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(107, 31, 42, 0.35);
+}
+
+.cochin-contact-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.cochin-contact-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: cochinSpin 0.7s linear infinite;
+  margin-right: 8px;
+}
+
+/* Form Feedback */
+.cochin-contact-feedback {
+  border-radius: 8px;
+  padding: 16px 18px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.cochin-contact-feedback.success {
+  background: #e8f5e9;
+  border: 1px solid #c8e6c9;
+  color: #1b5e20;
+}
+
+.cochin-contact-feedback.error {
+  background: #ffebee;
+  border: 1px solid #ffcdd2;
+  color: #b71c1c;
+}
+
+.cochin-contact-feedback .feedback-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.cochin-contact-feedback .feedback-text strong {
+  display: block;
+  margin-bottom: 3px;
+}
+
+.cochin-contact-feedback .feedback-text p {
+  margin: 0;
+}
+
+.cochin-contact-feedback .feedback-text a {
+  color: #6B1F2A;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* Map Column */
+.cochin-map-frame-wrapper {
+  position: relative;
+  width: 100%;
+  height: 310px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #ede6dc;
+  margin-bottom: 20px;
+}
+
+.cochin-google-map-iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.cochin-map-details-card {
+  background: #faf8f5;
+  border: 1px solid #ede6dc;
+  border-radius: 12px;
+  padding: 22px 20px;
+  margin-top: auto;
+}
+
+.cochin-map-place-name {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 6px;
+}
+
+.cochin-map-place-address {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  color: #555555;
+  margin: 0 0 12px;
+}
+
+.cochin-map-place-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.place-tag {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.74rem;
+  font-weight: 600;
+  background: #ffffff;
+  border: 1px solid #dcd5c9;
+  border-radius: 14px;
+  padding: 3px 10px;
+  color: #555555;
+}
+
+.cochin-map-action-btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cochin-btn-map-nav,
+.cochin-btn-map-call {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.86rem;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 24px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.cochin-btn-map-nav {
+  background: #6B1F2A;
+  color: #ffffff !important;
+}
+
+.cochin-btn-map-nav:hover {
+  background: #571822;
+  transform: translateY(-1px);
+}
+
+.cochin-btn-map-call {
+  background: #ffffff;
+  color: #1a1a1a !important;
+  border: 1px solid #dcd5c9;
+}
+
+.cochin-btn-map-call:hover {
+  border-color: #6B1F2A;
+  color: #6B1F2A !important;
+}
+
+/* Travel Guide Section */
+.cochin-travel-guide-section {
+  padding: 40px 0 60px;
+  background: #faf8f5;
+  border-top: 1px solid #ede6dc;
+  border-bottom: 1px solid #ede6dc;
+}
+
+.cochin-section-header-center {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 36px;
+}
+
+.cochin-guide-title {
+  font-family: 'Amaranth', 'Poppins', var(--font-main) !important;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 10px;
+}
+
+.cochin-guide-subtitle {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.96rem;
+  color: #666666;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.cochin-travel-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.cochin-travel-card {
+  background: #ffffff;
+  border: 1px solid #ede6dc;
+  border-radius: 14px;
+  padding: 30px 24px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+}
+
+.travel-icon-box {
+  font-size: 2.2rem;
+  margin-bottom: 14px;
+}
+
+.travel-card-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 14px;
+}
+
+.travel-points-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.88rem;
+  color: #555555;
+  line-height: 1.5;
+}
+
+.travel-points-list li strong {
+  color: #222222;
+}
+
+/* Bottom CTA Banner */
+.cochin-contact-cta-section {
+  padding: 60px 0 80px;
+}
+
+.cochin-contact-cta-card {
+  background: linear-gradient(135deg, #6B1F2A 0%, #4a131b 100%);
+  border-radius: 18px;
+  padding: 48px;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 36px;
+  box-shadow: 0 16px 40px rgba(107, 31, 42, 0.25);
+}
+
+.cochin-cta-badge {
+  display: inline-block;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #C6923C;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.cochin-cta-headline {
+  font-family: 'Amaranth', 'Poppins', var(--font-main) !important;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #ffffff !important;
+  margin: 0 0 10px;
+}
+
+.cochin-cta-desc {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.98rem;
+  color: #f1e2e4;
+  margin: 0;
+  line-height: 1.6;
+  max-width: 580px;
+}
+
+.cochin-cta-buttons-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+  min-width: 250px;
+}
+
+.cochin-btn-cta-primary,
+.cochin-btn-cta-secondary,
+.cochin-btn-cta-tertiary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  text-align: center;
+}
+
+.cochin-btn-cta-primary {
+  background: #C6923C;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(198, 146, 60, 0.35);
+}
+
+.cochin-btn-cta-primary:hover {
+  background: #d4a04c;
+  transform: translateY(-2px);
+}
+
+.cochin-btn-cta-secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.cochin-btn-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.cochin-btn-cta-tertiary {
+  background: transparent;
+  color: #f1e2e4 !important;
+  font-size: 0.86rem;
+  padding: 6px 16px;
+}
+
+.cochin-btn-cta-tertiary:hover {
+  color: #ffffff !important;
+  text-decoration: underline;
+}
+
+/* Responsive Breakpoints for Contact Page */
+@media (max-width: 1024px) {
+  .cochin-info-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cochin-contact-layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cochin-travel-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cochin-contact-cta-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 36px 24px;
+  }
+
+  .cochin-cta-desc {
+    margin: 0 auto;
+  }
+
+  .cochin-cta-buttons-group {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .cochin-contact-headline {
+    font-size: 2rem;
+  }
+
+  .cochin-info-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cochin-contact-form-card,
+  .cochin-contact-map-card {
+    padding: 24px 18px;
+  }
+
+  .cochin-form-row.two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .cochin-map-action-btns {
+    flex-direction: column;
+  }
+}

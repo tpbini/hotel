@@ -1,0 +1,12 @@
+{
+  "name": "restaurant-qr-pos-print-bridge",
+  "version": "1.0.0",
+  "description": "Local authenticated thermal printer bridge for Restaurant QR POS",
+  "main": "bridge.js",
+  "scripts": {
+    "start": "node bridge.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}

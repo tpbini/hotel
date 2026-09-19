@@ -1,0 +1,424 @@
+/* UK Restaurant Table Booking - Customer Frontend App Stylesheet */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    --rb-font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --rb-font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    
+    --rb-c-primary: #0f172a;
+    --rb-c-primary-light: #1e293b;
+    --rb-c-accent: #0284c7;
+    --rb-c-accent-hover: #0369a1;
+    --rb-c-gold: #c29b38;
+    --rb-c-success: #10b981;
+    --rb-c-danger: #ef4444;
+    --rb-c-border: #e2e8f0;
+    --rb-c-bg-app: #ffffff;
+    --rb-c-bg-subtle: #f8fafc;
+    --rb-c-text: #1e293b;
+    --rb-c-text-muted: #64748b;
+    
+    --rb-radius-sm: 8px;
+    --rb-radius-md: 14px;
+    --rb-radius-lg: 20px;
+    --rb-shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
+}
+
+.rb-booking-widget-wrapper {
+    max-width: 680px;
+    margin: 30px auto;
+    font-family: var(--rb-font-body);
+    color: var(--rb-c-text);
+    background: var(--rb-c-bg-app);
+    border-radius: var(--rb-radius-lg);
+    box-shadow: var(--rb-shadow-card);
+    border: 1px solid var(--rb-c-border);
+    overflow: hidden;
+    line-height: 1.5;
+}
+
+/* Header */
+.rb-widget-header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #ffffff;
+    padding: 28px 32px;
+    text-align: center;
+    position: relative;
+}
+
+.rb-widget-header h2 {
+    font-family: var(--rb-font-heading);
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.rb-widget-header p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+/* Stepper Progress */
+.rb-stepper {
+    display: flex;
+    justify-content: space-between;
+    background: #f1f5f9;
+    padding: 12px 32px;
+    border-bottom: 1px solid var(--rb-c-border);
+}
+
+.rb-step-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #94a3b8;
+    position: relative;
+}
+
+.rb-step-item.active {
+    color: var(--rb-c-accent);
+}
+
+.rb-step-item.completed {
+    color: var(--rb-c-success);
+}
+
+.rb-step-number {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.rb-step-item.active .rb-step-number {
+    background: var(--rb-c-accent);
+}
+
+.rb-step-item.completed .rb-step-number {
+    background: var(--rb-c-success);
+}
+
+/* Content Body */
+.rb-widget-body {
+    padding: 32px;
+}
+
+.rb-step-pane {
+    display: none;
+    animation: rbFadeIn 0.3s ease-out;
+}
+.rb-step-pane.active {
+    display: block;
+}
+
+@keyframes rbFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form Controls */
+.rb-field-group {
+    margin-bottom: 20px;
+}
+
+.rb-field-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: var(--rb-c-text);
+}
+
+.rb-field-group label span.rb-req {
+    color: var(--rb-c-danger);
+}
+
+.rb-input-text, .rb-select-field, .rb-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    border: 1.5px solid var(--rb-c-border);
+    border-radius: var(--rb-radius-sm);
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--rb-c-text);
+    background: #ffffff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.rb-input-text:focus, .rb-select-field:focus, .rb-textarea:focus {
+    border-color: var(--rb-c-accent);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+/* Guests Selector Chips */
+.rb-party-chips {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.rb-party-chip {
+    padding: 10px 0;
+    text-align: center;
+    border: 1.5px solid var(--rb-c-border);
+    border-radius: var(--rb-radius-sm);
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    background: var(--rb-c-bg-subtle);
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.rb-party-chip:hover {
+    border-color: #94a3b8;
+    background: #ffffff;
+}
+
+.rb-party-chip.selected {
+    border-color: var(--rb-c-accent);
+    background: #f0f9ff;
+    color: var(--rb-c-accent);
+    box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2);
+}
+
+/* Service Times & Slot Grid */
+.rb-service-section {
+    margin-top: 24px;
+}
+
+.rb-service-title {
+    font-family: var(--rb-font-heading);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--rb-c-primary);
+    margin: 0 0 12px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rb-service-hours {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--rb-c-text-muted);
+}
+
+.rb-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.rb-time-pill {
+    padding: 10px 8px;
+    text-align: center;
+    border: 1.5px solid var(--rb-c-border);
+    border-radius: var(--rb-radius-sm);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    background: #ffffff;
+    color: var(--rb-c-text);
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.rb-time-pill:hover:not(.disabled) {
+    border-color: var(--rb-c-accent);
+    color: var(--rb-c-accent);
+    background: #f0f9ff;
+    transform: translateY(-1px);
+}
+
+.rb-time-pill.selected {
+    background: var(--rb-c-primary);
+    border-color: var(--rb-c-primary);
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
+}
+
+.rb-time-pill.disabled {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #cbd5e1;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+/* Nearby Alternative Slots */
+.rb-nearby-banner {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: var(--rb-radius-sm);
+    padding: 16px;
+    margin: 16px 0;
+}
+
+.rb-nearby-banner h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: #92400e;
+}
+
+/* Buttons */
+.rb-btn-action {
+    width: 100%;
+    padding: 14px 24px;
+    border-radius: var(--rb-radius-sm);
+    font-family: var(--rb-font-heading);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.rb-btn-primary-action {
+    background: var(--rb-c-primary);
+    color: #ffffff;
+}
+
+.rb-btn-primary-action:hover:not(:disabled) {
+    background: var(--rb-c-primary-light);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(15, 23, 42, 0.15);
+}
+
+.rb-btn-primary-action:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+.rb-btn-secondary-action {
+    background: var(--rb-c-bg-subtle);
+    border: 1.5px solid var(--rb-c-border);
+    color: var(--rb-c-text);
+    margin-top: 10px;
+}
+
+.rb-btn-secondary-action:hover {
+    background: #e2e8f0;
+}
+
+/* UK Allergen Advisory Banner */
+.rb-allergen-card {
+    background: #fef2f2;
+    border-left: 4px solid #ef4444;
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin: 16px 0 24px 0;
+    font-size: 13px;
+    color: #991b1b;
+    line-height: 1.4;
+}
+
+/* Confirmation Card */
+.rb-confirm-card {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.rb-confirm-icon {
+    width: 64px;
+    height: 64px;
+    background: #d1fae5;
+    color: #059669;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin-bottom: 16px;
+}
+
+.rb-confirm-ref-box {
+    background: #f8fafc;
+    border: 1.5px dashed var(--rb-c-border);
+    border-radius: var(--rb-radius-md);
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.rb-confirm-ref {
+    font-family: var(--rb-font-heading);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--rb-c-accent);
+    letter-spacing: 1px;
+}
+
+.rb-confirm-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    text-align: left;
+    margin-top: 16px;
+    font-size: 14px;
+}
+
+.rb-confirm-details div {
+    background: #ffffff;
+    border: 1px solid var(--rb-c-border);
+    padding: 10px 14px;
+    border-radius: 6px;
+}
+
+.rb-confirm-details span {
+    display: block;
+    font-size: 11px;
+    color: var(--rb-c-text-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+/* Spinner */
+.rb-spinner-wrap {
+    text-align: center;
+    padding: 40px;
+}
+.rb-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(15, 23, 42, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--rb-c-accent);
+    animation: rbSpin 0.8s ease-in-out infinite;
+}
+@keyframes rbSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .rb-widget-body {
+        padding: 20px;
+    }
+    .rb-party-chips {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .rb-confirm-details {
+        grid-template-columns: 1fr;
+    }
+}

@@ -51,6 +51,7 @@ define( 'WP_MAX_MEMORY_LIMIT', '512M' );
  * For developers: WordPress debugging mode.
  */
 define( 'WP_DEBUG', false );
+define( 'DISABLE_WP_CRON', true );
 
 /* That's all, stop editing! Happy publishing. */
 

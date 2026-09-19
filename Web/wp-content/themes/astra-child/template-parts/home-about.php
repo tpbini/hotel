@@ -10,15 +10,27 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$about_img_url = !empty($args['image']) ? $args['image'] : (
-    file_exists(get_stylesheet_directory() . '/assets/images/about.jpg')
+$about_img_url = !empty($args['image']) ? $args['image'] : null;
+if (empty($about_img_url) && function_exists('get_field')) {
+    $about_img_url = get_field('about_image');
+}
+if (empty($about_img_url)) {
+    $about_img_url = file_exists(get_stylesheet_directory() . '/assets/images/about.jpg')
         ? get_stylesheet_directory_uri() . '/assets/images/about.jpg'
-        : get_stylesheet_directory_uri() . '/assets/images/about.png'
-);
+        : get_stylesheet_directory_uri() . '/assets/images/about.png';
+}
 
-$about_badge = !empty($args['badge']) ? $args['badge'] : 'About us';
-$about_title = !empty($args['title']) ? $args['title'] : 'Welcome to The Cochin';
-$about_content = !empty($args['content']) ? $args['content'] : '';
+$about_badge = !empty($args['badge']) ? $args['badge'] : (function_exists('get_field') ? get_field('about_badge') : null);
+if (empty($about_badge)) {
+    $about_badge = 'About us';
+}
+
+$about_title = !empty($args['title']) ? $args['title'] : (function_exists('get_field') ? get_field('about_title') : null);
+if (empty($about_title)) {
+    $about_title = 'Welcome to The Cochin';
+}
+
+$about_content = !empty($args['content']) ? $args['content'] : (function_exists('get_field') ? get_field('about_content') : null);
 ?>
 
 <section class="cochin-about-section" id="about">

@@ -1,0 +1,436 @@
+/* UK Restaurant Table Booking - Admin Control Center Stylesheet */
+
+:root {
+    --rb-primary: #0f172a;
+    --rb-primary-hover: #1e293b;
+    --rb-accent: #0284c7;
+    --rb-accent-hover: #0369a1;
+    --rb-success: #10b981;
+    --rb-warning: #f59e0b;
+    --rb-danger: #ef4444;
+    --rb-purple: #8b5cf6;
+    --rb-bg-gray: #f8fafc;
+    --rb-border: #e2e8f0;
+    --rb-text-main: #1e293b;
+    --rb-text-muted: #64748b;
+    --rb-card-radius: 12px;
+}
+
+.rb-wrap {
+    margin: 20px 20px 40px 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    color: var(--rb-text-main);
+}
+
+.rb-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 16px 24px;
+    border-radius: var(--rb-card-radius);
+    border: 1px solid var(--rb-border);
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.rb-header-bar h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--rb-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rb-header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.rb-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.rb-btn-primary {
+    background: var(--rb-primary);
+    color: #ffffff;
+}
+.rb-btn-primary:hover {
+    background: var(--rb-primary-hover);
+    color: #ffffff;
+}
+
+.rb-btn-accent {
+    background: var(--rb-accent);
+    color: #ffffff;
+}
+.rb-btn-accent:hover {
+    background: var(--rb-accent-hover);
+    color: #ffffff;
+}
+
+.rb-btn-success {
+    background: #10b981;
+    color: #ffffff;
+}
+.rb-btn-success:hover {
+    background: #059669;
+    color: #ffffff;
+}
+
+.rb-btn-secondary {
+    background: #ffffff;
+    border-color: var(--rb-border);
+    color: var(--rb-text-main);
+}
+.rb-btn-secondary:hover {
+    background: var(--rb-bg-gray);
+    border-color: #cbd5e1;
+}
+
+.rb-btn-danger {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fca5a5;
+}
+.rb-btn-danger:hover {
+    background: #fecaca;
+}
+
+.rb-btn-sm {
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+/* Stats Cards Grid */
+.rb-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.rb-stat-card {
+    background: #ffffff;
+    border: 1px solid var(--rb-border);
+    border-radius: var(--rb-card-radius);
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    position: relative;
+    overflow: hidden;
+}
+
+.rb-stat-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rb-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.rb-stat-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--rb-primary);
+    line-height: 1.1;
+}
+
+.rb-stat-sub {
+    font-size: 12px;
+    color: var(--rb-text-muted);
+    margin-top: 6px;
+}
+
+.rb-stat-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.rb-badge-blue { background: #e0f2fe; color: #0284c7; }
+.rb-badge-green { background: #d1fae5; color: #059669; }
+.rb-badge-orange { background: #fef3c7; color: #d97706; }
+.rb-badge-purple { background: #ede9fe; color: #7c3aed; }
+
+/* Filter Bar */
+.rb-filter-bar {
+    background: #ffffff;
+    border: 1px solid var(--rb-border);
+    border-radius: var(--rb-card-radius);
+    padding: 16px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.rb-input, .rb-select {
+    padding: 8px 12px;
+    border: 1px solid var(--rb-border);
+    border-radius: 6px;
+    font-size: 13px;
+    background: #ffffff;
+    color: var(--rb-text-main);
+    outline: none;
+}
+.rb-input:focus, .rb-select:focus {
+    border-color: var(--rb-accent);
+    box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
+}
+
+/* Card Container */
+.rb-card {
+    background: #ffffff;
+    border: 1px solid var(--rb-border);
+    border-radius: var(--rb-card-radius);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.rb-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--rb-border);
+    padding-bottom: 12px;
+}
+
+.rb-card-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--rb-primary);
+}
+
+/* Data Table */
+.rb-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.rb-table th {
+    background: var(--rb-bg-gray);
+    color: var(--rb-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 11px;
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--rb-border);
+}
+
+.rb-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--rb-border);
+    vertical-align: middle;
+}
+
+.rb-table tr:hover td {
+    background: #f8fafc;
+}
+
+/* Status Badges */
+.rb-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.rb-status-pending { background: #fef3c7; color: #92400e; }
+.rb-status-confirmed { background: #dbeafe; color: #1e40af; }
+.rb-status-seated { background: #d1fae5; color: #065f46; }
+.rb-status-completed { background: #f1f5f9; color: #475569; }
+.rb-status-cancelled { background: #fee2e2; color: #991b1b; }
+.rb-status-no_show { background: #ede9fe; color: #5b21b6; }
+
+/* Timeline Grid */
+.rb-timeline-wrap {
+    overflow-x: auto;
+    background: #ffffff;
+    border: 1px solid var(--rb-border);
+    border-radius: var(--rb-card-radius);
+    padding: 16px;
+}
+
+.rb-timeline-grid {
+    display: grid;
+    grid-template-columns: 100px repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+}
+
+.rb-timeline-row {
+    display: contents;
+}
+
+.rb-timeline-table-label {
+    background: var(--rb-bg-gray);
+    font-weight: 700;
+    padding: 12px 8px;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid var(--rb-border);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.rb-timeline-cell {
+    background: #f8fafc;
+    border: 1px dashed var(--rb-border);
+    border-radius: 6px;
+    min-height: 54px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.rb-booking-block {
+    background: #0284c7;
+    color: #ffffff;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.rb-booking-block.seated { background: #10b981; }
+.rb-booking-block.pending { background: #f59e0b; }
+
+/* Modal Backdrop & Popup */
+.rb-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+}
+
+.rb-modal-overlay.active {
+    display: flex;
+}
+
+.rb-modal-box {
+    background: #ffffff;
+    border-radius: var(--rb-card-radius);
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    animation: rbSlideIn 0.2s ease-out;
+}
+
+@keyframes rbSlideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.rb-modal-header {
+    background: var(--rb-primary);
+    color: #ffffff;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rb-modal-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.rb-modal-close {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.rb-modal-body {
+    padding: 20px;
+}
+
+.rb-modal-footer {
+    padding: 14px 20px;
+    background: var(--rb-bg-gray);
+    border-top: 1px solid var(--rb-border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Form Styles */
+.rb-form-group {
+    margin-bottom: 16px;
+}
+
+.rb-form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--rb-text-main);
+}
+
+.rb-form-control {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 9px 12px;
+    border: 1px solid var(--rb-border);
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.rb-alert {
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+.rb-alert-info { background: #e0f2fe; color: #0369a1; border-left: 4px solid #0284c7; }
+.rb-alert-success { background: #d1fae5; color: #065f46; border-left: 4px solid #10b981; }
+.rb-alert-warning { background: #fef3c7; color: #92400e; border-left: 4px solid #f59e0b; }

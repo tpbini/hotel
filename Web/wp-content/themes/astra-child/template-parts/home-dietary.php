@@ -13,7 +13,24 @@ if (!defined('ABSPATH')) {
 }
 
 $defaults = the_cochin_get_dietary_data();
-$dietary = array_merge($defaults, is_array($args) ? array_filter($args) : array());
+$acf_data = array();
+if (function_exists('get_field')) {
+    $map = array(
+        'badge'     => 'dietary_badge',
+        'title'     => 'dietary_title',
+        'desc'      => 'dietary_desc',
+        'bg_image'  => 'dietary_bg_image',
+        'book_url'  => 'dietary_book_url',
+        'order_url' => 'dietary_order_url',
+    );
+    foreach ($map as $k => $fn) {
+        $val = get_field($fn);
+        if (!empty($val)) {
+            $acf_data[$k] = $val;
+        }
+    }
+}
+$dietary = array_merge($defaults, $acf_data, is_array($args) ? array_filter($args) : array());
 ?>
 
 <section class="cochin-dietary-section" id="dietary" style="background-image: url('<?php echo esc_url($dietary['bg_image']); ?>');">

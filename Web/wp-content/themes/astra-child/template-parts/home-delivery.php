@@ -14,7 +14,24 @@ if (!defined('ABSPATH')) {
 }
 
 $defaults = the_cochin_get_delivery_data();
-$delivery = array_merge($defaults, is_array($args) ? array_filter($args) : array());
+$acf_data = array();
+if (function_exists('get_field')) {
+    $map = array(
+        'badge'     => 'delivery_badge',
+        'title'     => 'delivery_title',
+        'desc'      => 'delivery_desc',
+        'image'     => 'delivery_image',
+        'book_url'  => 'delivery_book_url',
+        'order_url' => 'delivery_order_url',
+    );
+    foreach ($map as $k => $fn) {
+        $val = get_field($fn);
+        if (!empty($val)) {
+            $acf_data[$k] = $val;
+        }
+    }
+}
+$delivery = array_merge($defaults, $acf_data, is_array($args) ? array_filter($args) : array());
 ?>
 
 <section class="cochin-delivery-section" id="delivery">

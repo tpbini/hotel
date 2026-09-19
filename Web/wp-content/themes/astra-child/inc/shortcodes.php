@@ -127,13 +127,42 @@ function the_cochin_dietary_shortcode($atts) {
 add_shortcode('the_cochin_dietary', 'the_cochin_dietary_shortcode');
 
 /**
- * 7. FAQ Accordion Shortcode: [the_cochin_faq]
+ * 7. FAQ Accordion Shortcode: [the_cochin_faq] and [the_cochin_faq_item]
  */
-function the_cochin_faq_shortcode($atts) {
+function the_cochin_faq_item_shortcode($atts, $content = null) {
+    $atts = shortcode_atts(array(
+        'question' => '',
+        'q'        => '',
+    ), $atts, 'the_cochin_faq_item');
+
+    $q = !empty($atts['question']) ? $atts['question'] : $atts['q'];
+    $a = !empty($content) ? trim($content) : '';
+
+    if (!empty($q)) {
+        $GLOBALS['the_cochin_custom_faq_items'][] = array(
+            'question' => $q,
+            'answer'   => $a,
+        );
+    }
+    return '';
+}
+add_shortcode('the_cochin_faq_item', 'the_cochin_faq_item_shortcode');
+add_shortcode('faq_item', 'the_cochin_faq_item_shortcode');
+
+function the_cochin_faq_shortcode($atts, $content = null) {
     $atts = shortcode_atts(array(
         'badge' => 'FAQ',
         'title' => 'Frequently Asked Questions',
     ), $atts, 'the_cochin_faq');
+
+    $GLOBALS['the_cochin_custom_faq_items'] = array();
+    if (!empty($content)) {
+        do_shortcode($content);
+    }
+
+    if (!empty($GLOBALS['the_cochin_custom_faq_items'])) {
+        $atts['items'] = $GLOBALS['the_cochin_custom_faq_items'];
+    }
 
     ob_start();
     get_template_part('template-parts/home-faq', null, $atts);

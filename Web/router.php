@@ -5,14 +5,15 @@
 $root = __DIR__;
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Common admin shortcuts
-if ($path === '/nav-menus.php') {
-    header('Location: /wp-admin/nav-menus.php', true, 302);
+// Common admin shortcuts and root-level admin script redirects
+if ($path === '/admin' || $path === '/login') {
+    header('Location: /wp-admin/', true, 302);
     exit;
 }
 
-if ($path === '/admin' || $path === '/login') {
-    header('Location: /wp-admin/', true, 302);
+if ($path !== '/' && file_exists($root . '/wp-admin' . $path) && !is_dir($root . '/wp-admin' . $path)) {
+    $queryString = (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] !== '') ? '?' . $_SERVER['QUERY_STRING'] : '';
+    header('Location: /wp-admin' . $path . $queryString, true, 302);
     exit;
 }
 

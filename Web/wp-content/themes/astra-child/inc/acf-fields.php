@@ -740,5 +740,1067 @@ function the_cochin_register_acf_fields() {
         'active'                => true,
         'description'           => 'Manage the 4-tier editorial layout images and text for the About Us page.',
     ));
+
+    // -------------------------------------------------------------------------
+    // MENU PAGE FIELD GROUP
+    // -------------------------------------------------------------------------
+    $menu_page_id = 0;
+    $menu_page_obj = get_page_by_path('menu');
+    if ($menu_page_obj) {
+        $menu_page_id = $menu_page_obj->ID;
+    }
+
+    $menu_locations = array(
+        array(
+            array(
+                'param'    => 'page_template',
+                'operator' => '==',
+                'value'    => 'page-menu.php',
+            ),
+        ),
+    );
+
+    if ($menu_page_id) {
+        $menu_locations[] = array(
+            array(
+                'param'    => 'page',
+                'operator' => '==',
+                'value'    => strval($menu_page_id),
+            ),
+        );
+    }
+
+    $menu_fields = array(
+        // Tab 1: Header Banner & Intro
+        array(
+            'key'   => 'field_tab_menu_intro',
+            'label' => '🍽️ Intro & Header Banner',
+            'name'  => '',
+            'type'  => 'tab',
+        ),
+        array(
+            'key'          => 'field_menu_page_badge',
+            'label'        => 'Subtitle Badge',
+            'name'         => 'menu_page_badge',
+            'type'         => 'text',
+            'default_value'=> 'DISCOVER OUR FOOD',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_menu_page_heading',
+            'label'        => 'Main Heading',
+            'name'         => 'menu_page_heading',
+            'type'         => 'text',
+            'default_value'=> 'Explore the Flavours of Kerala & South India',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_menu_page_intro',
+            'label'        => 'Introduction Description',
+            'name'         => 'menu_page_intro',
+            'type'         => 'textarea',
+            'rows'         => 3,
+            'default_value'=> 'Explore the flavours of Kerala and South India. Our menu includes starters, dosas, seafood, meat and poultry dishes, vegetarian and vegan choices, rice dishes, breads, desserts and drinks.',
+        ),
+
+        // Tab 2: Dietary & Allergen Notice
+        array(
+            'key'   => 'field_tab_menu_allergen',
+            'label' => '⚠️ Dietary & Allergen Notice',
+            'name'  => '',
+            'type'  => 'tab',
+        ),
+        array(
+            'key'          => 'field_menu_allergen_show',
+            'label'        => 'Show Allergen Notice Card',
+            'name'         => 'menu_allergen_show',
+            'type'         => 'true_false',
+            'default_value'=> 1,
+            'ui'           => 1,
+            'wrapper'      => array('width' => '30'),
+        ),
+        array(
+            'key'          => 'field_menu_allergen_title',
+            'label'        => 'Notice Title',
+            'name'         => 'menu_allergen_title',
+            'type'         => 'text',
+            'default_value'=> 'Dietary and Allergen Notice',
+            'wrapper'      => array('width' => '70'),
+        ),
+        array(
+            'key'          => 'field_menu_allergen_desc',
+            'label'        => 'Notice Details',
+            'name'         => 'menu_allergen_desc',
+            'type'         => 'textarea',
+            'rows'         => 3,
+            'default_value'=> 'Please tell a member of our team about any allergy or dietary requirement before ordering. Our dishes are prepared in a kitchen where allergens are handled, and cross-contact may occur. Please ask for our current allergen information.',
+        ),
+
+        // Tab 3: Special Offer Banner
+        array(
+            'key'   => 'field_tab_menu_offer',
+            'label' => '🏷️ Special Offer Banner',
+            'name'  => '',
+            'type'  => 'tab',
+        ),
+        array(
+            'key'          => 'field_menu_offer_show',
+            'label'        => 'Show Special Offer Banner',
+            'name'         => 'menu_offer_show',
+            'type'         => 'true_false',
+            'default_value'=> 1,
+            'ui'           => 1,
+            'wrapper'      => array('width' => '30'),
+        ),
+        array(
+            'key'          => 'field_menu_offer_badge',
+            'label'        => 'Offer Badge',
+            'name'         => 'menu_offer_badge',
+            'type'         => 'text',
+            'default_value'=> 'SPECIAL OFFER',
+            'wrapper'      => array('width' => '70'),
+        ),
+        array(
+            'key'          => 'field_menu_offer_text',
+            'label'        => 'Offer Description Text',
+            'name'         => 'menu_offer_text',
+            'type'         => 'textarea',
+            'rows'         => 2,
+            'default_value'=> '<strong>15% Off</strong> on all collection orders over £25 when ordered online.',
+        ),
+        array(
+            'key'          => 'field_menu_offer_btn_text',
+            'label'        => 'Offer Button Text',
+            'name'         => 'menu_offer_btn_text',
+            'type'         => 'text',
+            'default_value'=> 'ORDER TAKEAWAY',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_menu_offer_btn_url',
+            'label'        => 'Offer Button URL',
+            'name'         => 'menu_offer_btn_url',
+            'type'         => 'text',
+            'default_value'=> '/#order',
+            'wrapper'      => array('width' => '50'),
+        ),
+
+        // Tab 4: Bottom Callout Box
+        array(
+            'key'   => 'field_tab_menu_callout',
+            'label' => '📞 Bottom Booking Callout',
+            'name'  => '',
+            'type'  => 'tab',
+        ),
+        array(
+            'key'          => 'field_menu_callout_show',
+            'label'        => 'Show Bottom Callout',
+            'name'         => 'menu_callout_show',
+            'type'         => 'true_false',
+            'default_value'=> 1,
+            'ui'           => 1,
+            'wrapper'      => array('width' => '30'),
+        ),
+        array(
+            'key'          => 'field_menu_callout_title',
+            'label'        => 'Callout Title',
+            'name'         => 'menu_callout_title',
+            'type'         => 'text',
+            'default_value'=> 'Ready to Experience Cochin Flavours?',
+            'wrapper'      => array('width' => '70'),
+        ),
+        array(
+            'key'          => 'field_menu_callout_text',
+            'label'        => 'Callout Description',
+            'name'         => 'menu_callout_text',
+            'type'         => 'textarea',
+            'rows'         => 2,
+            'default_value'=> 'Reserve a table at our historic Old Town restaurant or order online for collection & delivery.',
+        ),
+        array(
+            'key'          => 'field_menu_callout_btn1_text',
+            'label'        => 'Primary Button Text',
+            'name'         => 'menu_callout_btn1_text',
+            'type'         => 'text',
+            'default_value'=> 'BOOK A TABLE',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_menu_callout_btn1_url',
+            'label'        => 'Primary Button URL',
+            'name'         => 'menu_callout_btn1_url',
+            'type'         => 'text',
+            'default_value'=> '/book-a-table/',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_menu_callout_btn2_text',
+            'label'        => 'Secondary Button Text',
+            'name'         => 'menu_callout_btn2_text',
+            'type'         => 'text',
+            'default_value'=> 'ORDER ONLINE',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_menu_callout_btn2_url',
+            'label'        => 'Secondary Button URL',
+            'name'         => 'menu_callout_btn2_url',
+            'type'         => 'text',
+            'default_value'=> '/#order',
+            'wrapper'      => array('width' => '50'),
+        ),
+    );
+
+    acf_add_local_field_group(array(
+        'key'                   => 'group_the_cochin_menu_page',
+        'title'                 => '🍽️ The Cochin — Menu Page Header & Notice Settings',
+        'fields'                => $menu_fields,
+        'location'              => $menu_locations,
+        'menu_order'            => 0,
+        'position'              => 'normal',
+        'style'                 => 'default',
+        'label_placement'       => 'top',
+        'instruction_placement' => 'label',
+        'active'                => true,
+        'description'           => 'Manage the header banner, dietary notice, special offer, and callout for the Menu page.',
+    ));
+
+    // -------------------------------------------------------------------------
+    // BANQUETS PAGE FIELD GROUP
+    // -------------------------------------------------------------------------
+    $banquets_page_id = 0;
+    $banquets_page_obj = get_page_by_path('banquets');
+    if ($banquets_page_obj) {
+        $banquets_page_id = $banquets_page_obj->ID;
+    }
+
+    $banquet_locations = array(
+        array(
+            array(
+                'param'    => 'page_template',
+                'operator' => '==',
+                'value'    => 'page-banquets.php',
+            ),
+        ),
+    );
+
+    if ($banquets_page_id) {
+        $banquet_locations[] = array(
+            array(
+                'param'    => 'page',
+                'operator' => '==',
+                'value'    => strval($banquets_page_id),
+            ),
+        );
+    }
+
+    $banquet_fields = array(
+        // Tab 1: Intro & Headline
+        array(
+            'key'   => 'field_tab_banquet_intro',
+            'label' => '🌟 Intro & Headline',
+            'name'  => '',
+            'type'  => 'tab',
+        ),
+        array(
+            'key'          => 'field_banquet_intro_badge',
+            'label'        => 'Subtitle Badge',
+            'name'         => 'banquet_intro_badge',
+            'type'         => 'text',
+            'default_value'=> 'BANQUET MEALS',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_banquet_main_headline',
+            'label'        => 'Main Headline',
+            'name'         => 'banquet_main_headline',
+            'type'         => 'text',
+            'default_value'=> 'A Kerala Feast for the Whole Table',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_banquet_intro_text',
+            'label'        => 'Introductory Copy',
+            'name'         => 'banquet_intro_text',
+            'type'         => 'textarea',
+            'rows'         => 3,
+            'default_value'=> 'Experience a generous selection of dishes designed for sharing. Our banquet meals are ideal for family gatherings, groups and guests who would like to explore a wider range of Kerala flavours.',
+        ),
+
+        // Tab 2: Feast Packages
+        array(
+            'key'   => 'field_tab_banquet_feasts',
+            'label' => '🍲 Feast Packages (3 Feasts)',
+            'name'  => '',
+            'type'  => 'tab',
+        ),
+        array(
+            'key'          => 'field_banquet_feasts_title',
+            'label'        => 'Section Heading',
+            'name'         => 'banquet_feasts_title',
+            'type'         => 'text',
+            'default_value'=> 'Curated Banquet Menus',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_banquet_feasts_subtitle',
+            'label'        => 'Section Subtitle',
+            'name'         => 'banquet_feasts_subtitle',
+            'type'         => 'text',
+            'default_value'=> 'Generous multi-course sharing feasts crafted fresh with authentic spices.',
+            'wrapper'      => array('width' => '50'),
+        ),
+
+        // Vegetarian Feast
+        array(
+            'key'          => 'field_banquet_veg_title',
+            'label'        => '1. Vegetarian Feast Title',
+            'name'         => 'banquet_veg_title',
+            'type'         => 'text',
+            'default_value'=> 'Vegetarian Feast',
+            'wrapper'      => array('width' => '33'),
+        ),
+        array(
+            'key'          => 'field_banquet_veg_badge',
+            'label'        => '1. Vegetarian Badge',
+            'name'         => 'banquet_veg_badge',
+            'type'         => 'text',
+            'default_value'=> 'VEGETARIAN',
+            'wrapper'      => array('width' => '33'),
+        ),
+        array(
+            'key'          => 'field_banquet_veg_price',
+            'label'        => '1. Vegetarian Price / Person',
+            'name'         => 'banquet_veg_price',
+            'type'         => 'text',
+            'default_value'=> '£ 15.95',
+            'wrapper'      => array('width' => '34'),
+        ),
+        array(
+            'key'          => 'field_banquet_veg_desc',
+            'label'        => '1. Vegetarian Description',
+            'name'         => 'banquet_veg_desc',
+            'type'         => 'textarea',
+            'rows'         => 2,
+            'default_value'=> 'A traditional Keralan plant-based feast bringing together garden-fresh vegetables, rich paneer, tempered lentils, and homemade breads.',
+        ),
+        array(
+            'key'          => 'field_banquet_veg_items',
+            'label'        => '1. Vegetarian Dish Inclusions (one item per line)',
+            'name'         => 'banquet_veg_items',
+            'type'         => 'textarea',
+            'rows'         => 6,
+            'default_value'=> "Keralan Tea Shop Snacks with homemade chutneys\nCrispy Aubergine & Lentil Soup Starters\nPalak Paneer & Dal Spinach Curry\nFresh Beans Coconut Thoran\nFlaky Kerala Parathas & Steamed Basmati Rice\nTraditional Sweet Payasam Pudding",
+            'instructions' => 'Enter each included dish on a new line.',
+        ),
+
+        // Non-Vegetarian Feast
+        array(
+            'key'          => 'field_banquet_nonveg_title',
+            'label'        => '2. Non-Vegetarian Feast Title',
+            'name'         => 'banquet_nonveg_title',
+            'type'         => 'text',
+            'default_value'=> 'Non-Vegetarian Feast',
+            'wrapper'      => array('width' => '33'),
+        ),
+        array(
+            'key'          => 'field_banquet_nonveg_badge',
+            'label'        => '2. Non-Vegetarian Badge',
+            'name'         => 'banquet_nonveg_badge',
+            'type'         => 'text',
+            'default_value'=> 'NON-VEGETARIAN',
+            'wrapper'      => array('width' => '33'),
+        ),
+        array(
+            'key'          => 'field_banquet_nonveg_price',
+            'label'        => '2. Non-Vegetarian Price / Person',
+            'name'         => 'banquet_nonveg_price',
+            'type'         => 'text',
+            'default_value'=> '£ 17.95',
+            'wrapper'      => array('width' => '34'),
+        ),
+        array(
+            'key'          => 'field_banquet_nonveg_popular',
+            'label'        => '2. Highlight Badge',
+            'name'         => 'banquet_nonveg_popular',
+            'type'         => 'text',
+            'default_value'=> 'CHEF RECOMMENDED',
+        ),
+        array(
+            'key'          => 'field_banquet_nonveg_desc',
+            'label'        => '2. Non-Vegetarian Description',
+            'name'         => 'banquet_nonveg_desc',
+            'type'         => 'textarea',
+            'rows'         => 2,
+            'default_value'=> 'Our most celebrated sharing banquet featuring tender chicken roasts, slow-braised lamb curries, and aromatic Malabar biryani.',
+        ),
+        array(
+            'key'          => 'field_banquet_nonveg_items',
+            'label'        => '2. Non-Vegetarian Dish Inclusions (one item per line)',
+            'name'         => 'banquet_nonveg_items',
+            'type'         => 'textarea',
+            'rows'         => 6,
+            'default_value'=> "Keralan Tea Shop Selection & Chicken Samosa\nAlleppey Spiced Chicken Roast\nTraditional Cochin Lamb Curry\nDal & Spinach or Vegetable Thoran\nButtery Kerala Parathas & Fragrant Basmati Rice\nWarm Gulab Jamun with Vanilla Ice Cream",
+            'instructions' => 'Enter each included dish on a new line.',
+        ),
+
+        // Seafood Feast
+        array(
+            'key'          => 'field_banquet_seafood_title',
+            'label'        => '3. Seafood Feast Title',
+            'name'         => 'banquet_seafood_title',
+            'type'         => 'text',
+            'default_value'=> 'Seafood Feast',
+            'wrapper'      => array('width' => '33'),
+        ),
+        array(
+            'key'          => 'field_banquet_seafood_badge',
+            'label'        => '3. Seafood Badge',
+            'name'         => 'banquet_seafood_badge',
+            'type'         => 'text',
+            'default_value'=> 'SEAFOOD SPECIAL',
+            'wrapper'      => array('width' => '33'),
+        ),
+        array(
+            'key'          => 'field_banquet_seafood_price',
+            'label'        => '3. Seafood Price / Person',
+            'name'         => 'banquet_seafood_price',
+            'type'         => 'text',
+            'default_value'=> '£ 19.95',
+            'wrapper'      => array('width' => '34'),
+        ),
+        array(
+            'key'          => 'field_banquet_seafood_desc',
+            'label'        => '3. Seafood Description',
+            'name'         => 'banquet_seafood_desc',
+            'type'         => 'textarea',
+            'rows'         => 2,
+            'default_value'=> 'An opulent coastal banquet from the Arabian Sea docks of Fort Cochin, celebrating delicate King Fish and succulent tiger prawns.',
+        ),
+        array(
+            'key'          => 'field_banquet_seafood_items',
+            'label'        => '3. Seafood Dish Inclusions (one item per line)',
+            'name'         => 'banquet_seafood_items',
+            'type'         => 'textarea',
+            'rows'         => 6,
+            'default_value'=> "Calamari Rings & Alleppey Prawn Fry\nCochin King Fish Curry in creamy coconut milk\nTiger Prawn Masala with roasted Southern spices\nCabbage Thoran & Tangy Lemon Rice\nFermented Soft Kallappams (2 Pcs)\nArtisanal Mango or Coconut Kulfi",
+            'instructions' => 'Enter each included dish on a new line.',
+        ),
+
+        // Tab 3: Information & Guidelines
+        array(
+            'key'   => 'field_tab_banquet_info',
+            'label' => 'ℹ️ Information & Guidelines',
+            'name'  => '',
+            'type'  => 'tab',
+        ),
+        array(
+            'key'          => 'field_banquet_info_title',
+            'label'        => 'Guidelines Title',
+            'name'         => 'banquet_info_title',
+            'type'         => 'text',
+            'default_value'=> 'Banquet Information & Details',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_banquet_info_subtitle',
+            'label'        => 'Guidelines Subtitle',
+            'name'         => 'banquet_info_subtitle',
+            'type'         => 'text',
+            'default_value'=> 'Important booking notes and guidelines for groups and party dining.',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_banquet_info_timing',
+            'label'        => 'Available Times Note',
+            'name'         => 'banquet_info_timing',
+            'type'         => 'text',
+            'default_value'=> 'Daily for Lunch (12:00 PM – 3:00 PM) and Dinner (5:00 PM – 10:30 PM).',
+        ),
+        array(
+            'key'          => 'field_banquet_info_requirement',
+            'label'        => 'Booking Requirement Note',
+            'name'         => 'banquet_info_requirement',
+            'type'         => 'text',
+            'default_value'=> 'Advance booking recommended for groups of 4 or more guests.',
+        ),
+        array(
+            'key'          => 'field_banquet_info_children',
+            'label'        => 'Children Pricing Note',
+            'name'         => 'banquet_info_children',
+            'type'         => 'text',
+            'default_value'=> 'Half portions and milder child-friendly choices available for children under 10.',
+        ),
+        array(
+            'key'          => 'field_banquet_info_dietary',
+            'label'        => 'Dietary Adjustments Note',
+            'name'         => 'banquet_info_dietary',
+            'type'         => 'text',
+            'default_value'=> 'Vegetarian, Vegan, and Gluten-Free feast adjustments available upon prior request.',
+        ),
+
+        // Tab 4: Inquiry Form & Direct Contact
+        array(
+            'key'   => 'field_tab_banquet_form',
+            'label' => '📩 Inquiry Form & Contact',
+            'name'  => '',
+            'type'  => 'tab',
+        ),
+        array(
+            'key'          => 'field_banquet_form_show',
+            'label'        => 'Show Booking Inquiry Form',
+            'name'         => 'banquet_form_show',
+            'type'         => 'true_false',
+            'default_value'=> 1,
+            'ui'           => 1,
+            'wrapper'      => array('width' => '30'),
+        ),
+        array(
+            'key'          => 'field_banquet_form_title',
+            'label'        => 'Form Title',
+            'name'         => 'banquet_form_title',
+            'type'         => 'text',
+            'default_value'=> 'Reserve Your Banquet Gathering',
+            'wrapper'      => array('width' => '70'),
+        ),
+        array(
+            'key'          => 'field_banquet_form_desc',
+            'label'        => 'Form Description',
+            'name'         => 'banquet_form_desc',
+            'type'         => 'textarea',
+            'rows'         => 2,
+            'default_value'=> 'Please provide your gathering details below. Our restaurant manager will contact you promptly to confirm table arrangements and banquet selections.',
+        ),
+        array(
+            'key'          => 'field_banquet_phone',
+            'label'        => 'Direct Contact Phone',
+            'name'         => 'banquet_phone',
+            'type'         => 'text',
+            'default_value'=> '01442 256111',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_banquet_email',
+            'label'        => 'Direct Contact Email',
+            'name'         => 'banquet_email',
+            'type'         => 'text',
+            'default_value'=> 'info@thecochin.uk',
+            'wrapper'      => array('width' => '50'),
+        ),
+    );
+
+    acf_add_local_field_group(array(
+        'key'                   => 'group_the_cochin_banquets_page',
+        'title'                 => '🍲 The Cochin — Banquets Page Settings & Menus',
+        'fields'                => $banquet_fields,
+        'location'              => $banquet_locations,
+        'menu_order'            => 0,
+        'position'              => 'normal',
+        'style'                 => 'default',
+        'label_placement'       => 'top',
+        'instruction_placement' => 'label',
+        'active'                => true,
+        'description'           => 'Manage banquet feast menus, pricing, dish inclusions, guidelines, and booking inquiry settings.',
+    ));
+
+    // -------------------------------------------------------------------------
+    // CONTACT PAGE FIELD GROUP
+    // -------------------------------------------------------------------------
+    $contact_page_id = 0;
+    $contact_page_obj = get_page_by_path('contact');
+    if (!$contact_page_obj) {
+        $contact_page_obj = get_page_by_path('contact-us');
+    }
+    if ($contact_page_obj) {
+        $contact_page_id = $contact_page_obj->ID;
+    }
+
+    $contact_locations = array(
+        array(
+            array(
+                'param'    => 'page_template',
+                'operator' => '==',
+                'value'    => 'page-contact.php',
+            ),
+        ),
+    );
+
+    if ($contact_page_id) {
+        $contact_locations[] = array(
+            array(
+                'param'    => 'page',
+                'operator' => '==',
+                'value'    => strval($contact_page_id),
+            ),
+        );
+    }
+
+    $contact_fields = array(
+        // Tab 1: Intro & Hero Banner
+        array(
+            'key'   => 'field_tab_contact_intro',
+            'label' => '🌟 Intro & Headline',
+            'name'  => '',
+            'type'  => 'tab',
+        ),
+        array(
+            'key'          => 'field_contact_intro_badge',
+            'label'        => 'Subtitle Badge',
+            'name'         => 'contact_intro_badge',
+            'type'         => 'text',
+            'default_value'=> 'VISIT & GET IN TOUCH',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_main_headline',
+            'label'        => 'Main Headline',
+            'name'         => 'contact_main_headline',
+            'type'         => 'text',
+            'default_value'=> 'Contact The Cochin',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_intro_text',
+            'label'        => 'Intro Description Text',
+            'name'         => 'contact_intro_text',
+            'type'         => 'textarea',
+            'rows'         => 3,
+            'default_value'=> 'We have been proudly welcoming guests to Hemel Hempstead’s historic Old Town since 2003. Whether you are reserving a table, organising a special banquet celebration, or inquiring about our authentic Kerala menu, we look forward to hearing from you.',
+        ),
+
+        // Tab 2: 4-Card Contact Info Grid
+        array(
+            'key'   => 'field_tab_contact_cards',
+            'label' => '📍 Contact Info Cards (4 Cards)',
+            'name'  => '',
+            'type'  => 'tab',
+        ),
+        // Card 1: Location
+        array(
+            'key'          => 'field_contact_card1_title',
+            'label'        => 'Card 1 Title (Location)',
+            'name'         => 'contact_card1_title',
+            'type'         => 'text',
+            'default_value'=> 'Our Location',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_card1_address',
+            'label'        => 'Card 1 Address (multiline)',
+            'name'         => 'contact_card1_address',
+            'type'         => 'textarea',
+            'rows'         => 4,
+            'default_value'=> "The Cochin\n61 High Street, Old Town\nHemel Hempstead, Herts\nHP1 3AF",
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_card1_btn_text',
+            'label'        => 'Card 1 Button Text',
+            'name'         => 'contact_card1_btn_text',
+            'type'         => 'text',
+            'default_value'=> 'Get Directions →',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_card1_map_url',
+            'label'        => 'Card 1 Map / Directions URL',
+            'name'         => 'contact_card1_map_url',
+            'type'         => 'text',
+            'default_value'=> 'https://maps.google.com/?q=61+High+Street,+Hemel+Hempstead,+Hertfordshire+HP1+3AF',
+            'wrapper'      => array('width' => '50'),
+        ),
+
+        // Card 2: Telephone & Bookings
+        array(
+            'key'          => 'field_contact_card2_title',
+            'label'        => 'Card 2 Title (Phone)',
+            'name'         => 'contact_card2_title',
+            'type'         => 'text',
+            'default_value'=> 'Telephone & Bookings',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_card2_phone',
+            'label'        => 'Card 2 Phone Number',
+            'name'         => 'contact_card2_phone',
+            'type'         => 'text',
+            'default_value'=> '01442 233777',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_card2_desc',
+            'label'        => 'Card 2 Description',
+            'name'         => 'contact_card2_desc',
+            'type'         => 'textarea',
+            'rows'         => 2,
+            'default_value'=> 'For immediate bookings, same-day tables, or urgent takeaway queries:',
+        ),
+        array(
+            'key'          => 'field_contact_card2_btn_text',
+            'label'        => 'Card 2 Button Text',
+            'name'         => 'contact_card2_btn_text',
+            'type'         => 'text',
+            'default_value'=> 'Book Online Now →',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_card2_btn_url',
+            'label'        => 'Card 2 Button URL',
+            'name'         => 'contact_card2_btn_url',
+            'type'         => 'text',
+            'default_value'=> '/book-table/',
+            'wrapper'      => array('width' => '50'),
+        ),
+
+        // Card 3: Email & Private Events
+        array(
+            'key'          => 'field_contact_card3_title',
+            'label'        => 'Card 3 Title (Email)',
+            'name'         => 'contact_card3_title',
+            'type'         => 'text',
+            'default_value'=> 'Email & Private Events',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_card3_email',
+            'label'        => 'Card 3 Email Address',
+            'name'         => 'contact_card3_email',
+            'type'         => 'text',
+            'default_value'=> 'thecochin@gmail.com',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_card3_desc',
+            'label'        => 'Card 3 Description',
+            'name'         => 'contact_card3_desc',
+            'type'         => 'textarea',
+            'rows'         => 2,
+            'default_value'=> 'For banquet bookings, catering consultations, and corporate event queries:',
+        ),
+        array(
+            'key'          => 'field_contact_card3_subtext',
+            'label'        => 'Card 3 Note / Subtext',
+            'name'         => 'contact_card3_subtext',
+            'type'         => 'text',
+            'default_value'=> 'We reply within 24 hours',
+        ),
+
+        // Card 4: Opening Hours
+        array(
+            'key'          => 'field_contact_card4_title',
+            'label'        => 'Card 4 Title (Hours)',
+            'name'         => 'contact_card4_title',
+            'type'         => 'text',
+            'default_value'=> 'Opening Hours',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_card4_tue_sat',
+            'label'        => 'Tue – Sat Hours',
+            'name'         => 'contact_card4_tue_sat',
+            'type'         => 'text',
+            'default_value'=> '12 PM – 3 PM • 6 PM – 11 PM',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_card4_sun',
+            'label'        => 'Sunday Hours',
+            'name'         => 'contact_card4_sun',
+            'type'         => 'text',
+            'default_value'=> '12 PM – 3 PM • 6 PM – 10:30 PM',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_card4_mon',
+            'label'        => 'Monday Hours',
+            'name'         => 'contact_card4_mon',
+            'type'         => 'text',
+            'default_value'=> 'Closed (Available for Private Hire)',
+            'wrapper'      => array('width' => '50'),
+        ),
+
+        // Tab 3: Inquiry Form & Interactive Map
+        array(
+            'key'   => 'field_tab_contact_form_map',
+            'label' => '📩 Inquiry Form & Map',
+            'name'  => '',
+            'type'  => 'tab',
+        ),
+        array(
+            'key'          => 'field_contact_form_badge',
+            'label'        => 'Form Badge',
+            'name'         => 'contact_form_badge',
+            'type'         => 'text',
+            'default_value'=> 'ONLINE INQUIRY',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_form_title',
+            'label'        => 'Form Title',
+            'name'         => 'contact_form_title',
+            'type'         => 'text',
+            'default_value'=> 'Send Us a Message',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_form_subtitle',
+            'label'        => 'Form Subtitle',
+            'name'         => 'contact_form_subtitle',
+            'type'         => 'textarea',
+            'rows'         => 2,
+            'default_value'=> 'Fill out the form below and our team will get back to you promptly.',
+        ),
+        array(
+            'key'          => 'field_contact_map_iframe_src',
+            'label'        => 'Google Maps Embed URL / Iframe src',
+            'name'         => 'contact_map_iframe_src',
+            'type'         => 'text',
+            'default_value'=> 'https://maps.google.com/maps?q=61+High+Street,+Hemel+Hempstead+HP1+3AF&t=&z=16&ie=UTF8&iwloc=&output=embed',
+            'instructions' => 'Paste the Google Maps embed iframe URL source.',
+        ),
+        array(
+            'key'          => 'field_contact_map_place_name',
+            'label'        => 'Map Card Heading',
+            'name'         => 'contact_map_place_name',
+            'type'         => 'text',
+            'default_value'=> 'The Cochin Indian Restaurant',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_map_place_address',
+            'label'        => 'Map Card Address Note',
+            'name'         => 'contact_map_place_address',
+            'type'         => 'text',
+            'default_value'=> '📍 61 High Street, Hemel Hempstead HP1 3AF',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_map_tags',
+            'label'        => 'Map Tags (separated by | or commas)',
+            'name'         => 'contact_map_tags',
+            'type'         => 'text',
+            'default_value'=> 'Old Town Conservation Area | Kerala Cuisine | Licensed Bar',
+        ),
+        array(
+            'key'          => 'field_contact_map_call_btn',
+            'label'        => 'Map Card Call Button Text',
+            'name'         => 'contact_map_call_btn',
+            'type'         => 'text',
+            'default_value'=> '📞 Call 01442 233777',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_map_call_phone',
+            'label'        => 'Map Card Call Telephone Number',
+            'name'         => 'contact_map_call_phone',
+            'type'         => 'text',
+            'default_value'=> '01442233777',
+            'wrapper'      => array('width' => '50'),
+        ),
+
+        // Tab 4: Getting Here & Travel Guide
+        array(
+            'key'   => 'field_tab_contact_guide',
+            'label' => '🚗 Travel & Parking Guide (3 Cards)',
+            'name'  => '',
+            'type'  => 'tab',
+        ),
+        array(
+            'key'          => 'field_contact_guide_badge',
+            'label'        => 'Section Badge',
+            'name'         => 'contact_guide_badge',
+            'type'         => 'text',
+            'default_value'=> 'PLAN YOUR VISIT',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_guide_title',
+            'label'        => 'Section Title',
+            'name'         => 'contact_guide_title',
+            'type'         => 'text',
+            'default_value'=> 'Getting Here & Parking Guide',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_guide_subtitle',
+            'label'        => 'Section Subtitle',
+            'name'         => 'contact_guide_subtitle',
+            'type'         => 'textarea',
+            'rows'         => 2,
+            'default_value'=> 'Conveniently situated on the historic High Street of Hemel Hempstead Old Town with straightforward parking and public transport connections.',
+        ),
+
+        // Guide Card 1
+        array(
+            'key'          => 'field_contact_guide1_icon',
+            'label'        => 'Guide 1 Icon / Emoji',
+            'name'         => 'contact_guide1_icon',
+            'type'         => 'text',
+            'default_value'=> '🚗',
+            'wrapper'      => array('width' => '30'),
+        ),
+        array(
+            'key'          => 'field_contact_guide1_title',
+            'label'        => 'Guide 1 Title',
+            'name'         => 'contact_guide1_title',
+            'type'         => 'text',
+            'default_value'=> 'By Car & Nearby Parking',
+            'wrapper'      => array('width' => '70'),
+        ),
+        array(
+            'key'          => 'field_contact_guide1_items',
+            'label'        => 'Guide 1 Details (one item per line, format: Bold Title: description)',
+            'name'         => 'contact_guide1_items',
+            'type'         => 'textarea',
+            'rows'         => 5,
+            'default_value'=> "On-Street Parking: Available directly on High Street (free evening parking; daytime time limits apply).\nHigh Street Old Town Car Park: Located just 2 minutes' walk behind the High Street shops (HP1 3AF).\nGadebridge Park Car Park: Ample public parking within 3-4 minutes' stroll through the historic churchyard.",
+        ),
+
+        // Guide Card 2
+        array(
+            'key'          => 'field_contact_guide2_icon',
+            'label'        => 'Guide 2 Icon / Emoji',
+            'name'         => 'contact_guide2_icon',
+            'type'         => 'text',
+            'default_value'=> '🚆',
+            'wrapper'      => array('width' => '30'),
+        ),
+        array(
+            'key'          => 'field_contact_guide2_title',
+            'label'        => 'Guide 2 Title',
+            'name'         => 'contact_guide2_title',
+            'type'         => 'text',
+            'default_value'=> 'Train & Public Transport',
+            'wrapper'      => array('width' => '70'),
+        ),
+        array(
+            'key'          => 'field_contact_guide2_items',
+            'label'        => 'Guide 2 Details (one item per line)',
+            'name'         => 'contact_guide2_items',
+            'type'         => 'textarea',
+            'rows'         => 5,
+            'default_value'=> "Hemel Hempstead Train Station: Direct 25-30 minute London Euston connection via West Coast Mainline.\nBus & Taxi Connections: 5 minutes by local taxi or bus routes (1, 2, 4) from the station directly to Old Town.\nHistoric Walking Stroll: 20 minutes scenic walk from the Marlowes shopping centre via Gadebridge Park.",
+        ),
+
+        // Guide Card 3
+        array(
+            'key'          => 'field_contact_guide3_icon',
+            'label'        => 'Guide 3 Icon / Emoji',
+            'name'         => 'contact_guide3_icon',
+            'type'         => 'text',
+            'default_value'=> '♿',
+            'wrapper'      => array('width' => '30'),
+        ),
+        array(
+            'key'          => 'field_contact_guide3_title',
+            'label'        => 'Guide 3 Title',
+            'name'         => 'contact_guide3_title',
+            'type'         => 'text',
+            'default_value'=> 'Accessibility & Family Dining',
+            'wrapper'      => array('width' => '70'),
+        ),
+        array(
+            'key'          => 'field_contact_guide3_items',
+            'label'        => 'Guide 3 Details (one item per line)',
+            'name'         => 'contact_guide3_items',
+            'type'         => 'textarea',
+            'rows'         => 5,
+            'default_value'=> "Step-Free Entry: Ground-floor dining room with wide aisles and accessible table seating.\nFamily Friendly: Highchairs, baby changing facilities, and custom mild Kerala dishes for children.\nDietary & Allergen Support: Full allergen matrices and separate preparation protocols for gluten-free, vegan, and nut allergies.",
+        ),
+
+        // Tab 5: Bottom Call-to-Action Banner
+        array(
+            'key'   => 'field_tab_contact_cta',
+            'label' => '🌟 Bottom CTA Banner',
+            'name'  => '',
+            'type'  => 'tab',
+        ),
+        array(
+            'key'          => 'field_contact_cta_badge',
+            'label'        => 'CTA Badge',
+            'name'         => 'contact_cta_badge',
+            'type'         => 'text',
+            'default_value'=> 'EXPERIENCE KERALA CUISINE',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_cta_headline',
+            'label'        => 'CTA Headline',
+            'name'         => 'contact_cta_headline',
+            'type'         => 'text',
+            'default_value'=> 'Join Us for Dinner or Plan a Private Celebration',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_cta_desc',
+            'label'        => 'CTA Description',
+            'name'         => 'contact_cta_desc',
+            'type'         => 'textarea',
+            'rows'         => 2,
+            'default_value'=> 'Reserve your table online in seconds with live slot confirmation, or discover our regional seafood curries, dosas, and vegetarian delicacies.',
+        ),
+        array(
+            'key'          => 'field_contact_cta_btn1_text',
+            'label'        => 'Button 1 Text (Booking)',
+            'name'         => 'contact_cta_btn1_text',
+            'type'         => 'text',
+            'default_value'=> '📅 Book a Table Online',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_cta_btn1_url',
+            'label'        => 'Button 1 URL',
+            'name'         => 'contact_cta_btn1_url',
+            'type'         => 'text',
+            'default_value'=> '/book-table/',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_cta_btn2_text',
+            'label'        => 'Button 2 Text (Menu)',
+            'name'         => 'contact_cta_btn2_text',
+            'type'         => 'text',
+            'default_value'=> '🍛 Explore Restaurant Menu',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_cta_btn2_url',
+            'label'        => 'Button 2 URL',
+            'name'         => 'contact_cta_btn2_url',
+            'type'         => 'text',
+            'default_value'=> '/menu/',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_cta_btn3_text',
+            'label'        => 'Button 3 Text (Banquets)',
+            'name'         => 'contact_cta_btn3_text',
+            'type'         => 'text',
+            'default_value'=> '🥂 Banquet Hall & Events',
+            'wrapper'      => array('width' => '50'),
+        ),
+        array(
+            'key'          => 'field_contact_cta_btn3_url',
+            'label'        => 'Button 3 URL',
+            'name'         => 'contact_cta_btn3_url',
+            'type'         => 'text',
+            'default_value'=> '/banquets/',
+            'wrapper'      => array('width' => '50'),
+        ),
+    );
+
+    acf_add_local_field_group(array(
+        'key'                   => 'group_the_cochin_contact_page',
+        'title'                 => '📍 The Cochin — Contact Page Settings & Details',
+        'fields'                => $contact_fields,
+        'location'              => $contact_locations,
+        'menu_order'            => 0,
+        'position'              => 'normal',
+        'style'                 => 'default',
+        'label_placement'       => 'top',
+        'instruction_placement' => 'label',
+        'active'                => true,
+        'description'           => 'Manage contact details, opening hours, directions, travel guides, inquiry forms, and CTA buttons.',
+    ));
 }
 add_action('acf/init', 'the_cochin_register_acf_fields');

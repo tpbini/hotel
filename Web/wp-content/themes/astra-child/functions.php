@@ -284,62 +284,228 @@ function the_cochin_get_menu_carousel_items() {
 
     $items = array(
         array(
+            'id'    => 'starters',
+            'wc_cat'=> 'starters',
             'title' => 'STARTERS',
             'count' => '18 Items Available',
             'image' => $img_base . 'uzhunnu-vada.png',
             'url'   => $menu_url . '#starters',
         ),
         array(
+            'id'    => 'dosa-classics',
+            'wc_cat'=> 'dosa-south-indian-classics',
             'title' => 'DOSA & SOUTH INDIAN CLASSICS',
-            'count' => '03 Items Available',
+            'count' => '08 Items Available',
             'image' => $img_base . 'dosa.png',
-            'url'   => $menu_url . '#dosa-south-indian-classics',
+            'url'   => $menu_url . '#dosa-classics',
         ),
         array(
+            'id'    => 'seafood',
+            'wc_cat'=> 'seafood',
             'title' => 'SEAFOOD',
-            'count' => '07 Items Available',
+            'count' => '08 Items Available',
             'image' => $img_base . 'chemmen.png',
             'url'   => $menu_url . '#seafood',
         ),
         array(
+            'id'    => 'meat-poultry',
+            'wc_cat'=> 'meat-poultry',
             'title' => 'MEAT & POULTRY',
-            'count' => '19 Items Available',
+            'count' => '20 Items Available',
             'image' => $img_base . 'chick.png',
             'url'   => $menu_url . '#meat-poultry',
         ),
         array(
+            'id'    => 'vegetarian-vegan',
+            'wc_cat'=> 'vegetarian-vegan',
             'title' => 'VEGETARIAN & VEGAN',
-            'count' => '12 Items Available',
+            'count' => '11 Items Available',
             'image' => $img_base . 'appam.png',
             'url'   => $menu_url . '#vegetarian-vegan',
         ),
         array(
+            'id'    => 'rice-biryani',
+            'wc_cat'=> 'rice-biryani',
             'title' => 'RICE & BIRYANI',
-            'count' => '08 Items Available',
+            'count' => '10 Items Available',
             'image' => $img_base . 'jyt.png',
             'url'   => $menu_url . '#rice-biryani',
         ),
         array(
+            'id'    => 'breads-sides',
+            'wc_cat'=> 'breads-sides',
             'title' => 'BREADS & SIDES',
-            'count' => '10 Items Available',
+            'count' => '11 Items Available',
             'image' => $img_base . 'Dosa-Recipe-Step-By-Step-Instructions-scaled.jpg.webp',
             'url'   => $menu_url . '#breads-sides',
         ),
         array(
+            'id'    => 'desserts',
+            'wc_cat'=> 'desserts',
             'title' => 'DESSERTS',
-            'count' => '06 Items Available',
+            'count' => '05 Items Available',
             'image' => $img_base . 'manasa.png',
             'url'   => $menu_url . '#desserts',
         ),
         array(
+            'id'    => 'drinks',
+            'wc_cat'=> 'drinks',
             'title' => 'DRINKS',
-            'count' => '14 Items Available',
+            'count' => '08 Items Available',
             'image' => $img_base . 'delivery.png',
             'url'   => $menu_url . '#drinks',
         ),
     );
 
+    // Update item counts dynamically from WooCommerce if active
+    if (class_exists('WooCommerce')) {
+        foreach ($items as &$it) {
+            $term = get_term_by('slug', $it['wc_cat'], 'product_cat');
+            if ($term && !is_wp_error($term)) {
+                $count_num = (int)$term->count;
+                $it['count'] = sprintf(_n('%02d Item Available', '%02d Items Available', $count_num, 'astra-child'), $count_num);
+            }
+        }
+        unset($it);
+    }
+
     return apply_filters('the_cochin_menu_carousel_items', $items);
+}
+
+/**
+ * Dynamic Menu Categories & Products Helper (WooCommerce & Editorial Database Integration)
+ */
+function the_cochin_get_menu_categories() {
+    $categories = array(
+        'starters' => array(
+            'id'       => 'starters',
+            'title'    => 'STARTERS',
+            'subhead'  => 'Crispy Bites, Street Appetizers & Tea Shop Snacks',
+            'intro'    => 'A vibrant medley of traditional South Indian street food delicacies, crunchy fritters, and coastal appetizers seasoned with fresh curry leaves, mustard seeds, and homemade spices.',
+            'wc_cat'   => 'starters',
+            'items'    => array(),
+        ),
+        'dosa-classics' => array(
+            'id'       => 'dosa-classics',
+            'title'    => 'DOSA & SOUTH INDIAN CLASSICS',
+            'subhead'  => 'Traditional Lentil & Rice Crepes',
+            'intro'    => 'Dosa is a renowned South Indian culinary art: a thin, golden crepe crafted from a naturally fermented batter of rice and black lentils, cooked crisp on a flat griddle. Served piping hot with aromatic lentil sambar and fresh coconut chutneys.',
+            'wc_cat'   => 'dosa-south-indian-classics',
+            'items'    => array(),
+        ),
+        'seafood' => array(
+            'id'       => 'seafood',
+            'title'    => 'SEAFOOD',
+            'subhead'  => 'Coastal Fish & Backwater Prawns',
+            'intro'    => 'Kerala\'s 600km Arabian Sea coastline inspired these celebrated fish and seafood specialties. Cooked in traditional clay pots with creamy coconut milk, kudampuli (Malabar kokum), raw mango, and fresh curry leaves.',
+            'wc_cat'   => 'seafood',
+            'items'    => array(),
+        ),
+        'meat-poultry' => array(
+            'id'       => 'meat-poultry',
+            'title'    => 'MEAT & POULTRY',
+            'subhead'  => 'Traditional Keralan Curries & Roasts',
+            'intro'    => 'Authentic meat recipes passed down through generations in Central and Southern Kerala. Flavoured with whole roasted spices, shallots, garlic, black pepper, and silky coconut gravies.',
+            'wc_cat'   => 'meat-poultry',
+            'items'    => array(),
+        ),
+        'vegetarian-vegan' => array(
+            'id'       => 'vegetarian-vegan',
+            'title'    => 'VEGETARIAN & VEGAN',
+            'subhead'  => 'Lentils, Fresh Paneer & Plant-Based Choices',
+            'intro'    => 'Kerala\'s vegetarian tradition is renowned for wholesome, vibrant flavours. Featuring freshly roasted spices, freshly grated coconut, hearty lentils, spinach, and artisanal Indian cottage cheese.',
+            'wc_cat'   => 'vegetarian-vegan',
+            'items'    => array(),
+        ),
+        'rice-biryani' => array(
+            'id'       => 'rice-biryani',
+            'title'    => 'RICE & BIRYANI',
+            'subhead'  => 'Fragrant Basmati & Malabar Dum Biryani',
+            'intro'    => 'A staple of South Indian dining, our rices and biryanis are prepared with long-grain aged basmati, infused with saffron, citrus, pure ghee, and whole Malabar pot spices.',
+            'wc_cat'   => 'rice-biryani',
+            'items'    => array(),
+        ),
+        'breads-sides' => array(
+            'id'       => 'breads-sides',
+            'title'    => 'BREADS & SIDES',
+            'subhead'  => 'Kerala Paratha, Appam, Poori & Fresh Vegetable Thorans',
+            'intro'    => 'Essential accompaniments to every South Indian feast: flaky layered parathas, soft fermented rice kallappams, and fresh vegetable dry roasts tempered with mustard seeds and fresh coconut.',
+            'wc_cat'   => 'breads-sides',
+            'items'    => array(),
+        ),
+        'desserts' => array(
+            'id'       => 'desserts',
+            'title'    => 'DESSERTS',
+            'subhead'  => 'Traditional Sweets & Ice Creams',
+            'intro'    => 'Indulgent South Indian desserts and chilled delicacies crafted with slow-simmered milk, aromatic cardamom, jaggery, and premium Alphonso mangoes.',
+            'wc_cat'   => 'desserts',
+            'items'    => array(),
+        ),
+        'drinks' => array(
+            'id'       => 'drinks',
+            'title'    => 'DRINKS',
+            'subhead'  => 'Keralan Lassi, Fresh Juices & Hot Beverages',
+            'intro'    => 'Quench your thirst with traditional chilled yogurt lassis, authentic South Indian filter coffee, aromatic spiced masala chai, and refreshing beverages.',
+            'wc_cat'   => 'drinks',
+            'items'    => array(),
+        ),
+    );
+
+    // Query WooCommerce products dynamically
+    if (class_exists('WooCommerce')) {
+        foreach ($categories as $key => &$cat) {
+            $wc_slug = $cat['wc_cat'];
+
+            $args = array(
+                'status'   => 'publish',
+                'limit'    => -1,
+                'category' => array($wc_slug),
+                'orderby'  => 'menu_order title',
+                'order'    => 'ASC',
+            );
+            $products = wc_get_products($args);
+
+            if (!empty($products)) {
+                foreach ($products as $product) {
+                    $pid = $product->get_id();
+                    $tags = array();
+
+                    // Dietary metadata or tags
+                    $dietary_meta = get_post_meta($pid, '_the_cochin_dietary', true);
+                    if (!empty($dietary_meta)) {
+                        $tags = array_map('trim', explode(',', $dietary_meta));
+                    } else {
+                        $wc_tags = wp_get_post_terms($pid, 'product_tag', array('fields' => 'names'));
+                        if (!empty($wc_tags) && !is_wp_error($wc_tags)) {
+                            $tags = $wc_tags;
+                        }
+                    }
+
+                    $price_raw = $product->get_price();
+                    $price_display = $price_raw !== '' ? ('£' . number_format((float)$price_raw, 2)) : '';
+
+                    $desc = $product->get_short_description();
+                    if (empty($desc)) {
+                        $desc = $product->get_description();
+                    }
+
+                    $cat['items'][] = array(
+                        'id'         => $pid,
+                        'product_id' => $pid,
+                        'title'      => $product->get_name(),
+                        'price'      => $price_display,
+                        'price_raw'  => $price_raw,
+                        'tags'       => $tags,
+                        'desc'       => wp_strip_all_tags($desc),
+                        'url'        => get_permalink($pid),
+                    );
+                }
+            }
+        }
+        unset($cat);
+    }
+
+    return apply_filters('the_cochin_menu_categories', $categories);
 }
 
 /**

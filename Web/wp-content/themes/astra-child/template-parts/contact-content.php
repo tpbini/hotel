@@ -1,6 +1,6 @@
 <?php
 /**
- * The Cochin - Contact Page Content Layout
+ * The Cochin - Contact Page Content Layout (Dynamic ACF Integrated)
  *
  * Implements:
  * - Hero Header Section with warm luxury background
@@ -14,16 +14,98 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$restaurant_name    = get_option('rb_restaurant_name', 'The Cochin Indian Restaurant');
-$restaurant_phone   = get_option('rb_restaurant_phone', '01442 233777');
-$restaurant_email   = 'thecochin@gmail.com';
-$restaurant_address = '61 High Street, Hemel Hempstead, Hertfordshire HP1 3AF';
-$booking_url        = the_cochin_get_booking_url();
-$menu_url           = the_cochin_get_menu_page_url();
-$banquet_url        = home_url('/banquets/');
-$google_maps_link   = 'https://maps.google.com/?q=' . urlencode($restaurant_address);
-$contact_nonce      = wp_create_nonce('the_cochin_contact_nonce');
-$ajax_url           = admin_url('admin-ajax.php');
+$page_id = get_the_ID();
+
+// Section 1: Hero & Intro
+$badge    = (function_exists('get_field') ? get_field('contact_intro_badge', $page_id) : '') ?: 'VISIT & GET IN TOUCH';
+$headline = (function_exists('get_field') ? get_field('contact_main_headline', $page_id) : '') ?: 'Contact The Cochin';
+$intro    = (function_exists('get_field') ? get_field('contact_intro_text', $page_id) : '') ?: 'We have been proudly welcoming guests to Hemel Hempstead’s historic Old Town since 2003. Whether you are reserving a table, organising a special banquet celebration, or inquiring about our authentic Kerala menu, we look forward to hearing from you.';
+
+// Section 2: 4-Card Highlight Grid
+// Card 1: Location
+$card1_title    = (function_exists('get_field') ? get_field('contact_card1_title', $page_id) : '') ?: 'Our Location';
+$card1_address  = (function_exists('get_field') ? get_field('contact_card1_address', $page_id) : '') ?: "The Cochin\n61 High Street, Old Town\nHemel Hempstead, Herts\nHP1 3AF";
+$card1_btn_text = (function_exists('get_field') ? get_field('contact_card1_btn_text', $page_id) : '') ?: 'Get Directions →';
+$card1_map_url  = (function_exists('get_field') ? get_field('contact_card1_map_url', $page_id) : '') ?: ('https://maps.google.com/?q=' . urlencode('61 High Street, Hemel Hempstead, Hertfordshire HP1 3AF'));
+
+// Card 2: Phone & Bookings
+$card2_title    = (function_exists('get_field') ? get_field('contact_card2_title', $page_id) : '') ?: 'Telephone & Bookings';
+$card2_phone    = (function_exists('get_field') ? get_field('contact_card2_phone', $page_id) : '') ?: (get_option('rb_restaurant_phone') ?: '01442 233777');
+$card2_desc     = (function_exists('get_field') ? get_field('contact_card2_desc', $page_id) : '') ?: 'For immediate bookings, same-day tables, or urgent takeaway queries:';
+$card2_btn_text = (function_exists('get_field') ? get_field('contact_card2_btn_text', $page_id) : '') ?: 'Book Online Now →';
+$card2_btn_url  = (function_exists('get_field') ? get_field('contact_card2_btn_url', $page_id) : '') ?: the_cochin_get_booking_url();
+
+// Card 3: Email & Private Events
+$card3_title    = (function_exists('get_field') ? get_field('contact_card3_title', $page_id) : '') ?: 'Email & Private Events';
+$card3_email    = (function_exists('get_field') ? get_field('contact_card3_email', $page_id) : '') ?: 'thecochin@gmail.com';
+$card3_desc     = (function_exists('get_field') ? get_field('contact_card3_desc', $page_id) : '') ?: 'For banquet bookings, catering consultations, and corporate event queries:';
+$card3_subtext  = (function_exists('get_field') ? get_field('contact_card3_subtext', $page_id) : '') ?: 'We reply within 24 hours';
+
+// Card 4: Hours
+$card4_title    = (function_exists('get_field') ? get_field('contact_card4_title', $page_id) : '') ?: 'Opening Hours';
+$card4_tue_sat  = (function_exists('get_field') ? get_field('contact_card4_tue_sat', $page_id) : '') ?: '12 PM – 3 PM • 6 PM – 11 PM';
+$card4_sun      = (function_exists('get_field') ? get_field('contact_card4_sun', $page_id) : '') ?: '12 PM – 3 PM • 6 PM – 10:30 PM';
+$card4_mon      = (function_exists('get_field') ? get_field('contact_card4_mon', $page_id) : '') ?: 'Closed (Available for Private Hire)';
+
+// Section 3: Form & Map
+$form_badge     = (function_exists('get_field') ? get_field('contact_form_badge', $page_id) : '') ?: 'ONLINE INQUIRY';
+$form_title     = (function_exists('get_field') ? get_field('contact_form_title', $page_id) : '') ?: 'Send Us a Message';
+$form_subtitle  = (function_exists('get_field') ? get_field('contact_form_subtitle', $page_id) : '') ?: 'Fill out the form below and our team will get back to you promptly.';
+
+$map_iframe_src   = (function_exists('get_field') ? get_field('contact_map_iframe_src', $page_id) : '') ?: 'https://maps.google.com/maps?q=61+High+Street,+Hemel+Hempstead+HP1+3AF&t=&z=16&ie=UTF8&iwloc=&output=embed';
+$map_place_name   = (function_exists('get_field') ? get_field('contact_map_place_name', $page_id) : '') ?: 'The Cochin Indian Restaurant';
+$map_place_addr   = (function_exists('get_field') ? get_field('contact_map_place_address', $page_id) : '') ?: '📍 61 High Street, Hemel Hempstead HP1 3AF';
+$map_tags_raw     = (function_exists('get_field') ? get_field('contact_map_tags', $page_id) : '') ?: 'Old Town Conservation Area | Kerala Cuisine | Licensed Bar';
+$map_call_btn     = (function_exists('get_field') ? get_field('contact_map_call_btn', $page_id) : '') ?: '📞 Call 01442 233777';
+$map_call_phone   = (function_exists('get_field') ? get_field('contact_map_call_phone', $page_id) : '') ?: '01442233777';
+
+// Section 4: Travel & Parking Guide
+$guide_badge    = (function_exists('get_field') ? get_field('contact_guide_badge', $page_id) : '') ?: 'PLAN YOUR VISIT';
+$guide_title    = (function_exists('get_field') ? get_field('contact_guide_title', $page_id) : '') ?: 'Getting Here & Parking Guide';
+$guide_subtitle = (function_exists('get_field') ? get_field('contact_guide_subtitle', $page_id) : '') ?: 'Conveniently situated on the historic High Street of Hemel Hempstead Old Town with straightforward parking and public transport connections.';
+
+$guide1_icon    = (function_exists('get_field') ? get_field('contact_guide1_icon', $page_id) : '') ?: '🚗';
+$guide1_title   = (function_exists('get_field') ? get_field('contact_guide1_title', $page_id) : '') ?: 'By Car & Nearby Parking';
+$guide1_items   = (function_exists('get_field') ? get_field('contact_guide1_items', $page_id) : '') ?: "On-Street Parking: Available directly on High Street (free evening parking; daytime time limits apply).\nHigh Street Old Town Car Park: Located just 2 minutes' walk behind the High Street shops (HP1 3AF).\nGadebridge Park Car Park: Ample public parking within 3-4 minutes' stroll through the historic churchyard.";
+
+$guide2_icon    = (function_exists('get_field') ? get_field('contact_guide2_icon', $page_id) : '') ?: '🚆';
+$guide2_title   = (function_exists('get_field') ? get_field('contact_guide2_title', $page_id) : '') ?: 'Train & Public Transport';
+$guide2_items   = (function_exists('get_field') ? get_field('contact_guide2_items', $page_id) : '') ?: "Hemel Hempstead Train Station: Direct 25-30 minute London Euston connection via West Coast Mainline.\nBus & Taxi Connections: 5 minutes by local taxi or bus routes (1, 2, 4) from the station directly to Old Town.\nHistoric Walking Stroll: 20 minutes scenic walk from the Marlowes shopping centre via Gadebridge Park.";
+
+$guide3_icon    = (function_exists('get_field') ? get_field('contact_guide3_icon', $page_id) : '') ?: '♿';
+$guide3_title   = (function_exists('get_field') ? get_field('contact_guide3_title', $page_id) : '') ?: 'Accessibility & Family Dining';
+$guide3_items   = (function_exists('get_field') ? get_field('contact_guide3_items', $page_id) : '') ?: "Step-Free Entry: Ground-floor dining room with wide aisles and accessible table seating.\nFamily Friendly: Highchairs, baby changing facilities, and custom mild Kerala dishes for children.\nDietary & Allergen Support: Full allergen matrices and separate preparation protocols for gluten-free, vegan, and nut allergies.";
+
+// Section 5: Bottom CTA
+$cta_badge      = (function_exists('get_field') ? get_field('contact_cta_badge', $page_id) : '') ?: 'EXPERIENCE KERALA CUISINE';
+$cta_headline   = (function_exists('get_field') ? get_field('contact_cta_headline', $page_id) : '') ?: 'Join Us for Dinner or Plan a Private Celebration';
+$cta_desc       = (function_exists('get_field') ? get_field('contact_cta_desc', $page_id) : '') ?: 'Reserve your table online in seconds with live slot confirmation, or discover our regional seafood curries, dosas, and vegetarian delicacies.';
+$cta_btn1_text  = (function_exists('get_field') ? get_field('contact_cta_btn1_text', $page_id) : '') ?: '📅 Book a Table Online';
+$cta_btn1_url   = (function_exists('get_field') ? get_field('contact_cta_btn1_url', $page_id) : '') ?: the_cochin_get_booking_url();
+$cta_btn2_text  = (function_exists('get_field') ? get_field('contact_cta_btn2_text', $page_id) : '') ?: '🍛 Explore Restaurant Menu';
+$cta_btn2_url   = (function_exists('get_field') ? get_field('contact_cta_btn2_url', $page_id) : '') ?: the_cochin_get_menu_page_url();
+$cta_btn3_text  = (function_exists('get_field') ? get_field('contact_cta_btn3_text', $page_id) : '') ?: '🥂 Banquet Hall & Events';
+$cta_btn3_url   = (function_exists('get_field') ? get_field('contact_cta_btn3_url', $page_id) : '') ?: home_url('/banquets/');
+
+$contact_nonce  = wp_create_nonce('the_cochin_contact_nonce');
+
+if (!function_exists('the_cochin_render_guide_list_items')) {
+    function the_cochin_render_guide_list_items($raw_items) {
+        if (empty($raw_items)) return;
+        $lines = preg_split('/\r\n|\r|\n/', trim($raw_items));
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (empty($line)) continue;
+
+            if (strpos($line, ':') !== false && strpos($line, '<') === false) {
+                $parts = explode(':', $line, 2);
+                echo '<li><strong>' . esc_html(trim($parts[0])) . ':</strong> ' . esc_html(trim($parts[1])) . '</li>';
+            } else {
+                echo '<li>' . wp_kses_post($line) . '</li>';
+            }
+        }
+    }
+}
 ?>
 
 <div class="cochin-contact-page-layout">
@@ -34,11 +116,15 @@ $ajax_url           = admin_url('admin-ajax.php');
     <section class="cochin-contact-hero-section">
         <div class="cochin-contact-container">
             <div class="cochin-contact-hero-card">
-                <span class="cochin-contact-badge"><?php esc_html_e('VISIT & GET IN TOUCH', 'astra-child'); ?></span>
-                <h1 class="cochin-contact-headline"><?php esc_html_e('Contact The Cochin', 'astra-child'); ?></h1>
-                <p class="cochin-contact-subtitle">
-                    <?php esc_html_e('We have been proudly welcoming guests to Hemel Hempstead’s historic Old Town since 2003. Whether you are reserving a table, organising a special banquet celebration, or inquiring about our authentic Kerala menu, we look forward to hearing from you.', 'astra-child'); ?>
-                </p>
+                <?php if (!empty($badge)) : ?>
+                    <span class="cochin-contact-badge"><?php echo esc_html($badge); ?></span>
+                <?php endif; ?>
+                <h1 class="cochin-contact-headline"><?php echo esc_html($headline); ?></h1>
+                <?php if (!empty($intro)) : ?>
+                    <p class="cochin-contact-subtitle">
+                        <?php echo nl2br(esc_html($intro)); ?>
+                    </p>
+                <?php endif; ?>
             </div>
         </div>
     </section>
@@ -58,16 +144,15 @@ $ajax_url           = admin_url('admin-ajax.php');
                             <circle cx="12" cy="10" r="3"></circle>
                         </svg>
                     </div>
-                    <h3 class="cochin-info-title"><?php esc_html_e('Our Location', 'astra-child'); ?></h3>
+                    <h3 class="cochin-info-title"><?php echo esc_html($card1_title); ?></h3>
                     <p class="cochin-info-text">
-                        <strong>The Cochin</strong><br>
-                        61 High Street, Old Town<br>
-                        Hemel Hempstead, Herts<br>
-                        <strong>HP1 3AF</strong>
+                        <?php echo nl2br(esc_html($card1_address)); ?>
                     </p>
-                    <a href="<?php echo esc_url($google_maps_link); ?>" target="_blank" rel="noopener noreferrer" class="cochin-info-action-link">
-                        <?php esc_html_e('Get Directions →', 'astra-child'); ?>
-                    </a>
+                    <?php if (!empty($card1_btn_text) && !empty($card1_map_url)) : ?>
+                        <a href="<?php echo esc_url($card1_map_url); ?>" target="_blank" rel="noopener noreferrer" class="cochin-info-action-link">
+                            <?php echo esc_html($card1_btn_text); ?>
+                        </a>
+                    <?php endif; ?>
                 </div>
 
                 <!-- Card 2: Telephone & Bookings -->
@@ -77,16 +162,20 @@ $ajax_url           = admin_url('admin-ajax.php');
                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                         </svg>
                     </div>
-                    <h3 class="cochin-info-title"><?php esc_html_e('Telephone & Bookings', 'astra-child'); ?></h3>
-                    <p class="cochin-info-text">
-                        For immediate bookings, same-day tables, or urgent takeaway queries:
-                    </p>
+                    <h3 class="cochin-info-title"><?php echo esc_html($card2_title); ?></h3>
+                    <?php if (!empty($card2_desc)) : ?>
+                        <p class="cochin-info-text">
+                            <?php echo esc_html($card2_desc); ?>
+                        </p>
+                    <?php endif; ?>
                     <div class="cochin-info-highlight-val">
-                        <a href="tel:01442233777"><?php echo esc_html($restaurant_phone); ?></a>
+                        <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $card2_phone)); ?>"><?php echo esc_html($card2_phone); ?></a>
                     </div>
-                    <a href="<?php echo esc_url($booking_url); ?>" class="cochin-info-action-link">
-                        <?php esc_html_e('Book Online Now →', 'astra-child'); ?>
-                    </a>
+                    <?php if (!empty($card2_btn_text) && !empty($card2_btn_url)) : ?>
+                        <a href="<?php echo esc_url($card2_btn_url); ?>" class="cochin-info-action-link">
+                            <?php echo esc_html($card2_btn_text); ?>
+                        </a>
+                    <?php endif; ?>
                 </div>
 
                 <!-- Card 3: Email & Inquiries -->
@@ -97,14 +186,18 @@ $ajax_url           = admin_url('admin-ajax.php');
                             <polyline points="22,6 12,13 2,6"></polyline>
                         </svg>
                     </div>
-                    <h3 class="cochin-info-title"><?php esc_html_e('Email & Private Events', 'astra-child'); ?></h3>
-                    <p class="cochin-info-text">
-                        For banquet bookings, catering consultations, and corporate event queries:
-                    </p>
+                    <h3 class="cochin-info-title"><?php echo esc_html($card3_title); ?></h3>
+                    <?php if (!empty($card3_desc)) : ?>
+                        <p class="cochin-info-text">
+                            <?php echo esc_html($card3_desc); ?>
+                        </p>
+                    <?php endif; ?>
                     <div class="cochin-info-highlight-val">
-                        <a href="mailto:<?php echo esc_attr($restaurant_email); ?>"><?php echo esc_html($restaurant_email); ?></a>
+                        <a href="mailto:<?php echo esc_attr($card3_email); ?>"><?php echo esc_html($card3_email); ?></a>
                     </div>
-                    <span class="cochin-info-subtext"><?php esc_html_e('We reply within 24 hours', 'astra-child'); ?></span>
+                    <?php if (!empty($card3_subtext)) : ?>
+                        <span class="cochin-info-subtext"><?php echo esc_html($card3_subtext); ?></span>
+                    <?php endif; ?>
                 </div>
 
                 <!-- Card 4: Operating & Service Hours -->
@@ -115,20 +208,26 @@ $ajax_url           = admin_url('admin-ajax.php');
                             <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
                     </div>
-                    <h3 class="cochin-info-title"><?php esc_html_e('Opening Hours', 'astra-child'); ?></h3>
+                    <h3 class="cochin-info-title"><?php echo esc_html($card4_title); ?></h3>
                     <div class="cochin-hours-compact-list">
-                        <div class="hours-compact-item">
-                            <span class="day-lbl"><?php esc_html_e('Tue – Sat:', 'astra-child'); ?></span>
-                            <span class="time-lbl">12 PM – 3 PM &bull; 6 PM – 11 PM</span>
-                        </div>
-                        <div class="hours-compact-item">
-                            <span class="day-lbl"><?php esc_html_e('Sunday:', 'astra-child'); ?></span>
-                            <span class="time-lbl">12 PM – 3 PM &bull; 6 PM – 10:30 PM</span>
-                        </div>
-                        <div class="hours-compact-item closed-day">
-                            <span class="day-lbl"><?php esc_html_e('Monday:', 'astra-child'); ?></span>
-                            <span class="time-lbl"><?php esc_html_e('Closed (Available for Private Hire)', 'astra-child'); ?></span>
-                        </div>
+                        <?php if (!empty($card4_tue_sat)) : ?>
+                            <div class="hours-compact-item">
+                                <span class="day-lbl"><?php esc_html_e('Tue – Sat:', 'astra-child'); ?></span>
+                                <span class="time-lbl"><?php echo esc_html($card4_tue_sat); ?></span>
+                            </div>
+                        <?php endif; ?>
+                        <?php if (!empty($card4_sun)) : ?>
+                            <div class="hours-compact-item">
+                                <span class="day-lbl"><?php esc_html_e('Sunday:', 'astra-child'); ?></span>
+                                <span class="time-lbl"><?php echo esc_html($card4_sun); ?></span>
+                            </div>
+                        <?php endif; ?>
+                        <?php if (!empty($card4_mon)) : ?>
+                            <div class="hours-compact-item closed-day">
+                                <span class="day-lbl"><?php esc_html_e('Monday:', 'astra-child'); ?></span>
+                                <span class="time-lbl"><?php echo esc_html($card4_mon); ?></span>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -148,11 +247,15 @@ $ajax_url           = admin_url('admin-ajax.php');
                     <div class="cochin-contact-form-card">
                         
                         <div class="cochin-card-header">
-                            <span class="cochin-card-badge"><?php esc_html_e('ONLINE INQUIRY', 'astra-child'); ?></span>
-                            <h2 class="cochin-card-title"><?php esc_html_e('Send Us a Message', 'astra-child'); ?></h2>
-                            <p class="cochin-card-subtitle">
-                                <?php esc_html_e('Fill out the form below and our team will get back to you promptly.', 'astra-child'); ?>
-                            </p>
+                            <?php if (!empty($form_badge)) : ?>
+                                <span class="cochin-card-badge"><?php echo esc_html($form_badge); ?></span>
+                            <?php endif; ?>
+                            <h2 class="cochin-card-title"><?php echo esc_html($form_title); ?></h2>
+                            <?php if (!empty($form_subtitle)) : ?>
+                                <p class="cochin-card-subtitle">
+                                    <?php echo esc_html($form_subtitle); ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
 
                         <form id="theCochinContactForm" class="cochin-contact-form" method="post">
@@ -221,7 +324,7 @@ $ajax_url           = admin_url('admin-ajax.php');
                         <div class="cochin-map-frame-wrapper">
                             <iframe 
                                 title="The Cochin Location Map"
-                                src="https://maps.google.com/maps?q=61+High+Street,+Hemel+Hempstead+HP1+3AF&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+                                src="<?php echo esc_url($map_iframe_src); ?>" 
                                 class="cochin-google-map-iframe"
                                 loading="lazy" 
                                 allowfullscreen="" 
@@ -232,24 +335,33 @@ $ajax_url           = admin_url('admin-ajax.php');
                         <!-- Location Detail Overlay Card -->
                         <div class="cochin-map-details-card">
                             <div class="cochin-map-details-content">
-                                <h3 class="cochin-map-place-name"><?php esc_html_e('The Cochin Indian Restaurant', 'astra-child'); ?></h3>
+                                <h3 class="cochin-map-place-name"><?php echo esc_html($map_place_name); ?></h3>
                                 <p class="cochin-map-place-address">
-                                    📍 <?php echo esc_html($restaurant_address); ?>
+                                    <?php echo esc_html($map_place_addr); ?>
                                 </p>
-                                <div class="cochin-map-place-tags">
-                                    <span class="place-tag">Old Town Conservation Area</span>
-                                    <span class="place-tag">Kerala Cuisine</span>
-                                    <span class="place-tag">Licensed Bar</span>
-                                </div>
+                                <?php if (!empty($map_tags_raw)) : 
+                                    $tags = array_map('trim', preg_split('/[|,]/', $map_tags_raw));
+                                    if (!empty($tags)) :
+                                ?>
+                                    <div class="cochin-map-place-tags">
+                                        <?php foreach ($tags as $tag) : if (!empty($tag)) : ?>
+                                            <span class="place-tag"><?php echo esc_html($tag); ?></span>
+                                        <?php endif; endforeach; ?>
+                                    </div>
+                                <?php endif; endif; ?>
                             </div>
 
                             <div class="cochin-map-action-btns">
-                                <a href="<?php echo esc_url($google_maps_link); ?>" target="_blank" rel="noopener noreferrer" class="cochin-btn-map-nav">
-                                    🧭 <?php esc_html_e('Open in Google Maps', 'astra-child'); ?>
-                                </a>
-                                <a href="tel:01442233777" class="cochin-btn-map-call">
-                                    📞 <?php esc_html_e('Call 01442 233777', 'astra-child'); ?>
-                                </a>
+                                <?php if (!empty($card1_map_url)) : ?>
+                                    <a href="<?php echo esc_url($card1_map_url); ?>" target="_blank" rel="noopener noreferrer" class="cochin-btn-map-nav">
+                                        🧭 <?php esc_html_e('Open in Google Maps', 'astra-child'); ?>
+                                    </a>
+                                <?php endif; ?>
+                                <?php if (!empty($map_call_btn) && !empty($map_call_phone)) : ?>
+                                    <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $map_call_phone)); ?>" class="cochin-btn-map-call">
+                                        <?php echo esc_html($map_call_btn); ?>
+                                    </a>
+                                <?php endif; ?>
                             </div>
                         </div>
 
@@ -266,63 +378,43 @@ $ajax_url           = admin_url('admin-ajax.php');
     <section class="cochin-travel-guide-section">
         <div class="cochin-contact-container">
             <div class="cochin-section-header-center">
-                <span class="cochin-contact-badge"><?php esc_html_e('PLAN YOUR VISIT', 'astra-child'); ?></span>
-                <h2 class="cochin-guide-title"><?php esc_html_e('Getting Here & Parking Guide', 'astra-child'); ?></h2>
-                <p class="cochin-guide-subtitle">
-                    <?php esc_html_e('Conveniently situated on the historic High Street of Hemel Hempstead Old Town with straightforward parking and public transport connections.', 'astra-child'); ?>
-                </p>
+                <?php if (!empty($guide_badge)) : ?>
+                    <span class="cochin-contact-badge"><?php echo esc_html($guide_badge); ?></span>
+                <?php endif; ?>
+                <h2 class="cochin-guide-title"><?php echo esc_html($guide_title); ?></h2>
+                <?php if (!empty($guide_subtitle)) : ?>
+                    <p class="cochin-guide-subtitle">
+                        <?php echo esc_html($guide_subtitle); ?>
+                    </p>
+                <?php endif; ?>
             </div>
 
             <div class="cochin-travel-cards-grid">
                 
                 <!-- Travel Card 1: By Car & Parking -->
                 <div class="cochin-travel-card">
-                    <div class="travel-icon-box">🚗</div>
-                    <h3 class="travel-card-title"><?php esc_html_e('By Car & Nearby Parking', 'astra-child'); ?></h3>
+                    <div class="travel-icon-box"><?php echo esc_html($guide1_icon); ?></div>
+                    <h3 class="travel-card-title"><?php echo esc_html($guide1_title); ?></h3>
                     <ul class="travel-points-list">
-                        <li>
-                            <strong>On-Street Parking:</strong> Available directly on High Street (free evening parking; daytime time limits apply).
-                        </li>
-                        <li>
-                            <strong>High Street Old Town Car Park:</strong> Located just 2 minutes' walk behind the High Street shops (HP1 3AF).
-                        </li>
-                        <li>
-                            <strong>Gadebridge Park Car Park:</strong> Ample public parking within 3-4 minutes' stroll through the historic churchyard.
-                        </li>
+                        <?php the_cochin_render_guide_list_items($guide1_items); ?>
                     </ul>
                 </div>
 
                 <!-- Travel Card 2: Public Transport -->
                 <div class="cochin-travel-card">
-                    <div class="travel-icon-box">🚆</div>
-                    <h3 class="travel-card-title"><?php esc_html_e('Train & Public Transport', 'astra-child'); ?></h3>
+                    <div class="travel-icon-box"><?php echo esc_html($guide2_icon); ?></div>
+                    <h3 class="travel-card-title"><?php echo esc_html($guide2_title); ?></h3>
                     <ul class="travel-points-list">
-                        <li>
-                            <strong>Hemel Hempstead Train Station:</strong> Direct 25-30 minute London Euston connection via West Coast Mainline.
-                        </li>
-                        <li>
-                            <strong>Bus & Taxi Connections:</strong> 5 minutes by local taxi or bus routes (1, 2, 4) from the station directly to Old Town.
-                        </li>
-                        <li>
-                            <strong>Historic Walking Stroll:</strong> 20 minutes scenic walk from the Marlowes shopping centre via Gadebridge Park.
-                        </li>
+                        <?php the_cochin_render_guide_list_items($guide2_items); ?>
                     </ul>
                 </div>
 
                 <!-- Travel Card 3: Accessibility & Amenities -->
                 <div class="cochin-travel-card">
-                    <div class="travel-icon-box">♿</div>
-                    <h3 class="travel-card-title"><?php esc_html_e('Accessibility & Family Dining', 'astra-child'); ?></h3>
+                    <div class="travel-icon-box"><?php echo esc_html($guide3_icon); ?></div>
+                    <h3 class="travel-card-title"><?php echo esc_html($guide3_title); ?></h3>
                     <ul class="travel-points-list">
-                        <li>
-                            <strong>Step-Free Entry:</strong> Ground-floor dining room with wide aisles and accessible table seating.
-                        </li>
-                        <li>
-                            <strong>Family Friendly:</strong> Highchairs, baby changing facilities, and custom mild Kerala dishes for children.
-                        </li>
-                        <li>
-                            <strong>Dietary & Allergen Support:</strong> Full allergen matrices and separate preparation protocols for gluten-free, vegan, and nut allergies.
-                        </li>
+                        <?php the_cochin_render_guide_list_items($guide3_items); ?>
                     </ul>
                 </div>
 
@@ -337,22 +429,32 @@ $ajax_url           = admin_url('admin-ajax.php');
         <div class="cochin-contact-container">
             <div class="cochin-contact-cta-card">
                 <div class="cochin-cta-text-wrap">
-                    <span class="cochin-cta-badge"><?php esc_html_e('EXPERIENCE KERALA CUISINE', 'astra-child'); ?></span>
-                    <h2 class="cochin-cta-headline"><?php esc_html_e('Join Us for Dinner or Plan a Private Celebration', 'astra-child'); ?></h2>
-                    <p class="cochin-cta-desc">
-                        <?php esc_html_e('Reserve your table online in seconds with live slot confirmation, or discover our regional seafood curries, dosas, and vegetarian delicacies.', 'astra-child'); ?>
-                    </p>
+                    <?php if (!empty($cta_badge)) : ?>
+                        <span class="cochin-cta-badge"><?php echo esc_html($cta_badge); ?></span>
+                    <?php endif; ?>
+                    <h2 class="cochin-cta-headline"><?php echo esc_html($cta_headline); ?></h2>
+                    <?php if (!empty($cta_desc)) : ?>
+                        <p class="cochin-cta-desc">
+                            <?php echo esc_html($cta_desc); ?>
+                        </p>
+                    <?php endif; ?>
                 </div>
                 <div class="cochin-cta-buttons-group">
-                    <a href="<?php echo esc_url($booking_url); ?>" class="cochin-btn-cta-primary">
-                        <span>📅 <?php esc_html_e('Book a Table Online', 'astra-child'); ?></span>
-                    </a>
-                    <a href="<?php echo esc_url($menu_url); ?>" class="cochin-btn-cta-secondary">
-                        <span>🍛 <?php esc_html_e('Explore Restaurant Menu', 'astra-child'); ?></span>
-                    </a>
-                    <a href="<?php echo esc_url($banquet_url); ?>" class="cochin-btn-cta-tertiary">
-                        <span>🥂 <?php esc_html_e('Banquet Hall & Events', 'astra-child'); ?></span>
-                    </a>
+                    <?php if (!empty($cta_btn1_text) && !empty($cta_btn1_url)) : ?>
+                        <a href="<?php echo esc_url($cta_btn1_url); ?>" class="cochin-btn-cta-primary">
+                            <span><?php echo esc_html($cta_btn1_text); ?></span>
+                        </a>
+                    <?php endif; ?>
+                    <?php if (!empty($cta_btn2_text) && !empty($cta_btn2_url)) : ?>
+                        <a href="<?php echo esc_url($cta_btn2_url); ?>" class="cochin-btn-cta-secondary">
+                            <span><?php echo esc_html($cta_btn2_text); ?></span>
+                        </a>
+                    <?php endif; ?>
+                    <?php if (!empty($cta_btn3_text) && !empty($cta_btn3_url)) : ?>
+                        <a href="<?php echo esc_url($cta_btn3_url); ?>" class="cochin-btn-cta-tertiary">
+                            <span><?php echo esc_html($cta_btn3_text); ?></span>
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

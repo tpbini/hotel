@@ -1,625 +1,52 @@
 <?php
 /**
- * The Cochin - Menu Page Content Layout
+ * The Cochin - Dynamic Menu Page Content Layout
  *
- * Implements:
- * - Introduction Banner
- * - Dietary & Allergen Notice
- * - Sticky Quick Navigation for 9 Modified Categories:
- *   1. Starters
- *   2. Dosa & South Indian Classics
- *   3. Seafood
- *   4. Meat & Poultry
- *   5. Vegetarian & Vegan
- *   6. Rice & Biryani
- *   7. Breads & Sides
- *   8. Desserts
- *   9. Drinks
- * - Interactive Search and Dietary Filter (All / Veg Only)
- * - 100% Full-Width Dishes List with Add to Cart and Poppins Typography
+ * Fully integrated with WooCommerce, WordPress Page Editor & ACF:
+ * - Dynamic Categories and Products queried live from WooCommerce (Products > Add New / All Products)
+ * - Editable Intro, Notice, Offer, and Callout via ACF / Page Settings
+ * - Quick Navigation Category Pills with Scrollspy
+ * - Live Instant Search & Vegetarian Filter (🌱 Veg Only)
+ * - 100% Full-Width Single-Column Dishes with AJAX Add to Cart & Poppins Typography
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-// 9 Refined Menu Categories
-$categories = array(
-    array(
-        'id'        => 'starters',
-        'title'     => 'STARTERS',
-        'subhead'   => 'Crispy Bites, Street Appetizers & Tea Shop Snacks',
-        'intro'     => 'A vibrant medley of traditional South Indian street food delicacies, crunchy fritters, and coastal appetizers seasoned with fresh curry leaves, mustard seeds, and homemade spices.',
-        'items'     => array(
-            array(
-                'title' => 'Keralan Tea Shop Snacks',
-                'price' => '£6.95',
-                'tags'  => array('Veg', 'Vegan'),
-                'desc'  => 'Authentic snack tray with light & crispy Kerala pappadoms, homemade Murukku, Pappadavada, and crispy Plantain Banana Chips. Accompanied by homemade mango and lemon pickles.',
-            ),
-            array(
-                'title' => 'Lentil Soup Starter',
-                'price' => '£4.95',
-                'tags'  => array('Veg', 'Vegan', 'Gluten-Free'),
-                'desc'  => 'Thick wholesome soup prepared with yellow lentils, shallots, crushed ginger, garlic & tempered curry leaves.',
-            ),
-            array(
-                'title' => 'Aubergine Fry Starter',
-                'price' => '£4.95',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Finely sliced aubergines delicately coated in chef\'s special spiced batter and crisp-fried.',
-            ),
-            array(
-                'title' => 'Uzhunu Vada',
-                'price' => '£5.25',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Golden savoury lentil doughnuts crafted with traditional South Indian spices, fresh ginger, and curry leaves. Served with sambar.',
-            ),
-            array(
-                'title' => 'Chilly Paneer Starter',
-                'price' => '£6.95',
-                'tags'  => array('Veg'),
-                'desc'  => 'Fresh cottage cheese tossed in a rich, savoury glaze of chopped garlic, crunchy green peppers and tangy-sweet chilli sauce.',
-            ),
-            array(
-                'title' => 'Meen Fry (Fish Fry)',
-                'price' => '£6.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Thin fillets of tilapia fish marinated in freshly pounded ginger-garlic, turmeric, crushed chilli, lemon juice and aromatic curry leaves, then griddled to perfection.',
-            ),
-            array(
-                'title' => 'Calamari Rings Starter',
-                'price' => '£6.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Tender squid rings marinated with turmeric, lemon juice, and coastal spices, coated in light chickpea batter and golden fried.',
-            ),
-            array(
-                'title' => 'Onion Bhaji',
-                'price' => '£4.95',
-                'tags'  => array('Veg', 'Vegan', 'Gluten-Free'),
-                'desc'  => 'Classic crispy onion fritters prepared with sliced onions and fragrant gram flour batter, fried to golden perfection.',
-            ),
-            array(
-                'title' => 'Alleppey Prawn Fry',
-                'price' => '£7.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Alleppey backwaters speciality: King prawns marinated in vibrant spices, coated in spiced corn flour and egg batter, and pan-fried with roasted spices.',
-            ),
-            array(
-                'title' => 'Vegetable Samosa',
-                'price' => '£4.15',
-                'tags'  => array('Veg'),
-                'desc'  => 'Golden handcrafted pastry parcels filled with delicately spiced potatoes, sweet green peas, and garden vegetables.',
-            ),
-            array(
-                'title' => 'Potato Bonda',
-                'price' => '£5.25',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Mashed potatoes spiced with ginger, curry leaves, fresh coriander and tempered with black mustard seeds, fried in chickpea batter and served with coconut chutney.',
-            ),
-            array(
-                'title' => 'Chicken Samosa',
-                'price' => '£4.95',
-                'tags'  => array(),
-                'desc'  => 'Crisp golden pastry filled with a savoury mince of seasoned chicken, fine vegetables, and aromatic spices.',
-            ),
-            array(
-                'title' => 'Lamb Samosa',
-                'price' => '£4.95',
-                'tags'  => array(),
-                'desc'  => 'Flaky golden pastry parcels filled with rich spiced minced lamb, onions, herbs, and potatoes.',
-            ),
-            array(
-                'title' => 'Lamb Dry Roast',
-                'price' => '£6.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Tender cubes of succulent lamb slow-cooked with turmeric, sautéed with ginger, garlic, curry leaves and finished with freshly crushed black pepper.',
-            ),
-            array(
-                'title' => 'Prawn Poori',
-                'price' => '£5.75',
-                'tags'  => array(),
-                'desc'  => 'Succulent prawns simmered in a tangy, aromatic masala sauce served over warm, fluffy fried poori bread.',
-            ),
-            array(
-                'title' => 'Mushroom Fry',
-                'price' => '£4.95',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Fresh whole button mushrooms dipped in chef\'s seasoned batter and crispy fried with fragrant herbs.',
-            ),
-            array(
-                'title' => 'Chicken Ularthiyathu',
-                'price' => '£5.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Tender chicken pieces simmered in turmeric water, then stir-fried with black pepper powder, curry leaves and toasted coconut slivers.',
-            ),
-        ),
-    ),
-    array(
-        'id'        => 'dosa-classics',
-        'title'     => 'DOSA & SOUTH INDIAN CLASSICS',
-        'subhead'   => 'Traditional Lentil & Rice Crepes',
-        'intro'     => 'Dosa is a renowned South Indian culinary art: a thin, golden crepe crafted from a naturally fermented batter of rice and black lentils, cooked crisp on a flat griddle. Served piping hot with aromatic lentil sambar and fresh coconut chutneys.',
-        'items'     => array(
-            array(
-                'title' => 'Masala Dosa',
-                'price' => '£9.95',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'The legendary golden crispy crepe made of lentil & rice batter, filled with spiced mashed potato masala and served with traditional sambar and homemade chutneys.',
-            ),
-            array(
-                'title' => 'Plain Dosa',
-                'price' => '£8.50',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'A large, wafer-thin golden crispy crepe prepared from naturally fermented rice and lentil batter. Served with sambar and coconut chutneys.',
-            ),
-            array(
-                'title' => 'Nair Masala Dosa',
-                'price' => '£9.95',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Classic rice & lentil pancake generously spread with our spicy red coconut chutney and stuffed with seasoned potato masala.',
-            ),
-            array(
-                'title' => 'Mini Vegetarian Dosa',
-                'price' => '£4.95',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Crisp mini lentil and rice crepe filled with savoury spiced potatoes, mustard seeds, and curry leaves.',
-            ),
-            array(
-                'title' => 'Mini Chicken Dosa',
-                'price' => '£5.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Crispy mini rice and lentil pancake filled with spiced chicken pieces, potatoes, and Southern herbs.',
-            ),
-            array(
-                'title' => 'Mini Lamb Dosa',
-                'price' => '£5.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Delicate lentil and rice pancake stuffed with tender lamb cubes, spiced potatoes and fragrant tempered curry leaves.',
-            ),
-            array(
-                'title' => 'Ghee Roast Dosa',
-                'price' => '£9.50',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Extra-crisp golden dosa roasted with clarified pure butter (desi ghee), releasing an irresistible aroma. Served with sambar and chutneys.',
-            ),
-            array(
-                'title' => 'Onion Dosa',
-                'price' => '£9.25',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Crispy fermented rice pancake studded with finely chopped red onions, green chillies, and fresh coriander leaves.',
-            ),
-        ),
-    ),
-    array(
-        'id'        => 'seafood',
-        'title'     => 'SEAFOOD',
-        'subhead'   => 'Coastal Fish & Backwater Prawns',
-        'intro'     => 'Kerala\'s 600km Arabian Sea coastline inspired these celebrated fish and seafood specialties. Cooked in traditional clay pots with creamy coconut milk, kudampuli (Malabar kokum), raw mango, and fresh curry leaves.',
-        'items'     => array(
-            array(
-                'title' => 'Cochin King Fish Curry',
-                'price' => '£12.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'A signature coastal preparation: Steaks of King Fish marinated in chilli powder, turmeric, and lemon juice, then simmered in a luscious coconut milk gravy.',
-            ),
-            array(
-                'title' => 'Fish in Banana Leaf (Meen Pollichathu)',
-                'price' => '£14.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Boneless tilapia fillet marinated in shallots, ginger, garlic and crushed pepper, wrapped delicately in fresh banana leaf and pan-grilled with special spiced masala sauce.',
-            ),
-            array(
-                'title' => 'Tiger Prawn Masala',
-                'price' => '£14.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Plump tiger prawns cooked in a mouth-watering rich sauce of coconut milk, ginger, garlic, garden green peas, and ground South Indian spices.',
-            ),
-            array(
-                'title' => 'Mix Seafood Curry',
-                'price' => '£14.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'An ocean feast of King Fish, tender squid rings, juicy prawns and mussels gently simmered in our authentic Kerala spice sauce.',
-            ),
-            array(
-                'title' => 'Cochin King Prawn Curry',
-                'price' => '£14.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Chef\'s speciality: Succulent king prawns cooked in a traditional seaside sauce popular along the historic docks of Fort Cochin.',
-            ),
-            array(
-                'title' => 'Prawn Jalfrezi',
-                'price' => '£14.95',
-                'tags'  => array(),
-                'desc'  => 'Vibrant stir-fried prawns tossed with crunchy bell peppers, onions, fresh green chillies and bold roasted Indian spices.',
-            ),
-            array(
-                'title' => 'Prawn Madras',
-                'price' => '£14.95',
-                'tags'  => array(),
-                'desc'  => 'Fiery Southern style curry featuring tender prawns slow-cooked in a rich, deeply spiced tomato and chilli gravy.',
-            ),
-        ),
-    ),
-    array(
-        'id'        => 'meat-poultry',
-        'title'     => 'MEAT & POULTRY',
-        'subhead'   => 'Traditional Keralan Curries & Roasts',
-        'intro'     => 'Authentic meat recipes passed down through generations in Central and Southern Kerala. Flavoured with whole roasted spices, shallots, garlic, black pepper, and silky coconut gravies.',
-        'items'     => array(
-            array(
-                'title' => 'Cochin Lamb Curry',
-                'price' => '£10.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Tender lamb simmered in a tomato base with black pepper, ground coriander, garlic, and fresh curry leaves, enriched with silky coconut milk.',
-            ),
-            array(
-                'title' => 'Lamb and Spinach Curry (Saag Gosht)',
-                'price' => '£10.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Succulent lamb cooked with fresh English spinach leaves, onion, coriander, ginger and finished with delicate rich cashew paste.',
-            ),
-            array(
-                'title' => 'Lamb Ularthiyathu',
-                'price' => '£11.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Celebrated Kerala toddy shop speciality: Lamb slow-cooked in turmeric and stir-fried with shallots, crushed ginger, curry leaves, and crunchy coconut slivers.',
-            ),
-            array(
-                'title' => 'Nadan Chicken Curry (Varutharacha)',
-                'price' => '£10.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Classic rural Kerala curry made with dry-roasted whole coriander, fennel, dried chillies, and grated coconut paste.',
-            ),
-            array(
-                'title' => 'Thattukada Chicken',
-                'price' => '£10.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Street-style spiced chicken tossed with black pepper powder, green chillies, curry leaves, and toasted coconut.',
-            ),
-            array(
-                'title' => 'Beef Roast',
-                'price' => '£12.99',
-                'tags'  => array(),
-                'desc'  => 'Succulent beef chunks braised in a roasted masala of crushed ginger, garlic, fennel, cardamom, star anise and caramelised onions. Perfect pairing with Kerala Paratha.',
-            ),
-            array(
-                'title' => 'Garlic Chicken Curry',
-                'price' => '£10.95',
-                'tags'  => array(),
-                'desc'  => 'Deliciously aromatic fresh garlic chicken simmered in an onion-tomato gravy scented with royal garam masala.',
-            ),
-            array(
-                'title' => 'Garlic Lamb Curry',
-                'price' => '£10.95',
-                'tags'  => array(),
-                'desc'  => 'Tender lamb chunks cooked with loads of fresh roasted garlic, onion masala, and warm Southern spices.',
-            ),
-            array(
-                'title' => 'Naranga Chicken Curry (Lemon Chicken)',
-                'price' => '£10.95',
-                'tags'  => array(),
-                'desc'  => 'Tender chicken cooked with fresh lemon slices, curry leaves, ginger, garlic, Kashmiri chilli powder and a hint of white vinegar for a vibrant tangy bite.',
-            ),
-            array(
-                'title' => 'Chicken Korma',
-                'price' => '£10.95',
-                'tags'  => array(),
-                'desc'  => 'Mild, velvety chicken curry cooked in an aromatic onion, ginger and cashew nut sauce with delicate cardamom notes.',
-            ),
-            array(
-                'title' => 'Lamb Korma',
-                'price' => '£10.95',
-                'tags'  => array(),
-                'desc'  => 'Tender cubes of lamb slowly cooked in a rich, creamy sauce of onions, spices, and ground cashews.',
-            ),
-            array(
-                'title' => 'Lemony Lamb',
-                'price' => '£10.95',
-                'tags'  => array(),
-                'desc'  => 'Tender diced lamb simmered with citrus lemon slices, fresh curry leaves, and Kashmiri chilli in a mildly tangy reduction.',
-            ),
-            array(
-                'title' => 'Chicken Jalfrezi',
-                'price' => '£10.95',
-                'tags'  => array(),
-                'desc'  => 'Spicy stir-fried chicken tossed with crunchy bell peppers, onions, tomatoes and fresh aromatic spices.',
-            ),
-            array(
-                'title' => 'Chicken Madras',
-                'price' => '£10.95',
-                'tags'  => array(),
-                'desc'  => 'Fiery South Indian curry with chicken simmered in a bold, rich red chilli and tomato gravy.',
-            ),
-            array(
-                'title' => 'Lamb Jalfrezi',
-                'price' => '£10.95',
-                'tags'  => array(),
-                'desc'  => 'Tender lamb chunks sautéed with sweet peppers, onions, green chillies and freshly ground spices.',
-            ),
-            array(
-                'title' => 'Lamb Madras',
-                'price' => '£10.95',
-                'tags'  => array(),
-                'desc'  => 'Classic fiery Southern curry with succulent lamb slow-simmered in rich spicy tomato and mustard sauce.',
-            ),
-            array(
-                'title' => 'Lamb Rogan Josh',
-                'price' => '£10.95',
-                'tags'  => array(),
-                'desc'  => 'Aromatic curry of tender lamb slow-braised with Kashmiri chillies, ripe tomatoes, and warm warming spices.',
-            ),
-        ),
-    ),
-    array(
-        'id'        => 'vegetarian-vegan',
-        'title'     => 'VEGETARIAN & VEGAN',
-        'subhead'   => 'Lentils, Fresh Paneer & Plant-Based Choices',
-        'intro'     => 'Kerala\'s vegetarian tradition is renowned for wholesome, vibrant flavours. Featuring freshly roasted spices, freshly grated coconut, hearty lentils, spinach, and artisanal Indian cottage cheese.',
-        'items'     => array(
-            array(
-                'title' => 'Aubergine Curry (Brinjal Masala)',
-                'price' => '£7.95',
-                'tags'  => array('Veg', 'Vegan', 'Gluten-Free'),
-                'desc'  => 'Tender aubergine quarters simmered in a roasted coriander seed and onion gravy, finished with creamy coconut milk and smooth cashew nut paste.',
-            ),
-            array(
-                'title' => 'Dal and Spinach Curry',
-                'price' => '£7.95',
-                'tags'  => array('Veg', 'Vegan', 'Gluten-Free'),
-                'desc'  => 'Nutritious yellow lentils and fresh spinach leaves slow-simmered and tempered with cumin, garlic and curry leaves.',
-            ),
-            array(
-                'title' => 'Okra Masala (Bhindi Masala)',
-                'price' => '£7.95',
-                'tags'  => array('Veg', 'Vegan', 'Gluten-Free'),
-                'desc'  => 'Tender okra sautéed with crunchy carrots, toasted cashew nuts, dry-roasted coconut, mustard seeds and curry leaves.',
-            ),
-            array(
-                'title' => 'Veg Korma',
-                'price' => '£7.95',
-                'tags'  => array('Veg', 'Vegan'),
-                'desc'  => 'Medley of fresh carrots, potatoes, green peas and French beans cooked in a mildly spiced onion, coconut, and cashew sauce.',
-            ),
-            array(
-                'title' => 'Palak Paneer',
-                'price' => '£9.95',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Cubes of soft cottage cheese simmered in a pureed fresh spinach gravy, infused with garlic, cumin, and mild spices.',
-            ),
-            array(
-                'title' => 'Mushroom Masala',
-                'price' => '£7.95',
-                'tags'  => array('Veg', 'Vegan', 'Gluten-Free'),
-                'desc'  => 'Sliced button mushrooms and sweet green peas cooked in a fragrant spiced gravy made from freshly grated coconut and ground spices.',
-            ),
-            array(
-                'title' => 'Chilly Paneer (Mains)',
-                'price' => '£10.95',
-                'tags'  => array('Veg'),
-                'desc'  => 'Generous portion of cottage cheese cubes tossed in sweet chilli sauce, chopped garlic, and crunchy bell peppers.',
-            ),
-            array(
-                'title' => 'Mutter Paneer',
-                'price' => '£9.95',
-                'tags'  => array('Veg'),
-                'desc'  => 'Fresh cottage cheese and tender green peas cooked in our signature South Indian tomato-cashew curry.',
-            ),
-            array(
-                'title' => 'Koottu Parippu Curry',
-                'price' => '£7.95',
-                'tags'  => array('Veg', 'Vegan', 'Gluten-Free'),
-                'desc'  => 'Traditional feast-style mixed lentil curry prepared with Toor and Masoor dal, curry leaves, garlic, and tempered with red onions and black mustard seeds.',
-            ),
-        ),
-    ),
-    array(
-        'id'        => 'rice-biryani',
-        'title'     => 'RICE & BIRYANI',
-        'subhead'   => 'Fragrant Basmati & Malabar Dum Biryani',
-        'intro'     => 'A staple of South Indian dining, our rices and biryanis are prepared with long-grain aged basmati, infused with saffron, citrus, pure ghee, and whole Malabar pot spices.',
-        'items'     => array(
-            array(
-                'title' => 'Chicken Biriyani',
-                'price' => '£12.95',
-                'tags'  => array('Gluten-Free'),
-                'desc'  => 'Aromatic Keralan dum biryani layered with spiced chicken, fragrant long-grain basmati, saffron, toasted cashew nuts, and golden sultanas.',
-            ),
-            array(
-                'title' => 'Lamb Biriyani',
-                'price' => '£12.95',
-                'tags'  => array(),
-                'desc'  => 'Tender marinated lamb cubes cooked in Kerala pot spices, layered with fragrant basmati, fried onions, cashews, and sultanas.',
-            ),
-            array(
-                'title' => 'Prawn Biriyani',
-                'price' => '£15.95',
-                'tags'  => array(),
-                'desc'  => 'Juicy king prawns cooked in spiced masala and layered with saffron-infused basmati rice, garnished with toasted nuts.',
-            ),
-            array(
-                'title' => 'Vegetable Biriyani',
-                'price' => '£10.95',
-                'tags'  => array('Veg', 'Vegan', 'Gluten-Free'),
-                'desc'  => 'Garden-fresh vegetables slow-cooked with basmati rice, mint, coriander, toasted cashews and authentic Malabar spices.',
-            ),
-            array(
-                'title' => 'Plain Basmati Rice',
-                'price' => '£2.75',
-                'tags'  => array('Veg', 'Vegan', 'Gluten-Free'),
-                'desc'  => 'Fluffy, long-grain steamed premium white basmati rice.',
-            ),
-            array(
-                'title' => 'Coconut Rice',
-                'price' => '£3.25',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Aromatic basmati tossed with fresh grated coconut, urid dal, curry leaves and mustard seeds. Exceptional with curries.',
-            ),
-            array(
-                'title' => 'Lemon Rice',
-                'price' => '£3.25',
-                'tags'  => array('Veg', 'Vegan', 'Gluten-Free'),
-                'desc'  => 'Tangy, uplifting rice tossed with fresh lemon juice, turmeric, curry leaves, and crackled mustard seeds.',
-            ),
-            array(
-                'title' => 'Pulav Rice',
-                'price' => '£3.25',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Fragrant basmati cooked with saffron, whole cardamom, cloves, and cinnamon.',
-            ),
-            array(
-                'title' => 'Tamarind Rice',
-                'price' => '£3.25',
-                'tags'  => array('Veg', 'Vegan', 'Gluten-Free'),
-                'desc'  => 'Basmati rice tossed in tangy tamarind pulp, roasted peanuts, dry red chillies, and South Indian seasonings.',
-            ),
-        ),
-    ),
-    array(
-        'id'        => 'breads-sides',
-        'title'     => 'BREADS & SIDES',
-        'subhead'   => 'Flaky Parathas, Appams & Thorans',
-        'intro'     => 'Handcrafted breads prepared fresh upon ordering, paired with traditional dry-tempered vegetable Thorans tossed with fresh grated coconut and green chillies.',
-        'items'     => array(
-            array(
-                'title' => 'Kerala Paratha (1 Pc)',
-                'price' => '£2.45',
-                'tags'  => array('Veg'),
-                'desc'  => 'Famous multi-layered, flaky, buttery flatbread tossed and griddled to golden crisp perfection.',
-            ),
-            array(
-                'title' => 'Kallappam (2 Pcs)',
-                'price' => '£2.95',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Soft, fermented rice and coconut pancakes flavoured with ground shallots and cumin seeds.',
-            ),
-            array(
-                'title' => 'Poori (2 Pcs)',
-                'price' => '£2.95',
-                'tags'  => array('Veg'),
-                'desc'  => 'Deep-fried golden, puffed, and fluffy bread made of whole wheat flour.',
-            ),
-            array(
-                'title' => 'Chapatti (2 Pcs)',
-                'price' => '£2.95',
-                'tags'  => array('Veg', 'Vegan'),
-                'desc'  => 'Traditional healthy unleavened flatbreads made from whole wheat flour and dry-roasted on the tava.',
-            ),
-            array(
-                'title' => 'Beans Coconut Thoran',
-                'price' => '£5.25',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Crisp green beans finely chopped and sautéed with shallots, fresh grated coconut, green chillies, and mustard seed tempering.',
-            ),
-            array(
-                'title' => 'Spicy Potato',
-                'price' => '£5.25',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Tender boiled potato cubes tossed in our zesty South Indian masala with crunchy bell peppers and fresh herbs.',
-            ),
-            array(
-                'title' => 'Cabbage Thoran',
-                'price' => '£5.25',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Finely shredded crisp cabbage sautéed with shallots, green chillies, curry leaves, and freshly grated coconut.',
-            ),
-        ),
-    ),
-    array(
-        'id'        => 'desserts',
-        'title'     => 'DESSERTS',
-        'subhead'   => 'Traditional Sweets & Ice Creams',
-        'intro'     => 'Indulgent South Indian desserts and chilled delicacies crafted with slow-simmered milk, aromatic cardamom, jaggery, and premium Alphonso mangoes.',
-        'items'     => array(
-            array(
-                'title' => 'Payasam (Keralan Dessert Pudding)',
-                'price' => '£4.50',
-                'tags'  => array('Veg'),
-                'desc'  => 'Traditional sweet dessert made of roasted vermicelli slow-simmered in sweetened milk, infused with green cardamom, golden raisins, and roasted cashew nuts.',
-            ),
-            array(
-                'title' => 'Gulab Jamun with Ice Cream',
-                'price' => '£4.95',
-                'tags'  => array('Veg'),
-                'desc'  => 'Warm, melt-in-mouth milk dumplings soaked in scented rose-cardamom sugar syrup, served alongside a scoop of rich vanilla ice cream.',
-            ),
-            array(
-                'title' => 'Mango Kulfi',
-                'price' => '£4.25',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Traditional dense Indian ice cream prepared from slow-reduced milk infused with sweet Alphonso mango pulp and garnished with crushed pistachios.',
-            ),
-            array(
-                'title' => 'Coconut Kulfi',
-                'price' => '£4.25',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Artisanal frozen dessert made with rich dairy cream, freshly grated roasted coconut, cardamom, and toasted almond slivers.',
-            ),
-            array(
-                'title' => 'Selection of Ice Creams',
-                'price' => '£3.95',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Two generous scoops of your choice: Madagascan Vanilla, Belgian Chocolate, or Strawberries & Cream.',
-            ),
-        ),
-    ),
-    array(
-        'id'        => 'drinks',
-        'title'     => 'DRINKS',
-        'subhead'   => 'Keralan Lassi, Fresh Juices & Hot Beverages',
-        'intro'     => 'Quench your thirst with traditional chilled yogurt lassis, authentic South Indian filter coffee, aromatic spiced masala chai, and refreshing beverages.',
-        'items'     => array(
-            array(
-                'title' => 'Mango Lassi',
-                'price' => '£3.95',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Our famous chilled blended yogurt smoothie prepared with premium Alphonso mango pulp, a dash of cardamom, and crushed ice.',
-            ),
-            array(
-                'title' => 'Sweet Lassi',
-                'price' => '£3.50',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Classic refreshing churned sweet yogurt drink, lightly flavoured with rose water and cardamom.',
-            ),
-            array(
-                'title' => 'Salted Lassi',
-                'price' => '£3.50',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Cooling digestive yogurt drink delicately seasoned with roasted cumin powder, fresh ginger, and rock salt.',
-            ),
-            array(
-                'title' => 'South Indian Filter Coffee',
-                'price' => '£2.95',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Authentic stainless steel drip-filtered dark roast coffee blended with chicory, frothed with hot creamy milk.',
-            ),
-            array(
-                'title' => 'Masala Chai',
-                'price' => '£2.75',
-                'tags'  => array('Veg', 'Gluten-Free'),
-                'desc'  => 'Spiced milk tea slow-brewed with fresh ginger, cardamom pods, cinnamon, cloves, and whole black tea leaves.',
-            ),
-            array(
-                'title' => 'Fresh Lime Soda (Sweet / Salted)',
-                'price' => '£3.25',
-                'tags'  => array('Veg', 'Vegan', 'Gluten-Free'),
-                'desc'  => 'Freshly hand-squeezed lime juice topped with chilled sparkling club soda, served sweet, salted, or mixed.',
-            ),
-            array(
-                'title' => 'Soft Drinks',
-                'price' => '£2.75',
-                'tags'  => array('Veg', 'Vegan', 'Gluten-Free'),
-                'desc'  => 'Coca Cola, Diet Coke, Sprite, or Fanta (330ml chilled bottle/can).',
-            ),
-            array(
-                'title' => 'Mineral Water (750ml)',
-                'price' => '£2.50',
-                'tags'  => array('Veg', 'Vegan', 'Gluten-Free'),
-                'desc'  => 'Still or Sparkling premium bottled mineral water.',
-            ),
-        ),
-    ),
-);
+// Support arguments passed from shortcode or template part
+$args = isset($args) && is_array($args) ? $args : array();
+
+// ACF / Configurable Values with Fallback Defaults
+$menu_badge     = !empty($args['badge']) ? $args['badge'] : (function_exists('get_field') && get_field('menu_page_badge') ? get_field('menu_page_badge') : __('DISCOVER OUR FOOD', 'astra-child'));
+$menu_heading   = !empty($args['heading']) ? $args['heading'] : (function_exists('get_field') && get_field('menu_page_heading') ? get_field('menu_page_heading') : __('Explore the Flavours of Kerala & South India', 'astra-child'));
+$menu_intro     = !empty($args['intro']) ? $args['intro'] : (function_exists('get_field') && get_field('menu_page_intro') ? get_field('menu_page_intro') : __('Explore the flavours of Kerala and South India. Our menu includes starters, dosas, seafood, meat and poultry dishes, vegetarian and vegan choices, rice dishes, breads, desserts and drinks.', 'astra-child'));
+
+$allergen_show  = isset($args['show_allergen']) ? (bool)$args['show_allergen'] : (function_exists('get_field') ? get_field('menu_allergen_show') !== false : true);
+$allergen_title = function_exists('get_field') && get_field('menu_allergen_title') ? get_field('menu_allergen_title') : __('Dietary and Allergen Notice', 'astra-child');
+$allergen_desc  = function_exists('get_field') && get_field('menu_allergen_desc') ? get_field('menu_allergen_desc') : __('Please tell a member of our team about any allergy or dietary requirement before ordering. Our dishes are prepared in a kitchen where allergens are handled, and cross-contact may occur. Please ask for our current allergen information.', 'astra-child');
+
+$offer_show     = isset($args['show_offer']) ? (bool)$args['show_offer'] : (function_exists('get_field') ? get_field('menu_offer_show') !== false : true);
+$offer_badge    = function_exists('get_field') && get_field('menu_offer_badge') ? get_field('menu_offer_badge') : __('SPECIAL OFFER', 'astra-child');
+$offer_text     = function_exists('get_field') && get_field('menu_offer_text') ? get_field('menu_offer_text') : __('<strong>15% Off</strong> on all collection orders over £25 when ordered online.', 'astra-child');
+$offer_btn_text = function_exists('get_field') && get_field('menu_offer_btn_text') ? get_field('menu_offer_btn_text') : __('ORDER TAKEAWAY', 'astra-child');
+$offer_btn_url  = function_exists('get_field') && get_field('menu_offer_btn_url') ? get_field('menu_offer_btn_url') : home_url('/#order');
+
+$callout_show     = function_exists('get_field') ? get_field('menu_callout_show') !== false : true;
+$callout_title    = function_exists('get_field') && get_field('menu_callout_title') ? get_field('menu_callout_title') : __('Ready to Experience Cochin Flavours?', 'astra-child');
+$callout_text     = function_exists('get_field') && get_field('menu_callout_text') ? get_field('menu_callout_text') : __('Reserve a table at our historic Old Town restaurant or order online for collection & delivery.', 'astra-child');
+$callout_btn1_txt = function_exists('get_field') && get_field('menu_callout_btn1_text') ? get_field('menu_callout_btn1_text') : __('BOOK A TABLE', 'astra-child');
+$callout_btn1_url = function_exists('get_field') && get_field('menu_callout_btn1_url') ? get_field('menu_callout_btn1_url') : (function_exists('the_cochin_get_booking_url') ? the_cochin_get_booking_url() : home_url('/book-table/'));
+$callout_btn2_txt = function_exists('get_field') && get_field('menu_callout_btn2_text') ? get_field('menu_callout_btn2_text') : __('ORDER ONLINE', 'astra-child');
+$callout_btn2_url = function_exists('get_field') && get_field('menu_callout_btn2_url') ? get_field('menu_callout_btn2_url') : home_url('/#order');
+
+// Fetch Dynamic Categories and Items from WooCommerce / Database
+$categories = function_exists('the_cochin_get_menu_categories') ? the_cochin_get_menu_categories() : array();
+
+// If filtered by specific category slug via shortcode
+if (!empty($args['category']) && isset($categories[$args['category']])) {
+    $categories = array($args['category'] => $categories[$args['category']]);
+}
 ?>
 
 <div class="cochin-menu-layout">
@@ -632,29 +59,31 @@ $categories = array(
             
             <!-- Introduction Box -->
             <div class="menu-intro-card">
-                <div class="menu-intro-badge">DISCOVER OUR FOOD</div>
-                <h1 class="menu-intro-heading">Explore the Flavours of Kerala &amp; South India</h1>
-                <p class="menu-intro-text">
-                    Explore the flavours of Kerala and South India. Our menu includes starters, dosas, seafood, meat and poultry dishes, vegetarian and vegan choices, rice dishes, breads, desserts and drinks.
-                </p>
+                <?php if (!empty($menu_badge)) : ?>
+                    <div class="menu-intro-badge"><?php echo esc_html($menu_badge); ?></div>
+                <?php endif; ?>
+                <h1 class="menu-intro-heading"><?php echo esc_html($menu_heading); ?></h1>
+                <?php if (!empty($menu_intro)) : ?>
+                    <p class="menu-intro-text"><?php echo wp_kses_post($menu_intro); ?></p>
+                <?php endif; ?>
             </div>
 
             <!-- Dietary & Allergen Notice Card -->
-            <div class="menu-allergen-card" role="note" aria-label="Dietary and allergen notice">
-                <div class="menu-allergen-icon-wrap" aria-hidden="true">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="8" x2="12" y2="12"></line>
-                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                    </svg>
+            <?php if ($allergen_show) : ?>
+                <div class="menu-allergen-card" role="note" aria-label="<?php esc_attr_e('Dietary and allergen notice', 'astra-child'); ?>">
+                    <div class="menu-allergen-icon-wrap" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                    </div>
+                    <div class="menu-allergen-content">
+                        <h2 class="menu-allergen-title"><?php echo esc_html($allergen_title); ?></h2>
+                        <p class="menu-allergen-desc"><?php echo esc_html($allergen_desc); ?></p>
+                    </div>
                 </div>
-                <div class="menu-allergen-content">
-                    <h2 class="menu-allergen-title">Dietary and Allergen Notice</h2>
-                    <p class="menu-allergen-desc">
-                        Please tell a member of our team about any allergy or dietary requirement before ordering. Our dishes are prepared in a kitchen where allergens are handled, and cross-contact may occur. Please ask for our current allergen information.
-                    </p>
-                </div>
-            </div>
+            <?php endif; ?>
 
         </div>
     </div>
@@ -665,23 +94,25 @@ $categories = array(
     <div class="menu-sticky-nav-bar">
         <div class="menu-container">
             <div class="menu-nav-scroller">
-                <nav class="menu-category-pills" aria-label="Menu Categories">
-                    <a href="#starters" class="menu-pill active">Starters</a>
-                    <a href="#dosa-classics" class="menu-pill">Dosa &amp; South Indian Classics</a>
-                    <a href="#seafood" class="menu-pill">Seafood</a>
-                    <a href="#meat-poultry" class="menu-pill">Meat &amp; Poultry</a>
-                    <a href="#vegetarian-vegan" class="menu-pill">Vegetarian &amp; Vegan</a>
-                    <a href="#rice-biryani" class="menu-pill">Rice &amp; Biryani</a>
-                    <a href="#breads-sides" class="menu-pill">Breads &amp; Sides</a>
-                    <a href="#desserts" class="menu-pill">Desserts</a>
-                    <a href="#drinks" class="menu-pill">Drinks</a>
+                <nav class="menu-category-pills" aria-label="<?php esc_attr_e('Menu Categories', 'astra-child'); ?>">
+                    <?php 
+                    $first_pill = true;
+                    foreach ($categories as $cat) : 
+                    ?>
+                        <a href="#<?php echo esc_attr($cat['id']); ?>" class="menu-pill <?php echo $first_pill ? 'active' : ''; ?>">
+                            <?php echo esc_html($cat['title']); ?>
+                        </a>
+                    <?php 
+                        $first_pill = false;
+                    endforeach; 
+                    ?>
                 </nav>
             </div>
 
             <div class="menu-controls-bar">
                 <!-- Search without remove button -->
                 <div class="menu-search-wrap">
-                    <input type="text" id="menuSearchInput" class="menu-search-input" placeholder="Search dishes..." autocomplete="off">
+                    <input type="text" id="menuSearchInput" class="menu-search-input" placeholder="<?php esc_attr_e('Search dishes...', 'astra-child'); ?>" autocomplete="off" aria-label="<?php esc_attr_e('Search menu dishes', 'astra-child'); ?>">
                     <svg class="menu-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -692,7 +123,7 @@ $categories = array(
                 <label class="menu-veg-filter-label" for="vegFilterCheckbox">
                     <input type="checkbox" id="vegFilterCheckbox" class="menu-veg-checkbox">
                     <span class="menu-veg-slider"></span>
-                    <span class="menu-veg-text">🌱 Veg Only</span>
+                    <span class="menu-veg-text">🌱 <?php esc_html_e('Veg Only', 'astra-child'); ?></span>
                 </label>
             </div>
         </div>
@@ -701,21 +132,27 @@ $categories = array(
     <!-- =========================================================================
          SPECIAL OFFER BANNER
          ========================================================================= -->
-    <div class="menu-container">
-        <div class="menu-offer-banner">
-            <div class="menu-offer-badge">SPECIAL OFFER</div>
-            <div class="menu-offer-text">
-                <strong>15% Off</strong> on all collection orders over £25 when ordered online.
+    <?php if ($offer_show) : ?>
+        <div class="menu-container">
+            <div class="menu-offer-banner">
+                <div class="menu-offer-badge"><?php echo esc_html($offer_badge); ?></div>
+                <div class="menu-offer-text">
+                    <?php echo wp_kses_post($offer_text); ?>
+                </div>
+                <a href="<?php echo esc_url($offer_btn_url); ?>" class="menu-offer-btn"><?php echo esc_html($offer_btn_text); ?></a>
             </div>
-            <a href="<?php echo esc_url(home_url('/#order')); ?>" class="menu-offer-btn">ORDER TAKEAWAY</a>
         </div>
-    </div>
+    <?php endif; ?>
 
     <!-- =========================================================================
-         MENU CATEGORIES (MATCHING USER REFERENCE + 100% SINGLE COLUMN DISHES)
+         DYNAMIC MENU CATEGORIES & DISHES (LIVE FROM WOOCOMMERCE & DATABASE)
          ========================================================================= -->
     <div class="menu-categories-wrapper">
-        <?php foreach ($categories as $cat) : ?>
+        <?php foreach ($categories as $cat) : 
+            if (empty($cat['items'])) {
+                continue;
+            }
+        ?>
             <section class="menu-category-section" id="<?php echo esc_attr($cat['id']); ?>" data-category="<?php echo esc_attr($cat['id']); ?>">
                 <div class="menu-container">
                     
@@ -735,18 +172,17 @@ $categories = array(
                     <div class="menu-dishes-container-fullwidth">
                         <div class="menu-dishes-list-singlecol">
                             <?php foreach ($cat['items'] as $item) : 
-                                $is_veg = in_array('Veg', $item['tags']) || in_array('Vegan', $item['tags']);
-                                $product_obj = get_page_by_title($item['title'], OBJECT, 'product');
-                                $product_id = $product_obj ? $product_obj->ID : 0;
-                                $product_url = $product_id ? get_permalink($product_id) : '#';
+                                $is_veg = !empty($item['tags']) && (in_array('Veg', $item['tags'], true) || in_array('Vegan', $item['tags'], true));
+                                $product_id = !empty($item['product_id']) ? (int)$item['product_id'] : 0;
+                                $product_url = !empty($item['url']) ? $item['url'] : ($product_id ? get_permalink($product_id) : '#');
                             ?>
                                 <div class="menu-dish-item" data-veg="<?php echo $is_veg ? 'true' : 'false'; ?>">
                                     <div class="menu-dish-row-layout">
-                                        <!-- Left / Main: Dish Name (Linked to WC details), Tags, Description -->
+                                        <!-- Left / Main: Dish Name, Tags, Description -->
                                         <div class="menu-dish-main-info">
                                             <div class="menu-dish-title-wrap">
-                                                <?php if ($product_id) : ?>
-                                                    <a href="<?php echo esc_url($product_url); ?>" class="menu-dish-title-link" title="View details for <?php echo esc_attr($item['title']); ?>">
+                                                <?php if ($product_id && $product_url !== '#') : ?>
+                                                    <a href="<?php echo esc_url($product_url); ?>" class="menu-dish-title-link" title="<?php echo esc_attr(sprintf(__('View details for %s', 'astra-child'), $item['title'])); ?>">
                                                         <h3 class="menu-dish-name"><?php echo esc_html($item['title']); ?></h3>
                                                     </a>
                                                 <?php else : ?>
@@ -775,9 +211,9 @@ $categories = array(
                                         <div class="menu-dish-action-side">
                                             <span class="menu-dish-price"><?php echo esc_html($item['price']); ?></span>
                                             <?php if ($product_id) : ?>
-                                                <button type="button" class="cochin-add-cart-btn" data-product-id="<?php echo esc_attr($product_id); ?>" aria-label="Add <?php echo esc_attr($item['title']); ?> to cart">
+                                                <button type="button" class="cochin-add-cart-btn" data-product-id="<?php echo esc_attr($product_id); ?>" aria-label="<?php echo esc_attr(sprintf(__('Add %s to cart', 'astra-child'), $item['title'])); ?>">
                                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                                    <span>Add to cart</span>
+                                                    <span><?php esc_html_e('Add to cart', 'astra-child'); ?></span>
                                                 </button>
                                             <?php endif; ?>
                                         </div>
@@ -795,18 +231,24 @@ $categories = array(
     <!-- =========================================================================
          BOTTOM BOOKING & ORDER CALLOUT
          ========================================================================= -->
-    <section class="menu-bottom-callout">
-        <div class="menu-container">
-            <div class="menu-callout-box">
-                <h3 class="menu-callout-title">Ready to Experience Cochin Flavours?</h3>
-                <p class="menu-callout-text">Reserve a table at our historic Old Town restaurant or order online for collection &amp; delivery.</p>
-                <div class="menu-callout-actions">
-                    <a href="<?php echo esc_url(the_cochin_get_booking_url()); ?>" class="menu-btn-primary">BOOK A TABLE</a>
-                    <a href="<?php echo esc_url(home_url('/#order')); ?>" class="menu-btn-secondary">ORDER ONLINE</a>
+    <?php if ($callout_show) : ?>
+        <section class="menu-bottom-callout">
+            <div class="menu-container">
+                <div class="menu-callout-box">
+                    <h3 class="menu-callout-title"><?php echo esc_html($callout_title); ?></h3>
+                    <p class="menu-callout-text"><?php echo esc_html($callout_text); ?></p>
+                    <div class="menu-callout-actions">
+                        <?php if (!empty($callout_btn1_txt)) : ?>
+                            <a href="<?php echo esc_url($callout_btn1_url); ?>" class="menu-btn-primary"><?php echo esc_html($callout_btn1_txt); ?></a>
+                        <?php endif; ?>
+                        <?php if (!empty($callout_btn2_txt)) : ?>
+                            <a href="<?php echo esc_url($callout_btn2_url); ?>" class="menu-btn-secondary"><?php echo esc_html($callout_btn2_txt); ?></a>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    <?php endif; ?>
 
 </div>
 
@@ -819,8 +261,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const navPills = document.querySelectorAll('.menu-pill');
 
     function filterDishes() {
-        const query = (searchInput.value || '').toLowerCase().trim();
-        const vegOnly = vegCheckbox.checked;
+        const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
+        const vegOnly = vegCheckbox ? vegCheckbox.checked : false;
 
         categorySections.forEach(section => {
             const dishes = section.querySelectorAll('.menu-dish-item');
@@ -918,7 +360,9 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('product_id', productId);
         formData.append('quantity', 1);
 
-        fetch('<?php echo esc_url(wc_get_cart_url()); ?>?wc-ajax=add_to_cart', {
+        const cartUrl = <?php echo json_encode(function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_url('/cart/')); ?>;
+
+        fetch(cartUrl + '?wc-ajax=add_to_cart', {
             method: 'POST',
             body: formData
         })

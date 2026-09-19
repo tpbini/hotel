@@ -89,6 +89,22 @@ add_shortcode('the_cochin_banquets', 'the_cochin_banquets_shortcode');
 add_shortcode('the_cochin_banquet_meals', 'the_cochin_banquets_shortcode');
 
 /**
+ * 4b. Banquets Editorial Page Layout Shortcode: [the_cochin_banquet_page]
+ */
+function the_cochin_banquet_page_shortcode($atts) {
+    $atts = shortcode_atts(array(
+        'badge'    => '',
+        'headline' => '',
+        'intro'    => '',
+    ), $atts, 'the_cochin_banquet_page');
+
+    ob_start();
+    get_template_part('template-parts/banquet-content', null, $atts);
+    return ob_get_clean();
+}
+add_shortcode('the_cochin_banquet_page', 'the_cochin_banquet_page_shortcode');
+
+/**
  * 5. Delivery & Collection Shortcode: [the_cochin_delivery]
  */
 function the_cochin_delivery_shortcode($atts) {
@@ -169,6 +185,41 @@ function the_cochin_faq_shortcode($atts, $content = null) {
     return ob_get_clean();
 }
 add_shortcode('the_cochin_faq', 'the_cochin_faq_shortcode');
+
+/**
+ * 8. Menu Editorial Layout Shortcode: [the_cochin_menu]
+ */
+function the_cochin_menu_shortcode($atts) {
+    $atts = shortcode_atts(array(
+        'heading'       => '',
+        'intro'         => '',
+        'show_allergen' => '1',
+        'show_offer'    => '1',
+        'category'      => '',
+    ), $atts, 'the_cochin_menu');
+
+    ob_start();
+    get_template_part('template-parts/menu-content', null, $atts);
+    return ob_get_clean();
+}
+add_shortcode('the_cochin_menu', 'the_cochin_menu_shortcode');
+
+/**
+ * 9. Contact Editorial Page Layout Shortcode: [the_cochin_contact_page] or [the_cochin_contact]
+ */
+function the_cochin_contact_page_shortcode($atts) {
+    $atts = shortcode_atts(array(
+        'badge'    => '',
+        'headline' => '',
+        'intro'    => '',
+    ), $atts, 'the_cochin_contact_page');
+
+    ob_start();
+    get_template_part('template-parts/contact-content', null, $atts);
+    return ob_get_clean();
+}
+add_shortcode('the_cochin_contact_page', 'the_cochin_contact_page_shortcode');
+add_shortcode('the_cochin_contact', 'the_cochin_contact_page_shortcode');
 
 /**
  * Register Gutenberg Block Pattern Category

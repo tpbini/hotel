@@ -1,0 +1,27 @@
+name: Deploy to Live Server
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Web/wp-content/themes/astra-child/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy Theme to Live Hostinger Server via SFTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT || '65002' }}
+          protocol: sftp
+          local-dir: ./Web/wp-content/themes/astra-child/
+          server-dir: /domains/thecochin.co.uk/public_html/wp-content/themes/astra-child/
+          dangerous-clean-slate: false

@@ -802,15 +802,27 @@ function the_cochin_render_page_header_banner() {
             'title'      => get_the_title(),
             'breadcrumb' => 'Menu / ' . get_the_title(),
         ));
-    } elseif (function_exists('is_cart') && is_cart()) {
+    } elseif ((function_exists('is_cart') && is_cart()) || is_page('cart')) {
         get_template_part('template-parts/about-header', null, array(
             'title'      => 'Your Cart',
             'breadcrumb' => 'Cart',
         ));
-    } elseif (function_exists('is_checkout') && is_checkout()) {
+    } elseif ((function_exists('is_checkout') && is_checkout()) || is_page('checkout')) {
+        if (function_exists('is_order_received_page') && is_order_received_page()) {
+            get_template_part('template-parts/about-header', null, array(
+                'title'      => 'Order Received',
+                'breadcrumb' => 'Order Received',
+            ));
+        } else {
+            get_template_part('template-parts/about-header', null, array(
+                'title'      => 'Checkout',
+                'breadcrumb' => 'Checkout',
+            ));
+        }
+    } elseif ((function_exists('is_account_page') && is_account_page()) || is_page('my-account') || is_page('account')) {
         get_template_part('template-parts/about-header', null, array(
-            'title'      => 'Checkout',
-            'breadcrumb' => 'Checkout',
+            'title'      => 'My Account',
+            'breadcrumb' => 'My Account',
         ));
     }
 }

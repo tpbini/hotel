@@ -630,10 +630,19 @@ h1.cochin-hero-title {
   position: relative;
 }
 
-/* Section Header (Our Menu ——— / Explore our menu) */
+/* Section Header (Our Menu ——— / Explore our menu + QR Code) */
 .cochin-carousel-header {
-  text-align: left;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
   margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.cochin-carousel-header-left {
+  flex: 1;
+  min-width: 260px;
 }
 
 .cochin-carousel-badge {
@@ -666,6 +675,81 @@ h1.cochin-hero-title {
   margin: 0;
   line-height: 1.2;
   letter-spacing: -0.01em;
+}
+
+/* QR Code Card in Carousel Header */
+.cochin-carousel-header-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.cochin-menu-qr-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  gap: 6px;
+  transition: transform 0.25s ease;
+}
+
+.cochin-menu-qr-link:hover {
+  transform: translateY(-3px);
+}
+
+.cochin-menu-qr-frame {
+  width: 92px;
+  height: 92px;
+  background: #ffffff;
+  padding: 6px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(107, 29, 40, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+  border: 1.5px solid rgba(223, 169, 124, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.cochin-menu-qr-link:hover .cochin-menu-qr-frame {
+  border-color: var(--brand, #6b1d28);
+  box-shadow: 0 8px 24px rgba(107, 29, 40, 0.18);
+}
+
+.cochin-menu-qr-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.cochin-menu-qr-caption {
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--brand, #6b1d28);
+  letter-spacing: 0.01em;
+  text-align: center;
+  line-height: 1.3;
+  transition: color 0.2s ease;
+}
+
+.cochin-menu-qr-link:hover .cochin-menu-qr-caption {
+  color: var(--brand-hover, #4d151c);
+  text-decoration: underline;
+}
+
+@media (max-width: 680px) {
+  .cochin-carousel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .cochin-carousel-header-qr {
+    align-self: flex-start;
+  }
 }
 
 /* Carousel Outer Wrapper with side padding for navigation arrows */
@@ -4913,6 +4997,23 @@ body.page-id-130,
   grid-template-columns: repeat(2, 1fr);
 }
 
+.reservation-form-row.three-col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 900px) {
+  .reservation-form-row.three-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .reservation-form-row.three-col,
+  .reservation-form-row.two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
 .reservation-form-group {
   display: flex;
   flex-direction: column;
@@ -4930,19 +5031,55 @@ body.page-id-130,
   color: #d32f2f;
 }
 
-.reservation-input,
-.reservation-textarea {
-  font-family: 'Poppins', var(--font-main) !important;
-  font-size: 0.94rem !important;
-  padding: 13px 18px !important;
-  border: 1px solid #dcd5c9 !important;
+.reservation-input {
+  font-family: 'Poppins', var(--font-main), sans-serif !important;
+  font-size: 0.95rem !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  line-height: normal !important;
+  padding: 0 16px !important;
+  border: 1.5px solid #dcd5c9 !important;
   border-radius: 8px !important;
   background-color: #faf8f5 !important;
   color: #1a1a1a !important;
   outline: none !important;
   width: 100% !important;
   box-sizing: border-box !important;
+  display: block !important;
+  vertical-align: middle !important;
   transition: all 0.25s ease !important;
+}
+
+select.reservation-input {
+  height: 52px !important;
+  min-height: 52px !important;
+  line-height: 50px !important;
+  padding: 0 42px 0 16px !important;
+  background-color: #faf8f5 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23444444' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 16px center !important;
+  background-size: 16px 16px !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  cursor: pointer !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+}
+
+select.reservation-input option {
+  padding: 10px 14px;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+input[type="date"].reservation-input {
+  line-height: 48px !important;
+  padding: 0 16px !important;
 }
 
 .reservation-input:focus,
@@ -4953,6 +5090,17 @@ body.page-id-130,
 }
 
 .reservation-textarea {
+  font-family: 'Poppins', var(--font-main), sans-serif !important;
+  font-size: 0.95rem !important;
+  line-height: 1.5 !important;
+  padding: 14px 16px !important;
+  border: 1.5px solid #dcd5c9 !important;
+  border-radius: 8px !important;
+  background-color: #faf8f5 !important;
+  color: #1a1a1a !important;
+  outline: none !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
   resize: vertical;
   min-height: 80px;
 }

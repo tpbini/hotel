@@ -111,10 +111,7 @@ $allergen_notice  = get_option('rb_allergen_notice', 'If you or any member of yo
                             <div class="reservation-form-group">
                                 <label for="res_duration">Dining Duration <span class="req">*</span></label>
                                 <select id="res_duration" class="reservation-input">
-                                    <option value="60">1 Hour (Quick Dinner: e.g. 7:00 - 8:00 PM)</option>
-                                    <option value="90">1.5 Hours (Standard Dining: e.g. 7:00 - 8:30 PM)</option>
-                                    <option value="120" selected>2 Hours (Leisure Feast: e.g. 7:00 - 9:00 PM)</option>
-                                    <option value="150">2.5 Hours (Celebration / Banquet)</option>
+                                    <option value="120" selected>2 Hours (Default)</option>
                                 </select>
                             </div>
                         </div>
@@ -136,12 +133,9 @@ $allergen_notice  = get_option('rb_allergen_notice', 'If you or any member of yo
                             </div>
 
                             <div class="cochin-quick-duration-wrap">
-                                <label class="cochin-quick-label">Table Duration / End Time:</label>
+                                <label class="cochin-quick-label">Table Duration:</label>
                                 <div class="cochin-duration-chips-list">
-                                    <button type="button" class="cochin-duration-chip" data-duration="60">⚡ 1 hr</button>
-                                    <button type="button" class="cochin-duration-chip" data-duration="90">🍽️ 1.5 hrs</button>
-                                    <button type="button" class="cochin-duration-chip selected" data-duration="120">✨ 2 hrs (Default)</button>
-                                    <button type="button" class="cochin-duration-chip" data-duration="150">🥂 2.5 hrs</button>
+                                    <button type="button" class="cochin-duration-chip selected" data-duration="120" style="cursor: default;">✨ 2 hrs (Default)</button>
                                 </div>
                             </div>
                         </div>

@@ -27,13 +27,24 @@ $menu_url   = the_cochin_get_menu_page_url();
 
 <section class="cochin-menu-carousel-section" id="menu">
     <div class="cochin-carousel-container">
-        <!-- Section Header -->
+        <!-- Section Header with QR Code -->
         <div class="cochin-carousel-header">
-            <div class="cochin-carousel-badge">
-                <span class="cochin-badge-text">Our Menu</span>
-                <span class="cochin-badge-line"></span>
+            <div class="cochin-carousel-header-left">
+                <div class="cochin-carousel-badge">
+                    <span class="cochin-badge-text">Our Menu</span>
+                    <span class="cochin-badge-line"></span>
+                </div>
+                <h2 class="cochin-carousel-title">Explore our menu</h2>
             </div>
-            <h2 class="cochin-carousel-title">Explore our menu</h2>
+
+            <div class="cochin-carousel-header-qr">
+                <a href="<?php echo esc_url($menu_url); ?>" class="cochin-menu-qr-link" title="<?php esc_attr_e('Scan or click for instant menu access', 'astra-child'); ?>">
+                    <div class="cochin-menu-qr-frame">
+                        <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/menu-qr-code.svg'); ?>" alt="<?php esc_attr_e('Scan QR Code for Instant Menu Access', 'astra-child'); ?>" class="cochin-menu-qr-img" width="92" height="92" loading="lazy">
+                    </div>
+                    <span class="cochin-menu-qr-caption"><?php esc_html_e('scan qr code for instant access', 'astra-child'); ?></span>
+                </a>
+            </div>
         </div>
 
         <!-- Carousel Outer Wrapper with Navigation Arrows -->

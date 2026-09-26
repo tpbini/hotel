@@ -1,0 +1,34 @@
+Future academy
+Learning management systemn/ 
+
+future acade /slash
+
+Create a Simple LMS
+
+The url should be website name / course
+
+Login
+
+student
+Password
+
+Phone number OTP
+videos upload in youtube as private
+access/
+Should not be possible share video, 
+if anybody recorde the video, Username/Login date  should show in on top of video to find out who has do it
+--------------------
+360 moves
+address / 
+address update
+---------------------
+360 medicare
+--
+1) Slider
+Allied health image > 
+doctors> 
+ 
+2)Migraat
+
+
+

@@ -88,7 +88,7 @@ $banquet = array_merge($defaults, $acf_data, is_array($args) ? array_filter($arg
                     <a href="<?php echo esc_url($banquet['book_url']); ?>" class="cochin-banquet-btn btn-banquet-book">
                         <?php esc_html_e('BOOK A TABLE', 'astra-child'); ?>
                     </a>
-                    <a href="<?php echo esc_url($banquet['order_url']); ?>" class="cochin-banquet-btn btn-banquet-order">
+                    <a href="<?php echo esc_url($banquet['order_url']); ?>" class="cochin-banquet-btn btn-banquet-order" data-open-order-modal="true">
                         <?php esc_html_e('ORDER ONLINE', 'astra-child'); ?>
                     </a>
                 </div>

@@ -83,7 +83,7 @@ if (empty($btn3_url)) {
                 <?php endif; ?>
 
                 <?php if (!empty($btn2_text)) : ?>
-                    <a href="<?php echo esc_url($btn2_url); ?>" class="cochin-hero-btn btn-orange">
+                    <a href="<?php echo esc_url($btn2_url); ?>" class="cochin-hero-btn btn-orange btn-order-online" data-open-order-modal="true">
                         <?php echo esc_html($btn2_text); ?>
                     </a>
                 <?php endif; ?>

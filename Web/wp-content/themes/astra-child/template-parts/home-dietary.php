@@ -51,7 +51,7 @@ $dietary = array_merge($defaults, $acf_data, is_array($args) ? array_filter($arg
                 <a href="<?php echo esc_url($dietary['book_url']); ?>" class="cochin-dietary-btn btn-dietary-book">
                     <?php esc_html_e('BOOK A TABLE', 'astra-child'); ?>
                 </a>
-                <a href="<?php echo esc_url($dietary['order_url']); ?>" class="cochin-dietary-btn btn-dietary-order">
+                <a href="<?php echo esc_url($dietary['order_url']); ?>" class="cochin-dietary-btn btn-dietary-order" data-open-order-modal="true">
                     <?php esc_html_e('ORDER ONLINE', 'astra-child'); ?>
                 </a>
             </div>

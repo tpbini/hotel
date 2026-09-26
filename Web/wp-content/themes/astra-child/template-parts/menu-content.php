@@ -242,7 +242,7 @@ if (!empty($args['category']) && isset($categories[$args['category']])) {
                             <a href="<?php echo esc_url($callout_btn1_url); ?>" class="menu-btn-primary"><?php echo esc_html($callout_btn1_txt); ?></a>
                         <?php endif; ?>
                         <?php if (!empty($callout_btn2_txt)) : ?>
-                            <a href="<?php echo esc_url($callout_btn2_url); ?>" class="menu-btn-secondary"><?php echo esc_html($callout_btn2_txt); ?></a>
+                            <a href="<?php echo esc_url($callout_btn2_url); ?>" class="menu-btn-secondary" data-open-order-modal="true"><?php echo esc_html($callout_btn2_txt); ?></a>
                         <?php endif; ?>
                     </div>
                 </div>

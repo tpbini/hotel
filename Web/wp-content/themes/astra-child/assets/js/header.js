@@ -61,4 +61,63 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
   }
+
+  // ==========================================================================
+  // Delivery & Takeaway Partner Modal Logic
+  // ==========================================================================
+  const orderModal = document.getElementById('cochinOrderModal');
+  const orderModalClose = document.getElementById('cochinOrderModalClose');
+
+  function openOrderModal(e) {
+    if (e && typeof e.preventDefault === 'function') {
+      e.preventDefault();
+    }
+    if (orderModal) {
+      orderModal.style.display = 'flex';
+      // Force repaint for transition
+      orderModal.offsetHeight;
+      orderModal.classList.add('is-active');
+      document.body.style.overflow = 'hidden';
+      if (orderModalClose) {
+        orderModalClose.focus();
+      }
+    }
+  }
+
+  function closeOrderModal() {
+    if (orderModal) {
+      orderModal.classList.remove('is-active');
+      setTimeout(function () {
+        orderModal.style.display = 'none';
+        document.body.style.overflow = '';
+      }, 300);
+    }
+  }
+
+  // Attach to all elements that open the order modal
+  document.addEventListener('click', function (e) {
+    const target = e.target;
+    // Check if clicked element or its parent matches order trigger
+    const trigger = target.closest('[data-open-order-modal], a[href$="#order"], a[href="#order"], .btn-delivery-order, .btn-order-online, .btn-dietary-order, .btn-banquet-order');
+    if (trigger) {
+      // If it's an internal link or button, open the modal
+      openOrderModal(e);
+    }
+
+    // Close on backdrop click
+    if (target === orderModal) {
+      closeOrderModal();
+    }
+  });
+
+  if (orderModalClose) {
+    orderModalClose.addEventListener('click', closeOrderModal);
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && orderModal && orderModal.classList.contains('is-active')) {
+      closeOrderModal();
+    }
+  });
 });
+

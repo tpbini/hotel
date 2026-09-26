@@ -276,6 +276,33 @@ function the_cochin_get_menu_page_url() {
 }
 
 /**
+ * Retrieve Delivery Partner URLs (Uber Eats & Just Eat)
+ */
+function the_cochin_get_ubereats_url() {
+    $url = get_option('the_cochin_ubereats_url');
+    if (empty($url) && function_exists('get_field')) {
+        $url = get_field('ubereats_url', 'option');
+    }
+    return !empty($url) ? $url : 'https://www.ubereats.com/gb';
+}
+
+function the_cochin_get_justeat_url() {
+    $url = get_option('the_cochin_justeat_url');
+    if (empty($url) && function_exists('get_field')) {
+        $url = get_field('justeat_url', 'option');
+    }
+    return !empty($url) ? $url : 'https://www.just-eat.co.uk/';
+}
+
+/**
+ * Render Delivery Partners Modal in Footer
+ */
+function the_cochin_render_delivery_modal_footer() {
+    get_template_part('template-parts/modal-delivery-partners');
+}
+add_action('wp_footer', 'the_cochin_render_delivery_modal_footer', 20);
+
+/**
  * Menu Carousel Items Data (Configurable & Filterable)
  */
 function the_cochin_get_menu_carousel_items() {

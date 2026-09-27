@@ -148,6 +148,14 @@ class RO_Admin {
             exit;
         }
 
+        // Handle Delete Table
+        if ( isset( $_GET['ro_action'] ) && 'delete_table' === $_GET['ro_action'] && isset( $_GET['table_id'] ) ) {
+            check_admin_referer( 'ro_delete_table_' . intval( $_GET['table_id'] ) );
+            RO_Tables::delete_table( intval( $_GET['table_id'] ) );
+            wp_safe_redirect( admin_url( 'admin.php?page=ro-tables&deleted=1' ) );
+            exit;
+        }
+
         // Handle Category Create
         if ( isset( $_POST['ro_action'] ) && 'create_category' === $_POST['ro_action'] ) {
             check_admin_referer( 'ro_category_nonce' );

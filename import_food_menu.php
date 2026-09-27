@@ -61,16 +61,18 @@ function find_attachment_by_name($name) {
     return $id ? (int)$id : 0;
 }
 
+$default_product_img = find_attachment_by_name('product');
+
 $img_map = array(
-    'prawn'  => find_attachment_by_name('chemmen') ?: find_attachment_by_name('prawn'),
-    'fish'   => find_attachment_by_name('fish') ?: find_attachment_by_name('chemmen'),
-    'soup'   => find_attachment_by_name('soup'),
-    'dosa'   => find_attachment_by_name('Dosa') ?: find_attachment_by_name('dosa'),
-    'chick'  => find_attachment_by_name('chick') ?: find_attachment_by_name('food1'),
-    'rice'   => find_attachment_by_name('jyt') ?: find_attachment_by_name('food2'),
-    'bread'  => find_attachment_by_name('appam') ?: find_attachment_by_name('food3'),
-    'veg'    => find_attachment_by_name('appam') ?: find_attachment_by_name('food6'),
-    'vada'   => find_attachment_by_name('uzhunnu') ?: find_attachment_by_name('food3'),
+    'prawn'  => $default_product_img ?: find_attachment_by_name('chemmen'),
+    'fish'   => $default_product_img ?: find_attachment_by_name('fish'),
+    'soup'   => $default_product_img ?: find_attachment_by_name('soup'),
+    'dosa'   => $default_product_img ?: find_attachment_by_name('Dosa'),
+    'chick'  => $default_product_img ?: find_attachment_by_name('chick'),
+    'rice'   => $default_product_img ?: find_attachment_by_name('jyt'),
+    'bread'  => $default_product_img ?: find_attachment_by_name('appam'),
+    'veg'    => $default_product_img ?: find_attachment_by_name('appam'),
+    'vada'   => $default_product_img ?: find_attachment_by_name('uzhunnu'),
 );
 
 $menu_items = array(

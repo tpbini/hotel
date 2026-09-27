@@ -67,12 +67,15 @@ $currency = get_option( 'ro_currency_symbol', '$' );
                     <div style="font-family:monospace; font-size:0.75rem; margin-top:2px;">Token: <?php echo esc_html( $t['qr_token'] ); ?></div>
                 </div>
 
-                <div style="width:100%; display:flex; gap:8px; justify-content:center;">
-                    <a href="<?php echo esc_url( $t['qr_url'] ); ?>" target="_blank" class="ro-launch-btn secondary" style="font-size:0.78rem; padding:6px 12px;">
-                        📱 Test QR App
+                <div style="width:100%; display:flex; gap:6px; justify-content:center; flex-wrap:wrap;">
+                    <a href="<?php echo esc_url( $t['qr_url'] ); ?>" target="_blank" class="ro-launch-btn secondary" style="font-size:0.78rem; padding:6px 10px;">
+                        📱 Test QR
                     </a>
-                    <a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=ro-tables&ro_action=regen_qr&table_id=' . $t['id'] ), 'ro_regen_qr_' . $t['id'] ) ); ?>" class="ro-launch-btn secondary" style="font-size:0.78rem; padding:6px 10px;" onclick="return confirm('Regenerate QR token? Previous printed code will stop working.');">
+                    <a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=ro-tables&ro_action=regen_qr&table_id=' . $t['id'] ), 'ro_regen_qr_' . $t['id'] ) ); ?>" class="ro-launch-btn secondary" style="font-size:0.78rem; padding:6px 8px;" onclick="return confirm('Regenerate QR token? Previous printed code will stop working.');">
                         🔄 Refresh
+                    </a>
+                    <a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=ro-tables&ro_action=delete_table&table_id=' . $t['id'] ), 'ro_delete_table_' . $t['id'] ) ); ?>" class="ro-launch-btn secondary" style="font-size:0.78rem; padding:6px 8px; color:#DC2626; border-color:#FECACA;" onclick="return confirm('Are you sure you want to delete Table <?php echo esc_js( $t['table_number'] ); ?>?');">
+                        🗑️ Delete
                     </a>
                 </div>
             </div>

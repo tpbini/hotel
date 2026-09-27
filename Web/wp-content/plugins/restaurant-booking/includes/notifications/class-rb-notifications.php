@@ -113,28 +113,63 @@ class RB_Notifications {
             return false;
         }
 
-        $admin_email = get_option( 'rb_restaurant_email', get_option( 'admin_email' ) );
+        $restaurant_name = get_option( 'rb_restaurant_name', 'The Cochin Indian Restaurant' );
+        $admin_email     = get_option( 'rb_restaurant_email', get_option( 'admin_email', 'bookings@thecochin.co.uk' ) );
         if ( empty( $admin_email ) ) {
-            return false;
+            $admin_email = 'bookings@thecochin.co.uk';
         }
 
-        $subject = sprintf( 'New Booking: %s (%d Guests) on %s at %s', $res['customer_name'], $res['party_size'], $res['date_short'], $res['time_formatted'] );
+        $subject = sprintf( '[%s] New Table Booking: %s (%d Guests) - Ref: %s', $restaurant_name, $res['customer_name'], $res['party_size'], $res['booking_reference'] );
 
         $admin_url = admin_url( 'admin.php?page=restaurant-booking-reservations' );
 
-        $html = '<p>A new table reservation has been received:</p>';
-        $html .= '<ul>';
-        $html .= '<li><strong>Reference:</strong> ' . esc_html( $res['booking_reference'] ) . '</li>';
-        $html .= '<li><strong>Customer:</strong> ' . esc_html( $res['customer_name'] ) . ' (' . esc_html( $res['phone'] ) . ')</li>';
-        $html .= '<li><strong>Date & Time:</strong> ' . esc_html( $res['date_formatted'] ) . ' @ ' . esc_html( $res['time_formatted'] ) . '</li>';
-        $html .= '<li><strong>Party Size:</strong> ' . esc_html( $res['party_size'] ) . ' guests</li>';
-        $html .= '<li><strong>Table:</strong> ' . esc_html( $res['table_number_display'] ) . '</li>';
-        $html .= '<li><strong>Dietary/Allergy:</strong> ' . esc_html( $res['dietary_notes'] ? $res['dietary_notes'] : 'None' ) . '</li>';
-        $html .= '<li><strong>Special Requests:</strong> ' . esc_html( $res['special_requests'] ? $res['special_requests'] : 'None' ) . '</li>';
-        $html .= '</ul>';
-        $html .= '<p><a href="' . esc_url( $admin_url ) . '">View in Restaurant Booking Admin &rarr;</a></p>';
+        $html = self::get_email_header( $restaurant_name );
+        $html .= '<div style="padding: 24px; background: #ffffff; color: #1e293b; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;">';
+        $html .= '<h2 style="color: #6B1F2A; margin-top: 0; font-size: 22px;">New Table Booking Received</h2>';
+        $html .= '<p>A new reservation has been placed on the website:</p>';
 
-        return wp_mail( $admin_email, $subject, $html, array( 'Content-Type: text/html; charset=UTF-8' ) );
+        $html .= '<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px; margin: 20px 0;">';
+        $html .= '<table style="width: 100%; border-collapse: collapse; font-size: 15px;">';
+        $html .= '<tr><td style="padding: 6px 0; color: #64748b; width: 150px;">Booking Ref:</td><td style="padding: 6px 0; font-weight: bold; color: #6B1F2A; font-size: 16px;">' . esc_html( $res['booking_reference'] ) . '</td></tr>';
+        $html .= '<tr><td style="padding: 6px 0; color: #64748b;">Customer Name:</td><td style="padding: 6px 0; font-weight: 600;">' . esc_html( $res['customer_name'] ) . '</td></tr>';
+        $html .= '<tr><td style="padding: 6px 0; color: #64748b;">Customer Email:</td><td style="padding: 6px 0;"><a href="mailto:' . esc_attr( $res['email'] ) . '" style="color: #6B1F2A;">' . esc_html( $res['email'] ) . '</a></td></tr>';
+        $html .= '<tr><td style="padding: 6px 0; color: #64748b;">Customer Phone:</td><td style="padding: 6px 0;"><a href="tel:' . esc_attr( $res['phone'] ) . '" style="color: #6B1F2A;">' . esc_html( $res['phone'] ) . '</a></td></tr>';
+        $html .= '<tr><td style="padding: 6px 0; color: #64748b;">Date:</td><td style="padding: 6px 0; font-weight: 600;">' . esc_html( $res['date_formatted'] ) . '</td></tr>';
+        $html .= '<tr><td style="padding: 6px 0; color: #64748b;">Time:</td><td style="padding: 6px 0; font-weight: 600;">' . esc_html( $res['time_formatted'] ) . '</td></tr>';
+        $html .= '<tr><td style="padding: 6px 0; color: #64748b;">Party Size:</td><td style="padding: 6px 0; font-weight: 600;">' . esc_html( $res['party_size'] ) . ' Guests</td></tr>';
+        if ( ! empty( $res['table_number_display'] ) ) {
+            $html .= '<tr><td style="padding: 6px 0; color: #64748b;">Table Allocation:</td><td style="padding: 6px 0;">' . esc_html( $res['table_number_display'] ) . '</td></tr>';
+        }
+        if ( ! empty( $res['dietary_notes'] ) ) {
+            $html .= '<tr><td style="padding: 6px 0; color: #64748b;">Dietary / Allergies:</td><td style="padding: 6px 0; color: #b91c1c; font-weight: 600;">' . esc_html( $res['dietary_notes'] ) . '</td></tr>';
+        }
+        if ( ! empty( $res['special_requests'] ) ) {
+            $html .= '<tr><td style="padding: 6px 0; color: #64748b;">Special Requests:</td><td style="padding: 6px 0;">' . esc_html( $res['special_requests'] ) . '</td></tr>';
+        }
+        $html .= '<tr><td style="padding: 6px 0; color: #64748b;">Status:</td><td style="padding: 6px 0; font-weight: 600; text-transform: uppercase; color: #16a34a;">' . esc_html( $res['status'] ) . '</td></tr>';
+        $html .= '</table>';
+        $html .= '</div>';
+
+        // Action Button
+        $html .= '<div style="margin: 24px 0; text-align: center;">';
+        $html .= '<a href="' . esc_url( $admin_url ) . '" target="_blank" style="background: #6B1F2A; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; display: inline-block;">View in Booking Dashboard &rarr;</a>';
+        $html .= '</div>';
+
+        $html .= '</div>';
+        $html .= self::get_email_footer( $restaurant_name );
+
+        $sent = wp_mail( $admin_email, $subject, $html, array( 'Content-Type: text/html; charset=UTF-8' ) );
+
+        RB_DB::insert( 'notifications', array(
+            'reservation_id' => $reservation_id,
+            'type'           => 'admin_alert',
+            'recipient'      => $admin_email,
+            'subject'        => $subject,
+            'status'         => $sent ? 'sent' : 'failed',
+            'sent_at'        => RB_i18n::now_uk(),
+        ) );
+
+        return $sent;
     }
 
     private static function generate_google_cal_link( $res, $name, $addr ) {

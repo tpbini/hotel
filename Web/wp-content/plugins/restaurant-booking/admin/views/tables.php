@@ -20,15 +20,20 @@ $qr_active = RB_QR_Adapter::is_qr_plugin_active();
             </p>
         </div>
         <div class="rb-header-actions">
-            <?php if ( ! $qr_active ) : ?>
+            <?php if ( $qr_active ) : ?>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=ro-tables#addTableForm' ) ); ?>" class="rb-btn rb-btn-primary">➕ Add / Manage Tables</a>
+            <?php else : ?>
                 <button class="rb-btn rb-btn-primary" id="rb-btn-add-table">➕ Add Physical Table</button>
             <?php endif; ?>
         </div>
     </div>
 
     <?php if ( $qr_active ) : ?>
-        <div class="rb-alert rb-alert-info">
-            <strong>ℹ️ Canonical Inventory:</strong> Physical tables are centrally managed via the <em>Restaurant QR Ordering & POS</em> plugin to ensure consistent QR codes and seating across the restaurant.
+        <div class="rb-alert rb-alert-info" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <strong>ℹ️ Centralized Seating Inventory:</strong> Physical tables are synchronized with the <em>Restaurant QR Ordering & POS</em> system.
+            </div>
+            <a href="<?php echo esc_url( admin_url( 'admin.php?page=ro-tables' ) ); ?>" class="rb-btn rb-btn-secondary" style="font-size: 12px; padding: 4px 10px;">Open Table Manager &rarr;</a>
         </div>
     <?php endif; ?>
 

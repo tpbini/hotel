@@ -43,7 +43,10 @@ foreach ($existing_dessert_ids as $did) {
 
 // Find image attachment for desserts
 global $wpdb;
-$dessert_img_id = $wpdb->get_var("SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment' AND (post_name LIKE '%manasa%' OR guid LIKE '%manasa%') LIMIT 1");
+$dessert_img_id = $wpdb->get_var("SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment' AND (post_name LIKE '%product%' OR guid LIKE '%product%') LIMIT 1");
+if (!$dessert_img_id) {
+    $dessert_img_id = $wpdb->get_var("SELECT ID FROM {$wpdb->posts} WHERE post_type = 'attachment' AND (post_name LIKE '%manasa%' OR guid LIKE '%manasa%') LIMIT 1");
+}
 
 $desserts = array(
     array(

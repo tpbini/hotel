@@ -15,7 +15,17 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$footer_logo = get_stylesheet_directory_uri() . '/assets/images/the-cochin-logo-white.png';
+$custom_logo_id = get_theme_mod('custom_logo');
+$footer_logo    = '';
+if ($custom_logo_id) {
+    $logo_data = wp_get_attachment_image_src($custom_logo_id, 'full');
+    if (!empty($logo_data[0])) {
+        $footer_logo = $logo_data[0];
+    }
+}
+if (empty($footer_logo)) {
+    $footer_logo = get_stylesheet_directory_uri() . '/assets/images/the-cochin-logo.png';
+}
 $booking_url = the_cochin_get_booking_url();
 $menu_url    = the_cochin_get_menu_page_url();
 ?>

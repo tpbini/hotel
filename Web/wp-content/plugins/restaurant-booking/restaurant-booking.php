@@ -3,7 +3,7 @@
  * Plugin Name: UK Restaurant Table Booking
  * Plugin URI: https://github.com/restaurant-table-booking
  * Description: Production-ready UK-focused restaurant table reservation plugin with high-precision availability engine, split service hours, UK date/time/currency localization, secure guest management, and seamless integration with Restaurant QR Ordering & POS.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Antigravity IDE
  * Author URI: https://wordpress.org
  * Text Domain: restaurant-booking
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin Constants
-define( 'RB_VERSION', '1.0.0' );
+define( 'RB_VERSION', '1.0.1' );
 define( 'RB_DB_VERSION', '1.0.0' );
 define( 'RB_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'RB_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

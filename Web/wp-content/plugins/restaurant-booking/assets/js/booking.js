@@ -310,7 +310,6 @@
                 method: 'POST',
                 data: JSON.stringify(payload),
                 headers: {
-                    'X-WP-Nonce': rbData.nonce,
                     'Content-Type': 'application/json'
                 }
             }).done(function(res) {

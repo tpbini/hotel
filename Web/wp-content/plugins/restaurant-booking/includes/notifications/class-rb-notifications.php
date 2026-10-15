@@ -18,7 +18,7 @@ class RB_Notifications {
             return false;
         }
 
-        $restaurant_name = get_option( 'rb_restaurant_name', 'The Crown & Thistle' );
+        $restaurant_name = get_option( 'rb_restaurant_name', 'The Cochin Indian Restaurant' );
         $restaurant_phone = get_option( 'rb_restaurant_phone', '020 7946 0912' );
         $restaurant_addr = get_option( 'rb_restaurant_address', 'London, UK' );
         $allergen_notice = get_option( 'rb_allergen_notice', 'If you or any guest have a severe food allergy, please inform us directly by phone.' );
@@ -63,10 +63,15 @@ class RB_Notifications {
         $html .= '</div>';
 
         $html .= '<p style="font-size: 13px; color: #64748b;">Need to speak with us? Telephone: <a href="tel:' . esc_attr( $restaurant_phone ) . '" style="color: #0284c7;">' . esc_html( $restaurant_phone ) . '</a> | Address: ' . esc_html( $restaurant_addr ) . '</p>';
-        $html .= '</div>';
         $html .= self::get_email_footer( $restaurant_name );
 
-        $sent = wp_mail( $res['email'], $subject, $html, array( 'Content-Type: text/html; charset=UTF-8' ) );
+        $headers = array( 'Content-Type: text/html; charset=UTF-8' );
+        $reply_to = get_option( 'rb_restaurant_email', get_option( 'admin_email', 'tpbini@gmail.com' ) );
+        if ( ! empty( $reply_to ) ) {
+            $headers[] = 'Reply-To: ' . $restaurant_name . ' <' . $reply_to . '>';
+        }
+
+        $sent = wp_mail( $res['email'], $subject, $html, $headers );
 
         RB_DB::insert( 'notifications', array(
             'reservation_id' => $reservation_id,
@@ -85,23 +90,72 @@ class RB_Notifications {
      */
     public static function send_cancellation_confirmation( $reservation_id ) {
         $res = RB_Reservations::get_by_id( $reservation_id );
-        if ( ! $res || empty( $res['email'] ) ) {
+        if ( ! $res ) {
             return false;
         }
 
-        $restaurant_name = get_option( 'rb_restaurant_name', 'The Crown & Thistle' );
+        $restaurant_name = get_option( 'rb_restaurant_name', 'The Cochin Indian Restaurant' );
+        $admin_email     = get_option( 'rb_restaurant_email', get_option( 'admin_email', 'tpbini@gmail.com' ) );
+        if ( empty( $admin_email ) ) {
+            $admin_email = 'tpbini@gmail.com';
+        }
+
         $subject = sprintf( '[%s] Reservation Cancelled - Ref: %s', $restaurant_name, $res['booking_reference'] );
 
+        $headers = array( 'Content-Type: text/html; charset=UTF-8' );
+        if ( ! empty( $admin_email ) ) {
+            $headers[] = 'Reply-To: ' . $restaurant_name . ' <' . $admin_email . '>';
+            $headers[] = 'Bcc: ' . $admin_email;
+        }
+
         $html = self::get_email_header( $restaurant_name );
-        $html .= '<div style="padding: 24px; background: #ffffff; color: #1e293b;">';
-        $html .= '<h2 style="color: #991b1b; margin-top: 0;">Reservation Cancelled</h2>';
+        $html .= '<div style="padding: 24px; background: #ffffff; color: #1e293b; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;">';
+        $html .= '<h2 style="color: #991b1b; margin-top: 0; font-size: 22px;">Reservation Cancelled</h2>';
         $html .= '<p>Dear <strong>' . esc_html( $res['customer_name'] ) . '</strong>,</p>';
-        $html .= '<p>Your table reservation (Reference: <strong>' . esc_html( $res['booking_reference'] ) . '</strong>) for <strong>' . esc_html( $res['date_formatted'] ) . ' at ' . esc_html( $res['time_formatted'] ) . '</strong> has been cancelled as requested.</p>';
+        $html .= '<p>Your table reservation (Reference: <strong>' . esc_html( $res['booking_reference'] ) . '</strong>) for <strong>' . esc_html( $res['date_formatted'] ) . ' at ' . esc_html( $res['time_formatted'] ) . '</strong> has been cancelled.</p>';
+        $html .= '<p>If you have any questions or wish to re-book, please contact us or visit our website.</p>';
         $html .= '<p>We hope to welcome you another time soon!</p>';
         $html .= '</div>';
         $html .= self::get_email_footer( $restaurant_name );
 
-        return wp_mail( $res['email'], $subject, $html, array( 'Content-Type: text/html; charset=UTF-8' ) );
+        $sent = false;
+        if ( ! empty( $res['email'] ) ) {
+            $sent = wp_mail( $res['email'], $subject, $html, $headers );
+        } elseif ( ! empty( $admin_email ) ) {
+            $sent = wp_mail( $admin_email, $subject, $html, array( 'Content-Type: text/html; charset=UTF-8' ) );
+        }
+
+        // Also ensure admin gets an alert if admin email was not in the recipient
+        if ( ! empty( $admin_email ) && ( empty( $res['email'] ) || strtolower( trim( $admin_email ) ) !== strtolower( trim( $res['email'] ) ) ) ) {
+            $admin_subject = sprintf( '[%s] Notice: Reservation Cancelled - %s (Ref: %s)', $restaurant_name, $res['customer_name'], $res['booking_reference'] );
+            $admin_html = self::get_email_header( $restaurant_name );
+            $admin_html .= '<div style="padding: 24px; background: #ffffff; color: #1e293b; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;">';
+            $admin_html .= '<h2 style="color: #991b1b; margin-top: 0; font-size: 22px;">Reservation Cancelled</h2>';
+            $admin_html .= '<p>The following table reservation has been marked as <strong>CANCELLED</strong>:</p>';
+            $admin_html .= '<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin: 16px 0;">';
+            $admin_html .= '<p style="margin: 4px 0;"><strong>Reference:</strong> ' . esc_html( $res['booking_reference'] ) . '</p>';
+            $admin_html .= '<p style="margin: 4px 0;"><strong>Guest Name:</strong> ' . esc_html( $res['customer_name'] ) . '</p>';
+            $admin_html .= '<p style="margin: 4px 0;"><strong>Guest Email:</strong> ' . esc_html( $res['email'] ) . '</p>';
+            $admin_html .= '<p style="margin: 4px 0;"><strong>Guest Phone:</strong> ' . esc_html( $res['phone'] ) . '</p>';
+            $admin_html .= '<p style="margin: 4px 0;"><strong>Date & Time:</strong> ' . esc_html( $res['date_formatted'] ) . ' at ' . esc_html( $res['time_formatted'] ) . '</p>';
+            $admin_html .= '<p style="margin: 4px 0;"><strong>Party Size:</strong> ' . esc_html( $res['party_size'] ) . ' Guests</p>';
+            $admin_html .= '</div>';
+            $admin_html .= '</div>';
+            $admin_html .= self::get_email_footer( $restaurant_name );
+
+            wp_mail( $admin_email, $admin_subject, $admin_html, array( 'Content-Type: text/html; charset=UTF-8' ) );
+        }
+
+        RB_DB::insert( 'notifications', array(
+            'reservation_id' => $reservation_id,
+            'type'           => 'cancellation',
+            'recipient'      => ! empty( $res['email'] ) ? $res['email'] : $admin_email,
+            'subject'        => $subject,
+            'status'         => $sent ? 'sent' : 'failed',
+            'sent_at'        => RB_i18n::now_uk(),
+        ) );
+
+        return $sent;
     }
 
     /**
@@ -114,9 +168,9 @@ class RB_Notifications {
         }
 
         $restaurant_name = get_option( 'rb_restaurant_name', 'The Cochin Indian Restaurant' );
-        $admin_email     = get_option( 'rb_restaurant_email', get_option( 'admin_email', 'bookings@thecochin.co.uk' ) );
+        $admin_email     = get_option( 'rb_restaurant_email', get_option( 'admin_email', 'tpbini@gmail.com' ) );
         if ( empty( $admin_email ) ) {
-            $admin_email = 'bookings@thecochin.co.uk';
+            $admin_email = 'tpbini@gmail.com';
         }
 
         $subject = sprintf( '[%s] New Table Booking: %s (%d Guests) - Ref: %s', $restaurant_name, $res['customer_name'], $res['party_size'], $res['booking_reference'] );
@@ -158,7 +212,13 @@ class RB_Notifications {
         $html .= '</div>';
         $html .= self::get_email_footer( $restaurant_name );
 
-        $sent = wp_mail( $admin_email, $subject, $html, array( 'Content-Type: text/html; charset=UTF-8' ) );
+        $headers = array( 'Content-Type: text/html; charset=UTF-8' );
+        if ( ! empty( $res['email'] ) ) {
+            $reply_name = ! empty( $res['customer_name'] ) ? $res['customer_name'] : 'Guest';
+            $headers[]  = 'Reply-To: ' . $reply_name . ' <' . $res['email'] . '>';
+        }
+
+        $sent = wp_mail( $admin_email, $subject, $html, $headers );
 
         RB_DB::insert( 'notifications', array(
             'reservation_id' => $reservation_id,

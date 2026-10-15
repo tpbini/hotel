@@ -229,6 +229,18 @@ class RB_Admin_API {
     public static function update_reservation_status( WP_REST_Request $request ) {
         $id = intval( $request->get_param( 'id' ) );
         $params = $request->get_json_params();
+        if ( empty( $params ) ) {
+            $params = $request->get_params();
+        }
+        if ( empty( $params ) || ! isset( $params['status'] ) ) {
+            $body = $request->get_body();
+            if ( ! empty( $body ) ) {
+                $decoded = json_decode( $body, true );
+                if ( is_array( $decoded ) ) {
+                    $params = array_merge( is_array( $params ) ? $params : array(), $decoded );
+                }
+            }
+        }
         $status = sanitize_text_field( isset( $params['status'] ) ? $params['status'] : '' );
         $notes  = sanitize_text_field( isset( $params['notes'] ) ? $params['notes'] : '' );
 
@@ -415,7 +427,7 @@ class RB_Admin_API {
             'settings' => array(
                 'restaurant_name'            => get_option( 'rb_restaurant_name', 'The Crown & Thistle Bistro' ),
                 'restaurant_phone'           => get_option( 'rb_restaurant_phone', '020 7946 0912' ),
-                'restaurant_email'           => get_option( 'rb_restaurant_email', get_option( 'admin_email' ) ),
+                'restaurant_email'           => get_option( 'rb_restaurant_email', get_option( 'admin_email', 'tpbini@gmail.com' ) ),
                 'restaurant_address'         => get_option( 'rb_restaurant_address', '45 High Street, London, EC1A 1BB' ),
                 'default_duration'           => intval( get_option( 'rb_default_duration', 120 ) ),
                 'turnaround_buffer'          => intval( get_option( 'rb_turnaround_buffer', 15 ) ),

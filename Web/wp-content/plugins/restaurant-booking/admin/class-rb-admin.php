@@ -116,8 +116,11 @@ class RB_Admin {
             return;
         }
 
-        wp_enqueue_style( 'rb-admin-style', RB_PLUGIN_URL . 'admin/assets/css/admin.css', array(), RB_VERSION );
-        wp_enqueue_script( 'rb-admin-script', RB_PLUGIN_URL . 'admin/assets/js/admin.js', array( 'jquery' ), RB_VERSION, true );
+        $style_ver  = file_exists( RB_PLUGIN_DIR . 'admin/assets/css/admin.css' ) ? filemtime( RB_PLUGIN_DIR . 'admin/assets/css/admin.css' ) : RB_VERSION;
+        $script_ver = file_exists( RB_PLUGIN_DIR . 'admin/assets/js/admin.js' ) ? filemtime( RB_PLUGIN_DIR . 'admin/assets/js/admin.js' ) : RB_VERSION;
+
+        wp_enqueue_style( 'rb-admin-style', RB_PLUGIN_URL . 'admin/assets/css/admin.css', array(), $style_ver );
+        wp_enqueue_script( 'rb-admin-script', RB_PLUGIN_URL . 'admin/assets/js/admin.js', array( 'jquery' ), $script_ver, true );
 
         wp_localize_script( 'rb-admin-script', 'rbAdminData', array(
             'restUrl'        => esc_url_raw( rest_url( 'rb/v1/' ) ),

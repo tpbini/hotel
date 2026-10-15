@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $settings = array(
     'restaurant_name'           => get_option( 'rb_restaurant_name', 'The Crown & Thistle Bistro' ),
     'restaurant_phone'          => get_option( 'rb_restaurant_phone', '020 7946 0912' ),
-    'restaurant_email'          => get_option( 'rb_restaurant_email', get_option( 'admin_email' ) ),
+    'restaurant_email'          => get_option( 'rb_restaurant_email', get_option( 'admin_email', 'tpbini@gmail.com' ) ),
     'restaurant_address'        => get_option( 'rb_restaurant_address', '45 High Street, London, EC1A 1BB' ),
     'default_duration'          => intval( get_option( 'rb_default_duration', 120 ) ),
     'turnaround_buffer'         => intval( get_option( 'rb_turnaround_buffer', 15 ) ),

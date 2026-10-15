@@ -41,7 +41,8 @@
         updateStatus: function(id, status, notes) {
             return $.ajax({
                 url: rbAdminData.restUrl + 'admin/reservations/' + id + '/status',
-                method: 'PATCH',
+                method: 'POST',
+                contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({ status: status, notes: notes || '' }),
                 headers: API.getHeaders()
             });
@@ -51,6 +52,7 @@
             return $.ajax({
                 url: rbAdminData.restUrl + 'admin/reservations/' + id + '/seat',
                 method: 'POST',
+                contentType: 'application/json; charset=utf-8',
                 headers: API.getHeaders()
             });
         },
@@ -59,6 +61,7 @@
             return $.ajax({
                 url: rbAdminData.restUrl + 'admin/reservations/' + id + '/assign-table',
                 method: 'POST',
+                contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({ table_id: tableId }),
                 headers: API.getHeaders()
             });
@@ -68,6 +71,7 @@
             return $.ajax({
                 url: rbAdminData.restUrl + 'admin/walk-ins',
                 method: 'POST',
+                contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(data),
                 headers: API.getHeaders()
             });
@@ -220,20 +224,32 @@
         // Confirm Action
         $('.rb-action-confirm').off('click').on('click', function() {
             const id = $(this).data('id');
+            const $btn = $(this);
+            $btn.prop('disabled', true).text('Updating...');
             API.updateStatus(id, 'confirmed', 'Confirmed manually by staff.').done(function(res) {
-                alert('Reservation confirmed!');
+                alert(res.message || 'Reservation confirmed!');
                 location.reload();
+            }).fail(function(xhr) {
+                const msg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : (xhr.statusText || 'Error updating status');
+                alert('Failed to confirm reservation: ' + msg);
+                $btn.prop('disabled', false).text('✓ Confirm');
             });
         });
 
         // Cancel Action
         $('.rb-action-cancel').off('click').on('click', function() {
             const id = $(this).data('id');
+            const $btn = $(this);
             const reason = prompt('Please enter cancellation reason:', 'Staff cancelled');
             if (reason !== null) {
-                API.updateStatus(id, 'cancelled', reason).done(function() {
-                    alert('Reservation cancelled.');
+                $btn.prop('disabled', true).text('Cancelling...');
+                API.updateStatus(id, 'cancelled', reason).done(function(res) {
+                    alert(res.message || 'Reservation cancelled.');
                     location.reload();
+                }).fail(function(xhr) {
+                    const msg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : (xhr.statusText || 'Error cancelling reservation');
+                    alert('Failed to cancel reservation: ' + msg);
+                    $btn.prop('disabled', false).text('✕ Cancel');
                 });
             }
         });
@@ -241,10 +257,16 @@
         // No-Show Action
         $('.rb-action-noshow').off('click').on('click', function() {
             const id = $(this).data('id');
+            const $btn = $(this);
             if (confirm('Mark this reservation as No-Show?')) {
-                API.updateStatus(id, 'no_show', 'Marked no-show by staff.').done(function() {
-                    alert('Reservation marked as No-Show.');
+                $btn.prop('disabled', true).text('Updating...');
+                API.updateStatus(id, 'no_show', 'Marked no-show by staff.').done(function(res) {
+                    alert(res.message || 'Reservation marked as No-Show.');
                     location.reload();
+                }).fail(function(xhr) {
+                    const msg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : (xhr.statusText || 'Error marking no-show');
+                    alert('Failed to mark No-Show: ' + msg);
+                    $btn.prop('disabled', false).text('No Show');
                 });
             }
         });

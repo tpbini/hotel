@@ -12,6 +12,9 @@ class RB_Public_API {
     public static function register_routes() {
         $ns = RB_REST_Controller::NAMESPACE;
 
+        // Bypass invalid cookie check for public booking endpoints
+        add_filter( 'rest_authentication_errors', array( __CLASS__, 'bypass_cookie_check_for_public_routes' ), 101 );
+
         // 1. Get Availability
         register_rest_route( $ns, '/availability', array(
             'methods'             => WP_REST_Server::READABLE,
@@ -190,5 +193,26 @@ class RB_Public_API {
             'success' => true,
             'message' => __( 'You have been added to the waitlist! We will contact you if a table becomes available.', 'restaurant-booking' ),
         ), 201 );
+    }
+
+    /**
+     * Prevent WordPress rest_cookie_invalid_nonce ("Cookie check failed") errors
+     * from blocking public guest booking actions.
+     */
+    public static function bypass_cookie_check_for_public_routes( $result ) {
+        if ( is_wp_error( $result ) && $result->get_error_code() === 'rest_cookie_invalid_nonce' ) {
+            $uri        = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+            $rest_route = isset( $_GET['rest_route'] ) ? sanitize_text_field( wp_unslash( $_GET['rest_route'] ) ) : '';
+
+            // Check if this request is for a public restaurant-booking route
+            $is_rb_route = ( strpos( $uri, '/rb/v1/' ) !== false || strpos( $rest_route, '/rb/v1/' ) !== false );
+            $is_admin    = ( strpos( $uri, '/rb/v1/admin/' ) !== false || strpos( $rest_route, '/rb/v1/admin/' ) !== false );
+
+            if ( $is_rb_route && ! $is_admin ) {
+                wp_set_current_user( 0 );
+                return true;
+            }
+        }
+        return $result;
     }
 }

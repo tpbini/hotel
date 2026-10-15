@@ -1068,7 +1068,7 @@ function the_cochin_handle_banquet_inquiry() {
     }
 
     // Prepare Email Content
-    $admin_email = get_option('admin_email', 'info@thecochin.uk');
+    $admin_email = get_option('rb_restaurant_email', get_option('admin_email', 'tpbini@gmail.com'));
     $subject = "New Banquet Feast Inquiry from {$name} - The Cochin";
     $body = "New Banquet Meal & Group Inquiry Received:\n\n"
           . "Name: {$name}\n"
@@ -1155,7 +1155,7 @@ function the_cochin_handle_table_reservation() {
     }
 
     // Send Admin Notification Email
-    $admin_email = get_option('admin_email', 'info@thecochin.uk');
+    $admin_email = get_option('rb_restaurant_email', get_option('admin_email', 'tpbini@gmail.com'));
     $subject = "New Table Reservation Request (#{$reference}) - The Cochin";
     $body = "New Table Reservation Request Details:\n\n"
           . "Reference: #{$reference}\n"

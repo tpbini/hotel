@@ -457,7 +457,6 @@
             method: 'POST',
             data: JSON.stringify(payload),
             headers: {
-                'X-WP-Nonce': data.nonce,
                 'Content-Type': 'application/json'
             }
         }).done(function(res) {
@@ -705,7 +704,6 @@
             method: 'POST',
             data: JSON.stringify({ reason: 'Guest cancelled via website self-service portal' }),
             headers: {
-                'X-WP-Nonce': data.nonce,
                 'Content-Type': 'application/json'
             }
         }).done(function(res) {

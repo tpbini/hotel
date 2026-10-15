@@ -188,7 +188,7 @@ class RB_Activator {
         // Default General Options
         add_option( 'rb_restaurant_name', 'The Crown & Thistle Bistro' );
         add_option( 'rb_restaurant_phone', '020 7946 0912' );
-        add_option( 'rb_restaurant_email', get_option( 'admin_email' ) );
+        add_option( 'rb_restaurant_email', get_option( 'admin_email', 'tpbini@gmail.com' ) );
         add_option( 'rb_restaurant_address', '45 High Street, London, EC1A 1BB' );
         add_option( 'rb_default_duration', 120 ); // 2 hours
         add_option( 'rb_turnaround_buffer', 15 ); // 15 mins

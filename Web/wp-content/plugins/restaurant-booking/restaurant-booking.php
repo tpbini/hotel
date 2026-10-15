@@ -3,7 +3,7 @@
  * Plugin Name: UK Restaurant Table Booking
  * Plugin URI: https://github.com/restaurant-table-booking
  * Description: Production-ready UK-focused restaurant table reservation plugin with high-precision availability engine, split service hours, UK date/time/currency localization, secure guest management, and seamless integration with Restaurant QR Ordering & POS.
- * Version: 1.0.2
+ * Version: 1.0.3
  * Author: Antigravity IDE
  * Author URI: https://wordpress.org
  * Text Domain: restaurant-booking
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin Constants
-define( 'RB_VERSION', '1.0.2' );
+define( 'RB_VERSION', '1.0.3' );
 define( 'RB_DB_VERSION', '1.0.0' );
 define( 'RB_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'RB_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -90,12 +90,6 @@ final class Restaurant_Booking {
         $table_exists = $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $table_name ) );
         if ( empty( $table_exists ) ) {
             RB_Activator::activate();
-        }
-
-        // Ensure reservations notification email is set to tpbini@gmail.com
-        $current_email = get_option( 'rb_restaurant_email' );
-        if ( empty( $current_email ) || strpos( $current_email, 'thecochin.co.uk' ) !== false || $current_email === 'bookings@thecochin.co.uk' ) {
-            update_option( 'rb_restaurant_email', 'tpbini@gmail.com' );
         }
     }
 

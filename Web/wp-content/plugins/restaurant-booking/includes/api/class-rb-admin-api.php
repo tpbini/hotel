@@ -468,7 +468,7 @@ class RB_Admin_API {
         $fields = array(
             'restaurant_name'           => 'sanitize_text_field',
             'restaurant_phone'          => 'sanitize_text_field',
-            'restaurant_email'          => 'sanitize_email',
+            'restaurant_email'          => 'sanitize_text_field',
             'restaurant_address'        => 'sanitize_text_field',
             'default_duration'          => 'intval',
             'turnaround_buffer'         => 'intval',

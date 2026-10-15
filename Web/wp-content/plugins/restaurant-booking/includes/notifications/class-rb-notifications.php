@@ -95,14 +95,17 @@ class RB_Notifications {
         }
 
         $restaurant_name = get_option( 'rb_restaurant_name', 'The Cochin Indian Restaurant' );
-        $admin_email     = self::get_admin_notification_email();
+        $admin_emails    = self::get_admin_notification_emails();
+        $primary_admin   = ! empty( $admin_emails ) ? $admin_emails[0] : 'bookings@thecochin.co.uk';
 
         $subject = sprintf( '[%s] Reservation Cancelled - Ref: %s', $restaurant_name, $res['booking_reference'] );
 
         $headers = array( 'Content-Type: text/html; charset=UTF-8' );
-        if ( ! empty( $admin_email ) ) {
-            $headers[] = 'Reply-To: ' . $restaurant_name . ' <' . $admin_email . '>';
-            $headers[] = 'Bcc: ' . $admin_email;
+        if ( ! empty( $primary_admin ) ) {
+            $headers[] = 'Reply-To: ' . $restaurant_name . ' <' . $primary_admin . '>';
+            foreach ( $admin_emails as $a_email ) {
+                $headers[] = 'Bcc: ' . $a_email;
+            }
         }
 
         $html = self::get_email_header( $restaurant_name );
@@ -118,12 +121,13 @@ class RB_Notifications {
         $sent = false;
         if ( ! empty( $res['email'] ) ) {
             $sent = wp_mail( $res['email'], $subject, $html, $headers );
-        } elseif ( ! empty( $admin_email ) ) {
-            $sent = wp_mail( $admin_email, $subject, $html, array( 'Content-Type: text/html; charset=UTF-8' ) );
         }
 
-        // Also ensure admin gets an alert if admin email was not in the recipient
-        if ( ! empty( $admin_email ) && ( empty( $res['email'] ) || strtolower( trim( $admin_email ) ) !== strtolower( trim( $res['email'] ) ) ) ) {
+        // Also ensure all admin emails receive an explicit cancellation alert
+        foreach ( $admin_emails as $a_email ) {
+            if ( ! empty( $res['email'] ) && strtolower( trim( $a_email ) ) === strtolower( trim( $res['email'] ) ) ) {
+                continue;
+            }
             $admin_subject = sprintf( '[%s] Notice: Reservation Cancelled - %s (Ref: %s)', $restaurant_name, $res['customer_name'], $res['booking_reference'] );
             $admin_html = self::get_email_header( $restaurant_name );
             $admin_html .= '<div style="padding: 24px; background: #ffffff; color: #1e293b; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;">';
@@ -140,7 +144,10 @@ class RB_Notifications {
             $admin_html .= '</div>';
             $admin_html .= self::get_email_footer( $restaurant_name );
 
-            wp_mail( $admin_email, $admin_subject, $admin_html, array( 'Content-Type: text/html; charset=UTF-8' ) );
+            $mail_sent = wp_mail( $a_email, $admin_subject, $admin_html, array( 'Content-Type: text/html; charset=UTF-8' ) );
+            if ( $mail_sent ) {
+                $sent = true;
+            }
         }
 
         RB_DB::insert( 'notifications', array(
@@ -155,13 +162,23 @@ class RB_Notifications {
         return $sent;
     }
 
-    public static function get_admin_notification_email() {
-        $email = get_option( 'rb_restaurant_email' );
-        if ( empty( $email ) || strpos( $email, 'thecochin.co.uk' ) !== false || $email === 'bookings@thecochin.co.uk' ) {
-            $email = 'tpbini@gmail.com';
-            update_option( 'rb_restaurant_email', 'tpbini@gmail.com' );
+    public static function get_admin_notification_emails() {
+        $raw = get_option( 'rb_restaurant_email' );
+        if ( empty( $raw ) ) {
+            $raw = get_option( 'admin_email', 'bookings@thecochin.co.uk' );
         }
-        return sanitize_email( $email );
+        $parts = explode( ',', $raw );
+        $emails = array();
+        foreach ( $parts as $part ) {
+            $cleaned = sanitize_email( trim( $part ) );
+            if ( ! empty( $cleaned ) ) {
+                $emails[] = $cleaned;
+            }
+        }
+        if ( empty( $emails ) ) {
+            $emails[] = 'bookings@thecochin.co.uk';
+        }
+        return array_unique( $emails );
     }
 
     /**
@@ -174,7 +191,7 @@ class RB_Notifications {
         }
 
         $restaurant_name = get_option( 'rb_restaurant_name', 'The Cochin Indian Restaurant' );
-        $admin_email     = self::get_admin_notification_email();
+        $recipients      = self::get_admin_notification_emails();
 
         $subject = sprintf( '[%s] New Table Booking: %s (%d Guests) - Ref: %s', $restaurant_name, $res['customer_name'], $res['party_size'], $res['booking_reference'] );
 
@@ -220,12 +237,6 @@ class RB_Notifications {
             $reply_name = ! empty( $res['customer_name'] ) ? $res['customer_name'] : 'Guest';
             $headers[]  = 'Reply-To: ' . $reply_name . ' <' . $res['email'] . '>';
         }
-
-        $recipients = array( $admin_email );
-        if ( strtolower( trim( $admin_email ) ) !== 'tpbini@gmail.com' ) {
-            $recipients[] = 'tpbini@gmail.com';
-        }
-        $recipients = array_unique( $recipients );
 
         $sent = false;
         foreach ( $recipients as $to_email ) {

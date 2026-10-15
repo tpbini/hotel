@@ -446,13 +446,50 @@
                 formObj[item.name] = item.value;
             });
 
+            const $btn = $(this).find('button[type="submit"]');
+            $btn.prop('disabled', true).text('Saving...');
+
             $.ajax({
                 url: rbAdminData.restUrl + 'admin/settings',
                 method: 'POST',
+                contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(formObj),
                 headers: API.getHeaders()
             }).done(function(res) {
-                alert('Settings saved successfully!');
+                alert(res.message || 'Settings saved successfully!');
+                $btn.prop('disabled', false).text('Save Settings');
+            }).fail(function(xhr) {
+                const msg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : (xhr.statusText || 'Error saving settings');
+                alert('Failed to save settings: ' + msg);
+                $btn.prop('disabled', false).text('Save Settings');
+            });
+        });
+
+        // Diagnostic Test Email Button
+        $('#rb_btn_send_test_email').on('click', function(e) {
+            e.preventDefault();
+            const $btn = $(this);
+            const $status = $('#rb_test_email_status');
+            const email = $('#rb_restaurant_email_input').val() || 'tpbini@gmail.com';
+
+            $btn.prop('disabled', true).text('Sending...');
+            $status.css('color', '#64748b').text('Dispatching test email to ' + email + '...');
+
+            $.ajax({
+                url: rbAdminData.restUrl + 'admin/test-email',
+                method: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ email: email }),
+                headers: API.getHeaders()
+            }).done(function(res) {
+                $status.css('color', '#16a34a').text('✓ ' + (res.message || 'Test email dispatched successfully!'));
+                alert(res.message || 'Test email sent successfully!');
+                $btn.prop('disabled', false).text('✉️ Send Test Email');
+            }).fail(function(xhr) {
+                const msg = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : (xhr.statusText || 'Delivery error');
+                $status.css('color', '#dc2626').text('✕ ' + msg);
+                alert('Email test failed: ' + msg);
+                $btn.prop('disabled', false).text('✉️ Send Test Email');
             });
         });
     }

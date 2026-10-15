@@ -145,6 +145,13 @@ class RB_Admin_API {
             'callback'            => array( __CLASS__, 'update_waitlist_status' ),
             'permission_callback' => array( 'RB_REST_Controller', 'check_admin_permission' ),
         ) );
+
+        // 14. Diagnostic Test Email
+        register_rest_route( $ns, '/admin/test-email', array(
+            'methods'             => WP_REST_Server::CREATABLE,
+            'callback'            => array( __CLASS__, 'send_test_email' ),
+            'permission_callback' => array( 'RB_REST_Controller', 'check_admin_permission' ),
+        ) );
     }
 
     public static function get_reservations( WP_REST_Request $request ) {
@@ -448,6 +455,15 @@ class RB_Admin_API {
         if ( empty( $params ) ) {
             $params = $request->get_params();
         }
+        if ( empty( $params ) ) {
+            $body = $request->get_body();
+            if ( ! empty( $body ) ) {
+                $decoded = json_decode( $body, true );
+                if ( is_array( $decoded ) ) {
+                    $params = $decoded;
+                }
+            }
+        }
 
         $fields = array(
             'restaurant_name'           => 'sanitize_text_field',
@@ -476,6 +492,62 @@ class RB_Admin_API {
         return new WP_REST_Response( array(
             'success' => true,
             'message' => __( 'Settings updated successfully.', 'restaurant-booking' ),
+        ), 200 );
+    }
+
+    public static function send_test_email( WP_REST_Request $request ) {
+        $params = $request->get_json_params();
+        if ( empty( $params ) ) {
+            $params = $request->get_params();
+        }
+        if ( empty( $params ) ) {
+            $body = $request->get_body();
+            if ( ! empty( $body ) ) {
+                $decoded = json_decode( $body, true );
+                if ( is_array( $decoded ) ) {
+                    $params = $decoded;
+                }
+            }
+        }
+
+        $target = ! empty( $params['email'] ) ? sanitize_email( $params['email'] ) : get_option( 'rb_restaurant_email', 'tpbini@gmail.com' );
+        if ( empty( $target ) ) {
+            $target = 'tpbini@gmail.com';
+        }
+
+        $mail_error = '';
+        $error_catcher = function( $wp_error ) use ( &$mail_error ) {
+            if ( is_wp_error( $wp_error ) ) {
+                $mail_error = $wp_error->get_error_message();
+            }
+        };
+        add_action( 'wp_mail_failed', $error_catcher );
+
+        $subject = '[The Cochin] Diagnostic Email Test';
+        $message = '<div style="font-family: Arial, sans-serif; padding: 24px; color: #1e293b; background: #ffffff;">'
+                 . '<h2 style="color: #6B1F2A; margin-top: 0;">Diagnostic Email Delivery Test</h2>'
+                 . '<p>This is an automated test from <strong>The Cochin Table Booking System</strong>.</p>'
+                 . '<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin: 16px 0;">'
+                 . '<p style="margin: 4px 0;"><strong>Recipient:</strong> ' . esc_html( $target ) . '</p>'
+                 . '<p style="margin: 4px 0;"><strong>Dispatched At:</strong> ' . esc_html( current_time( 'mysql' ) ) . '</p>'
+                 . '<p style="margin: 4px 0; color: #16a34a; font-weight: bold;">Status: SMTP Dispatched Successfully</p>'
+                 . '</div>'
+                 . '<p>If you see this email, table booking notifications to <strong>' . esc_html( $target ) . '</strong> are working properly!</p>'
+                 . '</div>';
+
+        $sent = wp_mail( $target, $subject, $message, array( 'Content-Type: text/html; charset=UTF-8' ) );
+        remove_action( 'wp_mail_failed', $error_catcher );
+
+        if ( ! $sent ) {
+            return new WP_REST_Response( array(
+                'success' => false,
+                'message' => 'wp_mail failed to deliver to ' . $target . ( $mail_error ? ': ' . $mail_error : '. Please check your FluentSMTP settings.' ),
+            ), 500 );
+        }
+
+        return new WP_REST_Response( array(
+            'success' => true,
+            'message' => 'Test email successfully sent to ' . $target . '! Please check your inbox and Spam folder.',
         ), 200 );
     }
 

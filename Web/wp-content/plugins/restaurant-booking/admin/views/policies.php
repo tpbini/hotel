@@ -50,7 +50,12 @@ $settings = array(
                     </div>
                     <div class="rb-form-group">
                         <label>Reservations Notification Email</label>
-                        <input type="email" name="restaurant_email" class="rb-form-control" value="<?php echo esc_attr( $settings['restaurant_email'] ); ?>" required>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="email" id="rb_restaurant_email_input" name="restaurant_email" class="rb-form-control" value="<?php echo esc_attr( $settings['restaurant_email'] ); ?>" required style="flex: 1;">
+                            <button type="button" id="rb_btn_send_test_email" class="rb-btn rb-btn-secondary" style="white-space: nowrap;">✉️ Send Test Email</button>
+                        </div>
+                        <span id="rb_test_email_status" style="display: block; margin-top: 6px; font-size: 12px;"></span>
+                        <p style="font-size: 11px; color: #64748b; margin-top: 4px;">All new booking alerts and cancellations are dispatched to this address.</p>
                     </div>
                     <div class="rb-form-group">
                         <label>Restaurant Physical Address</label>

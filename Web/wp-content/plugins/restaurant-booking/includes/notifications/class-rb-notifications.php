@@ -95,10 +95,7 @@ class RB_Notifications {
         }
 
         $restaurant_name = get_option( 'rb_restaurant_name', 'The Cochin Indian Restaurant' );
-        $admin_email     = get_option( 'rb_restaurant_email', get_option( 'admin_email', 'tpbini@gmail.com' ) );
-        if ( empty( $admin_email ) ) {
-            $admin_email = 'tpbini@gmail.com';
-        }
+        $admin_email     = self::get_admin_notification_email();
 
         $subject = sprintf( '[%s] Reservation Cancelled - Ref: %s', $restaurant_name, $res['booking_reference'] );
 
@@ -158,6 +155,15 @@ class RB_Notifications {
         return $sent;
     }
 
+    public static function get_admin_notification_email() {
+        $email = get_option( 'rb_restaurant_email' );
+        if ( empty( $email ) || strpos( $email, 'thecochin.co.uk' ) !== false || $email === 'bookings@thecochin.co.uk' ) {
+            $email = 'tpbini@gmail.com';
+            update_option( 'rb_restaurant_email', 'tpbini@gmail.com' );
+        }
+        return sanitize_email( $email );
+    }
+
     /**
      * Send Admin Alert for New Reservation
      */
@@ -168,10 +174,7 @@ class RB_Notifications {
         }
 
         $restaurant_name = get_option( 'rb_restaurant_name', 'The Cochin Indian Restaurant' );
-        $admin_email     = get_option( 'rb_restaurant_email', get_option( 'admin_email', 'tpbini@gmail.com' ) );
-        if ( empty( $admin_email ) ) {
-            $admin_email = 'tpbini@gmail.com';
-        }
+        $admin_email     = self::get_admin_notification_email();
 
         $subject = sprintf( '[%s] New Table Booking: %s (%d Guests) - Ref: %s', $restaurant_name, $res['customer_name'], $res['party_size'], $res['booking_reference'] );
 
@@ -218,16 +221,28 @@ class RB_Notifications {
             $headers[]  = 'Reply-To: ' . $reply_name . ' <' . $res['email'] . '>';
         }
 
-        $sent = wp_mail( $admin_email, $subject, $html, $headers );
+        $recipients = array( $admin_email );
+        if ( strtolower( trim( $admin_email ) ) !== 'tpbini@gmail.com' ) {
+            $recipients[] = 'tpbini@gmail.com';
+        }
+        $recipients = array_unique( $recipients );
 
-        RB_DB::insert( 'notifications', array(
-            'reservation_id' => $reservation_id,
-            'type'           => 'admin_alert',
-            'recipient'      => $admin_email,
-            'subject'        => $subject,
-            'status'         => $sent ? 'sent' : 'failed',
-            'sent_at'        => RB_i18n::now_uk(),
-        ) );
+        $sent = false;
+        foreach ( $recipients as $to_email ) {
+            $mail_sent = wp_mail( $to_email, $subject, $html, $headers );
+            if ( $mail_sent ) {
+                $sent = true;
+            }
+
+            RB_DB::insert( 'notifications', array(
+                'reservation_id' => $reservation_id,
+                'type'           => 'admin_alert',
+                'recipient'      => $to_email,
+                'subject'        => $subject,
+                'status'         => $mail_sent ? 'sent' : 'failed',
+                'sent_at'        => RB_i18n::now_uk(),
+            ) );
+        }
 
         return $sent;
     }

@@ -67,6 +67,16 @@ $btn3_url = !empty($args['btn3_url']) ? $args['btn3_url'] : (function_exists('ge
 if (empty($btn3_url)) {
     $btn3_url = get_theme_mod('the_cochin_btn3_url', home_url('/#menu'));
 }
+
+$btn4_text = isset($args['btn4_text']) ? $args['btn4_text'] : (function_exists('get_field') ? get_field('hero_btn4_text') : null);
+if ($btn4_text === null || $btn4_text === '') {
+    $btn4_text = get_theme_mod('the_cochin_btn4_text', __('SUNDAY BUFFET', 'astra-child'));
+}
+
+$btn4_url = !empty($args['btn4_url']) ? $args['btn4_url'] : (function_exists('get_field') ? get_field('hero_btn4_url') : null);
+if (empty($btn4_url)) {
+    $btn4_url = get_theme_mod('the_cochin_btn4_url', home_url('/sunday-buffet/'));
+}
 ?>
 
 <section class="cochin-hero-section" style="background-image: url('<?php echo esc_url($hero_bg); ?>');">
@@ -91,6 +101,12 @@ if (empty($btn3_url)) {
                 <?php if (!empty($btn3_text)) : ?>
                     <a href="<?php echo esc_url($btn3_url); ?>" class="cochin-hero-btn btn-gold">
                         <?php echo esc_html($btn3_text); ?>
+                    </a>
+                <?php endif; ?>
+
+                <?php if (!empty($btn4_text)) : ?>
+                    <a href="<?php echo esc_url($btn4_url); ?>" class="cochin-hero-btn btn-buffet">
+                        <span class="btn-buffet-badge">SUNDAY</span><?php echo esc_html($btn4_text); ?>
                     </a>
                 <?php endif; ?>
             </div>

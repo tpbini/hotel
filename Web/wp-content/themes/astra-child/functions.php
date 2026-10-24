@@ -899,10 +899,20 @@ function the_cochin_render_page_header_banner() {
             'title'      => 'Banquets',
             'breadcrumb' => 'Banquets',
         ));
+    } elseif (is_page('sunday-buffet') || is_page('sunday-brunch-buffet') || is_page_template('page-sunday-buffet.php')) {
+        get_template_part('template-parts/about-header', null, array(
+            'title'      => 'Sunday Brunch Buffet',
+            'breadcrumb' => 'Sunday Brunch Buffet',
+        ));
     } elseif (is_page('book-table') || is_page('book-a-table')) {
         get_template_part('template-parts/about-header', null, array(
             'title'      => 'Book a Table',
             'breadcrumb' => 'Book a Table',
+        ));
+    } elseif (is_page('contact') || is_page('contact-us') || is_page_template('page-contact.php')) {
+        get_template_part('template-parts/about-header', null, array(
+            'title'      => 'Contact Us',
+            'breadcrumb' => 'Contact Us',
         ));
     } elseif (function_exists('is_product') && is_product()) {
         get_template_part('template-parts/about-header', null, array(
@@ -954,6 +964,62 @@ function the_cochin_page_header_shortcode($atts) {
 add_shortcode('the_cochin_page_header', 'the_cochin_page_header_shortcode');
 add_shortcode('about_us_header', 'the_cochin_page_header_shortcode');
 
+/**
+ * Shortcode to render Sunday Buffet layout
+ */
+function the_cochin_sunday_buffet_shortcode($atts = array()) {
+    ob_start();
+    get_template_part('template-parts/sunday-buffet-content', null, $atts);
+    return ob_get_clean();
+}
+add_shortcode('the_cochin_sunday_buffet', 'the_cochin_sunday_buffet_shortcode');
+add_shortcode('sunday_buffet_content', 'the_cochin_sunday_buffet_shortcode');
+
+/**
+ * Ensure Sunday Buffet page exists in WordPress database on initialization
+ */
+function the_cochin_ensure_sunday_buffet_page() {
+    if (!get_page_by_path('sunday-buffet')) {
+        $page_id = wp_insert_post(array(
+            'post_title'     => 'Sunday Brunch Buffet',
+            'post_name'      => 'sunday-buffet',
+            'post_status'    => 'publish',
+            'post_type'      => 'page',
+            'comment_status' => 'closed',
+            'ping_status'    => 'closed',
+        ));
+        if ($page_id && !is_wp_error($page_id)) {
+            update_post_meta($page_id, '_wp_page_template', 'page-sunday-buffet.php');
+            flush_rewrite_rules(false);
+
+            // Add to Primary navigation menu if available
+            $locations = get_nav_menu_locations();
+            if (!empty($locations['primary'])) {
+                $primary_menu_id = $locations['primary'];
+                $menu_items = wp_get_nav_menu_items($primary_menu_id);
+                $exists = false;
+                if ($menu_items) {
+                    foreach ($menu_items as $item) {
+                        if ($item->object_id == $page_id || strpos($item->url, 'sunday-buffet') !== false) {
+                            $exists = true;
+                            break;
+                        }
+                    }
+                }
+                if (!$exists) {
+                    wp_update_nav_menu_item($primary_menu_id, 0, array(
+                        'menu-item-title'     => 'Sunday Buffet',
+                        'menu-item-object'    => 'page',
+                        'menu-item-object-id' => $page_id,
+                        'menu-item-type'      => 'post_type',
+                        'menu-item-status'    => 'publish',
+                    ));
+                }
+            }
+        }
+    }
+}
+add_action('init', 'the_cochin_ensure_sunday_buffet_page');
 
 /**
  * Add WordPress Customizer Controls
@@ -1043,6 +1109,23 @@ function the_cochin_customize_register($wp_customize) {
     ));
     $wp_customize->add_control('the_cochin_btn3_url', array(
         'label'    => __('Button 3 URL', 'astra-child'),
+        'section'  => 'the_cochin_hero_section',
+    ));
+
+    $wp_customize->add_setting('the_cochin_btn4_text', array(
+        'default'           => 'SUNDAY BUFFET',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('the_cochin_btn4_text', array(
+        'label'    => __('Button 4 Text (Sunday Buffet)', 'astra-child'),
+        'section'  => 'the_cochin_hero_section',
+    ));
+    $wp_customize->add_setting('the_cochin_btn4_url', array(
+        'default'           => home_url('/sunday-buffet/'),
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('the_cochin_btn4_url', array(
+        'label'    => __('Button 4 URL', 'astra-child'),
         'section'  => 'the_cochin_hero_section',
     ));
 }

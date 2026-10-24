@@ -462,6 +462,37 @@ h1.cochin-hero-title {
   box-shadow: 0 6px 20px rgba(201, 162, 77, 0.55);
 }
 
+/* Button 4: Sunday Buffet */
+.cochin-hero-btn.btn-buffet {
+  background: linear-gradient(135deg, #1C2D27 0%, #29473b 100%);
+  color: #ffffff;
+  border: 1.5px solid var(--gold);
+  box-shadow: 0 4px 16px rgba(28, 45, 39, 0.45);
+  position: relative;
+  overflow: hidden;
+  gap: 8px;
+}
+
+.cochin-hero-btn.btn-buffet:hover {
+  background: linear-gradient(135deg, #243b33 0%, #355c4d 100%);
+  border-color: #ffd700;
+  box-shadow: 0 6px 22px rgba(201, 162, 77, 0.45);
+  transform: translateY(-2px);
+}
+
+.cochin-hero-btn.btn-buffet .btn-buffet-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--gold, #C9A24D);
+  color: #1a1a1a;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  line-height: 1.2;
+}
+
 /* ==========================================================================
    4. ABOUT US SECTION (#F5EFE3 Background, Architects Daughter Font)
    ========================================================================== */
@@ -8047,5 +8078,391 @@ input[type="date"].reservation-input {
   }
 }
 
+/* ==========================================================================
+   THE COCHIN - SUNDAY BRUNCH BUFFET STYLES
+   Matches the aesthetic of Banquets and About Us inner pages
+   ========================================================================== */
+.cochin-buffet-layout {
+  background-color: #ffffff;
+  color: #333333;
+  font-family: 'Poppins', var(--font-main), sans-serif;
+}
 
+.cochin-buffet-layout .buffet-container {
+  width: min(100% - 32px, 1140px);
+  margin: 0 auto;
+}
 
+/* 1. Intro Section (Matches .banquet-intro-section) */
+.buffet-intro-section {
+  padding: 50px 0 30px;
+  background-color: #ffffff;
+}
+
+.buffet-intro-card {
+  text-align: center;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.buffet-intro-badge {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #6B1F2A;
+  background: #fbf3e4;
+  padding: 6px 18px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.buffet-main-headline {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: clamp(1.8rem, 3.2vw, 2.35rem);
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1.25;
+  margin: 0 0 14px 0;
+}
+
+.buffet-sub-headline {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #6B1F2A;
+  line-height: 1.4;
+  margin: 0 0 14px 0;
+}
+
+.buffet-intro-text {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.08rem;
+  line-height: 1.8;
+  color: #555555;
+  margin: 0 auto;
+  max-width: 820px;
+}
+
+/* 2. Variety Section (Matches .banquet-feasts-section) */
+.buffet-variety-section {
+  padding: 40px 0 50px;
+  background-color: #FAF7F2;
+}
+
+.buffet-section-heading-wrap {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.buffet-section-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #1e1e1e;
+  margin: 0 0 8px;
+}
+
+.buffet-variety-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 38px 34px;
+  border: 1px solid #ebd9c8;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.buffet-variety-p {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: #444444;
+  margin: 0 0 16px 0;
+}
+
+.buffet-variety-highlight {
+  background: #FDF9F3;
+  border-left: 4px solid var(--gold, #C9A24D);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 22px 0;
+  text-align: left;
+}
+
+.buffet-variety-highlight p {
+  margin: 0;
+  font-size: 1.08rem;
+  font-weight: 500;
+  color: #6B1F2A;
+  line-height: 1.7;
+}
+
+/* 3. Pricing Section (Matches .banquet-feasts-grid) */
+.buffet-pricing-section {
+  padding: 50px 0 60px;
+  background-color: #ffffff;
+}
+
+.buffet-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.buffet-price-card {
+  background: #ffffff;
+  border: 1.5px solid #e5e5e5;
+  border-radius: 16px;
+  padding: 34px 24px;
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.buffet-price-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(107, 31, 42, 0.1);
+}
+
+.buffet-price-card.featured {
+  border: 2px solid var(--gold, #C9A24D);
+  background: #fdfaf5;
+  box-shadow: 0 8px 24px rgba(201, 162, 77, 0.18);
+}
+
+.buffet-price-badge {
+  position: absolute;
+  top: -12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff;
+  background: #6B1F2A;
+  padding: 3px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.buffet-price-badge.free {
+  background: #2e7d32;
+}
+
+.buffet-price-badge.discounted {
+  background: #d97706;
+}
+
+.buffet-price-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 6px 0 14px;
+}
+
+.buffet-price-amount {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.buffet-currency {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #6B1F2A;
+  vertical-align: top;
+  margin-right: 2px;
+}
+
+.buffet-num {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #6B1F2A;
+  line-height: 1;
+}
+
+.buffet-num.free-text {
+  font-size: 2.1rem;
+  color: #2e7d32;
+}
+
+.buffet-per {
+  font-size: 0.85rem;
+  color: #777777;
+  display: block;
+  margin-top: 6px;
+}
+
+.buffet-desc-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #d97706;
+  line-height: 1.4;
+}
+
+/* 4. Booking Section (Matches .banquet-info-card) */
+.buffet-booking-section {
+  padding: 50px 0 40px;
+  background-color: #FAF7F2;
+}
+
+.buffet-booking-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 42px 36px;
+  border: 1px solid #ebd9c8;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.buffet-booking-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #1e1e1e;
+  margin: 0 0 8px;
+}
+
+.buffet-booking-lead {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.05rem;
+  color: #6B1F2A;
+  font-weight: 600;
+  margin: 0 0 24px 0;
+}
+
+.buffet-contact-details {
+  background: #FCFAF6;
+  border: 1px solid #ebd9c8;
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin-bottom: 28px;
+  text-align: left;
+  display: inline-block;
+  width: 100%;
+  max-width: 620px;
+}
+
+.buffet-venue-title {
+  font-family: 'Poppins', var(--font-main) !important;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 12px;
+}
+
+.buffet-contact-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  color: #444444;
+}
+
+.buffet-contact-line:last-child {
+  margin-bottom: 0;
+}
+
+.buffet-link {
+  color: #6B1F2A !important;
+  font-weight: 600;
+  text-decoration: underline !important;
+}
+
+.buffet-link:hover {
+  color: #000000 !important;
+}
+
+.buffet-booking-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.buffet-book-button {
+  background: #6B1F2A;
+  color: #ffffff !important;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  padding: 13px 32px;
+  border-radius: 999px;
+  text-decoration: none !important;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(107, 31, 42, 0.3);
+}
+
+.buffet-book-button:hover {
+  background: #7d2431;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+.buffet-call-button {
+  background: #C9A24D;
+  color: #1a1a1a !important;
+  font-family: 'Poppins', var(--font-main) !important;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  padding: 13px 32px;
+  border-radius: 999px;
+  text-decoration: none !important;
+  transition: all 0.25s ease;
+}
+
+.buffet-call-button:hover {
+  background: #b8913c;
+  color: #000000 !important;
+  transform: translateY(-2px);
+}
+
+/* 5. Notice Section */
+.buffet-notice-section {
+  padding: 0 0 60px;
+  background-color: #FAF7F2;
+}
+
+.buffet-notice-box {
+  max-width: 820px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #ebd9c8;
+  border-left: 4px solid #C9A24D;
+  border-radius: 10px;
+  padding: 18px 24px;
+  font-size: 0.92rem;
+  color: #666666;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.buffet-notice-box p {
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .buffet-pricing-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .buffet-variety-card,
+  .buffet-booking-card {
+    padding: 28px 20px;
+  }
+}
